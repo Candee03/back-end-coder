@@ -53,9 +53,42 @@ class ProductManager {
 //!-----------Pruebas------------
 
 // const products = new ProductManager()
-// products.getProducts();
 
-// products.addProduct('fideos', 'paquete', 200, 'imagen', 'A54FT', 3)
+const listProducts = [
+    {
+        nombre: 'fideos',
+        description: 'paquete',
+        precio: 200,
+        img: 'imagen',
+        codigo: 'A54FT',
+        stock: 3
+    },
+    {
+        nombre: 'arroz',
+        description: 'paquete',
+        precio: 400,
+        img: 'imagen',
+        codigo: 'BFF456',
+        stock: 4
+    },
+    {
+        nombre: 'polenta',
+        description: 'paquete',
+        precio: 300,
+        img: 'imagen',
+        codigo: 'PRS56T',
+        stock: 5
+    }
+]
+
+const agregar = () => {
+    listProducts.map((p) => {
+        products.addProduct(p.nombre, p.description, p.precio, p.img, p.codigo, p.stock)
+    })
+} 
+agregar()
+
+
 
 // products.getProducts();
 
