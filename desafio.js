@@ -76,8 +76,9 @@ class ProductManager{
     */
     async updateProduct (id, title, description, price, thumbnail, stock) {
         try {
-            const product = await this.getProductById(id)
-            await this.deleteProduct(id)
+            const actualListProducts = await this.getProducts()
+            const product = await actualListProducts.find(p => id === p.id)
+            let index = await actualListProducts.findIndex((e) => e.id === product.id)
 
             const updatedProduct = {
                 ...product,
@@ -87,13 +88,12 @@ class ProductManager{
                 thumbnail: thumbnail ?? product.thumbnail,
                 stock:stock ?? product.stock
             }
-    
-            const actualListProducts = await this.getProducts()
-            actualListProducts.push(updatedProduct)
+
+            actualListProducts.splice(index, 1, updatedProduct)
             await fs.promises.writeFile (this.path, JSON.stringify(actualListProducts))
         }
         catch (err) {
-            console.log('No se puede modificar el producto');
+            console.log(`No se puede modificar el producto con id ${id} porque no existe`);
         }
     }
 
@@ -137,14 +137,14 @@ class ProductManager{
 
 //     await products.addProduct('fideos', 'paquete', 200, 'imagen', 'A54FT', 3)
 //     await products.addProduct('arroz', 'paquete', 600, 'imagen', 'PFFG45', 5)
+//     await products.addProduct('polenta', 'paquete', 300, 'imagen', 'DFR56', 5)
     
 //     // console.log(await products.getProducts());
     
 //     // console.log(await products.getProductById(1))
 //     // console.log(await products.getProductById(6))
-//     await products.updateProduct(1,'fideitos',null, 150, null, 1)
-//     await products.addProduct('polenta', 'paquete', 300, 'imagen', 'DFR56', 5)
+//     await products.updateProduct(1,'fideitos','paquete de 500gr', null, null, 20)
     
+//     await products.deleteProduct(1)
 //     console.log(await products.getProducts());
-//     // await products.deleteProduct(1)
 // }
