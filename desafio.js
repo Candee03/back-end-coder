@@ -74,22 +74,18 @@ class ProductManager{
 	 * @param {string} thumbnail Ruta de imagen
 	 * @param {number} stock Número de piezas disponibles
     */
-    async updateProduct (id, title, description, price, thumbnail, stock) {
+    async updateProduct (id, updatedProduct) {
         try {
             const actualListProducts = await this.getProducts()
             const product = await actualListProducts.find(p => id === p.id)
             let index = await actualListProducts.findIndex((e) => e.id === product.id)
 
-            const updatedProduct = {
+            const newProduct = {
                 ...product,
-                title: title ?? product.title,
-                description: description ?? product.description,
-                price: price ?? product.price,
-                thumbnail: thumbnail ?? product.thumbnail,
-                stock:stock ?? product.stock
+                ...updatedProduct,
             }
 
-            actualListProducts.splice(index, 1, updatedProduct)
+            actualListProducts.splice(index, 1, newProduct)
             await fs.promises.writeFile (this.path, JSON.stringify(actualListProducts))
         }
         catch (err) {
@@ -143,8 +139,8 @@ class ProductManager{
     
 //     // console.log(await products.getProductById(1))
 //     // console.log(await products.getProductById(6))
-//     await products.updateProduct(1,'fideitos','paquete de 500gr', null, null, 20)
+//     await products.updateProduct(1,{title:'fideitos', price:500, stock:6})
     
-//     await products.deleteProduct(1)
+//     // await products.deleteProduct(1)
 //     console.log(await products.getProducts());
 // }
