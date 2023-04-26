@@ -1,9 +1,10 @@
-const fs = require('fs')
+import fs from 'fs';
 
 class ProductManager{
     constructor(path) {
         this.path = path
-        this.products = fs.promises.writeFile (this.path, JSON.stringify([]))
+        this.products = fs.promises.readFile(this.path, 'utf-8')  //<---MODIFICACION PARA QUE NO SE BORREN LOS PRODUCTOS 
+        // this.products = fs.promises.writeFile (this.path, JSON.stringify([]))
     }
 
     #id = 0
@@ -121,26 +122,34 @@ class ProductManager{
     }
 }
 
+export default ProductManager
 
 //!-----------Pruebas------------
 
-// const products = new ProductManager('./productos.json')
+// const products = new ProductManager('./src/productos.json')
 
 // setTimeout(()=>{test()},3000)
 
 // const test = async () => {
 //     // console.log(await products.getProducts());
 
-//     await products.addProduct('fideos', 'paquete', 200, 'imagen', 'A54FT', 3)
-//     await products.addProduct('arroz', 'paquete', 600, 'imagen', 'PFFG45', 5)
-//     await products.addProduct('polenta', 'paquete', 300, 'imagen', 'DFR56', 5)
+//     await products.addProduct('tostadora', 'paquete', 20000, 'imagen', 'A54FT', 3)
+//     await products.addProduct('heladera', 'paquete', 35400, 'imagen', 'PFG45', 5)
+//     await products.addProduct('microondas', 'paquete', 67200, 'imagen', 'DFR56', 7)
+//     await products.addProduct('cocina', 'paquete', 80000, 'imagen', 'TYI68', 2)
+//     await products.addProduct('batidora', 'paquete', 6500, 'imagen', 'LDG89', 9)
+//     await products.addProduct('television', 'paquete', 45000, 'imagen', 'QEX62', 6)
+//     await products.addProduct('procesadora', 'paquete', 8700, 'imagen', 'MVE41', 4)
+//     await products.addProduct('lavavajillas', 'paquete', 65000, 'imagen', 'QKD30', 4)
+//     await products.addProduct('computadora', 'paquete', 70500, 'imagen', 'HST79', 5)
+//     await products.addProduct('masajeador', 'paquete', 8200, 'imagen', 'ZUE19', 7)
     
-//     // console.log(await products.getProducts());
+    // console.log(await products.getProducts());
     
-//     // console.log(await products.getProductById(1))
-//     // console.log(await products.getProductById(6))
-//     await products.updateProduct(1,{title:'fideitos', price:500, stock:6})
+    // console.log(await products.getProductById(1))
+    // console.log(await products.getProductById(6))
+    // await products.updateProduct(1,{title:'fideitos', price:500, stock:6})
     
-//     // await products.deleteProduct(1)
-//     console.log(await products.getProducts());
+    // await products.deleteProduct(1)
+    // console.log(await products.getProducts());
 // }
