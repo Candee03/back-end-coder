@@ -2,11 +2,13 @@ import express from 'express'
 import ProductManager from './productManager.js'
 
 const app = express()
+app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+const productManager = new ProductManager('src/productos.json')
 
 app.get('/products', async(req, res) => {
     try{
-        const productManager = new ProductManager('src/productos.json')
         const products = await productManager.getProducts()
         if (!req.query.limit) {
             return res.send(products)
@@ -21,7 +23,6 @@ app.get('/products', async(req, res) => {
 
 app.get('/products/:pid', async (req, res) => {
     try {
-        const productManager = new ProductManager('src/productos.json')
         const productoEncontrado = await productManager.getProductById(Number(req.params.pid))
         if (productoEncontrado) {
             return res.send(productoEncontrado)
