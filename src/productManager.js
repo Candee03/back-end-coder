@@ -3,13 +3,22 @@ import fs from 'fs';
 class ProductManager{
     constructor(path) {
         this.path = path
-        this.products = fs.promises.readFile(this.path, 'utf-8')  //<---MODIFICACION PARA QUE NO SE BORREN LOS PRODUCTOS 
-        // this.products = fs.promises.writeFile (this.path, JSON.stringify([]))
+        this.products = fs.promises.readFile(this.path, 'utf-8')
     }
 
     #id = 0
-    #getId () {
-        this.#id++
+
+    async #getId () {
+        let p = await this.getProducts()
+        let maxID = 0
+        if(p.length >= 1) {
+            for (let i = 0; i < p.length; i++) {
+                if (p[i].id > maxID) {
+                    maxID = p[i].id
+                }
+            }
+        }
+        this.#id = maxID+1
         return this.#id
     }
 
@@ -17,11 +26,14 @@ class ProductManager{
      * @param {string} title Nombre del producto
 	 * @param {string} description Descripción del producto
      * @param {number} price Precio
-	 * @param {string} thumbnail Ruta de imagen
+	 * @param {array} thumbnail Array de strings de rutas de imagenes
 	 * @param {string} code Código identificador
+     * @param {boolean} status Estado true por defecto
+	 * @param {string} category Categoria
 	 * @param {number} stock Número de piezas disponibles
+     * @returns true si se pudo agregar el producto
      */
-    async addProduct (title, description, price, thumbnail, code, stock) {
+    async addProduct (title, description, price, thumbnail, code, status, category, stock) {
         try {
             const product = {
                 title,
@@ -29,24 +41,27 @@ class ProductManager{
                 price,
                 thumbnail,
                 code,
+                status,
+                category,
                 stock
             }
-            if (product.title === undefined || product.code === undefined || product.stock === undefined) return err
-            
+            if (product.title === undefined || product.category === undefined || product.status === undefined || product.description === undefined || product.price === undefined || product.code === undefined || product.stock === undefined){
+                throw new Error(`Debes enviar todos los campos requeridos`)
+            }
             const actualListProducts = await this.getProducts()
             let codigoRepetido = actualListProducts.find(p => code === p.code)
 
             if (codigoRepetido) {
-                console.log('ERROR: Código repetido');
-                return err
+                throw new Error('el codigo ingresado ya se usó')
             } else {
-                product.id = this.#getId()
+                product.id = await this.#getId()
                 actualListProducts.push(product)
                 await fs.promises.writeFile (this.path, JSON.stringify(actualListProducts))
+                return true
             }
         }
         catch (err) {
-            console.log(`No se pudo agregar`);
+            console.log(`No se pudo agregar porque ${err.message}`);
         }
     }
 
@@ -56,14 +71,15 @@ class ProductManager{
     async deleteProduct (id) {
         try{
             const actualListProducts = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-            let newList = actualListProducts.filter(p => p.id !== id)
-            if (newList.length === actualListProducts.length) {
-                return err
-            } else {
+            let newList = await actualListProducts.filter(p => p.id !== id)
+
+            if (await newList.length !== await actualListProducts.length) {
                 await fs.promises.writeFile (this.path, JSON.stringify(newList))
+            } else {
+                throw new Error('Algo salio mal no se pudo borrar')
             }
         } catch (err) {
-            console.log('No se pudo borrar');
+            console.log(err.message);
         }
     }
 
@@ -96,19 +112,19 @@ class ProductManager{
 
     /**
      * @param {number} id 
-     * @returns productoEncontrado
+     * @returns producto Encontrado
      */
     async getProductById (id) {
         try{
             const products = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-            let productoEncontrado = products.find(p => id === p.id)
-            if (productoEncontrado === undefined) {
-                return err
+            const productoEncontrado = await products.find(p => id === p.id)
+            if (await productoEncontrado === undefined) {
+                throw new Error('Producto no encontrado')
             } else {
                 return productoEncontrado
             }
         } catch (err) {
-            console.log('Not Found');
+            console.log(err.message);
         }
     }
 
@@ -123,33 +139,3 @@ class ProductManager{
 }
 
 export default ProductManager
-
-//!-----------Pruebas------------
-
-// const products = new ProductManager('./src/productos.json')
-
-// setTimeout(()=>{test()},3000)
-
-// const test = async () => {
-//     // console.log(await products.getProducts());
-
-//     await products.addProduct('tostadora', 'paquete', 20000, 'imagen', 'A54FT', 3)
-//     await products.addProduct('heladera', 'paquete', 35400, 'imagen', 'PFG45', 5)
-//     await products.addProduct('microondas', 'paquete', 67200, 'imagen', 'DFR56', 7)
-//     await products.addProduct('cocina', 'paquete', 80000, 'imagen', 'TYI68', 2)
-//     await products.addProduct('batidora', 'paquete', 6500, 'imagen', 'LDG89', 9)
-//     await products.addProduct('television', 'paquete', 45000, 'imagen', 'QEX62', 6)
-//     await products.addProduct('procesadora', 'paquete', 8700, 'imagen', 'MVE41', 4)
-//     await products.addProduct('lavavajillas', 'paquete', 65000, 'imagen', 'QKD30', 4)
-//     await products.addProduct('computadora', 'paquete', 70500, 'imagen', 'HST79', 5)
-//     await products.addProduct('masajeador', 'paquete', 8200, 'imagen', 'ZUE19', 7)
-    
-    // console.log(await products.getProducts());
-    
-    // console.log(await products.getProductById(1))
-    // console.log(await products.getProductById(6))
-    // await products.updateProduct(1,{title:'fideitos', price:500, stock:6})
-    
-    // await products.deleteProduct(1)
-    // console.log(await products.getProducts());
-// }
