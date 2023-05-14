@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import ProductManager from '../productManager.js';
+import { socketServer } from '../app.js';
 
 const productManager = new ProductManager('src/productos.json')
 const products = await productManager.getProducts()
@@ -11,7 +12,8 @@ productRouter.get('/', async(req, res) => {
         if (!req.query.limit) {
             return res.status(201).send(products)
         } else {
-            return res.status(201).send(products.slice(0,Number(req.query.limit)))
+            const productsWhitLimits = products.slice(0,Number(req.query.limit))
+            return res.status(201).send(productsWhitLimits)
         }
     }
     catch (err) {
@@ -40,6 +42,7 @@ productRouter.post('/', async(req, res) => {
         if (!agregado) {
             throw new Error(`El producto no se pudo agregar`)
         } else {
+            socketServer.emit('messages', await productManager.getProducts())//<--envia al socket
             res.status(201).send(product)
         }
     }
@@ -56,6 +59,7 @@ productRouter.put('/:pid', async(req, res) => {
         const productoEncontrado = products.find(p => Number(req.params.pid) === p.id)
         if (productoEncontrado) {
             await productManager.updateProduct(Number(req.params.pid), productUpdated)
+            socketServer.emit('messages', await productManager.getProducts())//<--envia al socket
             res.status(201).send({modificacion: productUpdated, producto: productoEncontrado});
         } else {
             throw new Error(`El producto con id '${req.params.pid}' no existe, por lo tanto no se actualizó`)
@@ -72,6 +76,7 @@ productRouter.delete('/:pid', async(req, res) => {
         const productoEncontrado = products.find(p => Number(req.params.pid) === p.id)
         if (productoEncontrado) {
             await productManager.deleteProduct(Number(req.params.pid))
+            socketServer.emit('messages', await productManager.getProducts())//<--envia al socket
             res.status(201).send({status: `se elimino correctamente`});
         } else {
             throw new Error('No se elimino nada')

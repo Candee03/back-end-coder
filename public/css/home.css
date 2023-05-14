@@ -1,0 +1,22 @@
+.h1-home {
+    margin: 1rem;
+    color: green;
+    font-weight: lighter;
+    text-decoration: underline;
+}
+.h2-home {
+    margin: 1rem;
+    color: brown;
+    font-weight: lighter;
+}
+
+li, p {
+    font-size: 20px;
+    text-transform: capitalize;
+}
+li {
+    margin: 1.5rem 0 0 1rem;
+}
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="/css/home.css">
+
+
+<h1 class="h1-home">Lista de Productos:</h1>
+<ul>
+    {{#if empty}}
+    <h2 class="h2-home">No hay productos agregados</h2>
+    {{else}}
+        {{#each products}}
+            <li>
+                <p>Title: {{this.title}}</p>
+                <p>Description: {{this.description}}</p>
+                <p>Price: ${{this.price}}</p>
+                <p>Category: {{this.category}}</p>
+                <p>status: {{this.status}}</p>
+                <p>Stock: {{this.stock}}</p>
+                <p>Code: {{this.code}}</p>
+                <p>Id: {{this.id}}</p>
+            </li>
+        {{/each}}
+    {{/if}}
+</ul>
