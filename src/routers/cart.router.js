@@ -6,7 +6,7 @@ const cartManager = new CartManager('src/carts.json')
 // const carts = await cartManager.getCarts()
 const cartRouter = Router();
 
-//!---------METODO GET-----
+//!---------METODO GET----------
 // cartRouter.get('/', async(req, res) => {
 // 	try{
 //         if (!req.query.limit) {
@@ -33,7 +33,7 @@ cartRouter.get('/:cid', async(req, res) => {
     }
 });
 
-//!---------METODO POST-----
+//!---------METODO POST---------
 cartRouter.post('/', async(req, res) => {
     try {
         const newCart = await cartManager.createCart()
@@ -43,7 +43,6 @@ cartRouter.post('/', async(req, res) => {
         return res.status(400).send({error: `El carrito no se creo`})
     }
 });
-
 cartRouter.post('/:cid/product/:pid', async(req, res) => {
     try {
         const productoEncontrado = await products.find(p => Number(req.params.pid) === p.id)
