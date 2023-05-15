@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import ProductManager from '../productManager.js';
-import { socketServer } from '../app.js';
+import { socketServer } from '../config/utils.js';
 
 const productManager = new ProductManager('src/productos.json')
 const products = await productManager.getProducts()
 const productRouter = Router();
 
-//!---------METODO GET-----
+//!---------METODO GET-------
 productRouter.get('/', async(req, res) => {
 	try{
         if (!req.query.limit) {
@@ -34,7 +34,7 @@ productRouter.get('/:pid', async(req, res) => {
     }
 });
 
-//!---------METODO POST-----
+//!---------METODO POST-------
 productRouter.post('/', async(req, res) => {
     try {
         const product = req.body;
@@ -52,7 +52,7 @@ productRouter.post('/', async(req, res) => {
     }
 });
 
-//!---------METODO PUT-----
+//!---------METODO PUT--------
 productRouter.put('/:pid', async(req, res) => {
     try {
         const productUpdated = req.body
