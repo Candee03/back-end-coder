@@ -17,7 +17,7 @@ const render = (data) => {
             <p>Status: ${p.status}</p>
             <p>Stock: ${p.stock}</p>
             <p>Code: ${p.code}</p>
-            <p>Id: ${p.id}</p>`
+            <p>Id: ${p._id}</p>`
 
             ul.append(html)
         });
@@ -27,4 +27,3 @@ const render = (data) => {
 socket.on('products', (data) => {
     render(data);
 })
-

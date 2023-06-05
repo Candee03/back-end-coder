@@ -1,20 +1,23 @@
 import { Router } from 'express';
-import ProductManager from '../productManager.js';
-import { socketServer } from '../config/utils.js';
+import { io } from '../config/utils.js';
+import ProductServices from '../dao/productDAO.js';
 
-const productManager = new ProductManager('src/productos.json')
-const products = await productManager.getProducts()
+import fs from 'fs';
+
 const productRouter = Router();
+const productService = new ProductServices()
+const path = 'src/products.json'
 
 //!---------METODO GET-------
 productRouter.get('/', async(req, res) => {
 	try{
-        if (!req.query.limit) {
-            return res.status(201).send(products)
-        } else {
-            const productsWhitLimits = products.slice(0,Number(req.query.limit))
-            return res.status(201).send(productsWhitLimits)
+        if (req.query.limit) {
+            const productsWhitLimits = await productService.getProductsWithLimit(Number(req.query.limit))
+            return res.status(200).send(productsWhitLimits)
         }
+        const products = await productService.getProducts()
+        fs.promises.writeFile (path, JSON.stringify(products))
+        return res.status(200).send(products)
     }
     catch (err) {
         return res.status(400).send({error: `error en la request`})
@@ -22,9 +25,9 @@ productRouter.get('/', async(req, res) => {
 });
 productRouter.get('/:pid', async(req, res) => {
     try {
-        const productoEncontrado = await productManager.getProductById(Number(req.params.pid))
+        const productoEncontrado = await productService.getProductById(req.params.pid)
         if (productoEncontrado){
-            res.status(201).send(productoEncontrado)
+            res.status(200).send(productoEncontrado)
         } else {
             throw new Error(`El producto con id '${req.params.pid}' no existe`)
         }
@@ -38,54 +41,47 @@ productRouter.get('/:pid', async(req, res) => {
 productRouter.post('/', async(req, res) => {
     try {
         const product = req.body;
-        const agregado = await productManager.addProduct(product.title, product.description, product.price, product.thumbnail, product.code, product.status,product.category, product.stock)
-        if (!agregado) {
+        const newProduct = await productService.addProduct(product)
+        if (!newProduct) {
             throw new Error(`El producto no se pudo agregar`)
         } else {
-            socketServer.emit('messages', await productManager.getProducts())//<--envia al socket
+            const products = await productService.getProducts()
+            io.emit('products', products)//<--envia al socket
+            fs.promises.writeFile (path, JSON.stringify(products))
             res.status(201).send(product)
         }
     }
     catch (err) {
         res.status(404).send({error: err.message})
-
     }
 });
 
 //!---------METODO PUT--------
 productRouter.put('/:pid', async(req, res) => {
     try {
-        const productUpdated = req.body
-        const productoEncontrado = products.find(p => Number(req.params.pid) === p.id)
-        if (productoEncontrado) {
-            await productManager.updateProduct(Number(req.params.pid), productUpdated)
-            socketServer.emit('messages', await productManager.getProducts())//<--envia al socket
-            res.status(201).send({modificacion: productUpdated, producto: productoEncontrado});
-        } else {
-            throw new Error(`El producto con id '${req.params.pid}' no existe, por lo tanto no se actualizó`)
-        }
+        const updatedProduct = await productService.updateProduct(req.params.pid, req.body)
+        const products = await productService.getProducts()
+        fs.promises.writeFile (path, JSON.stringify(products))
+        io.emit('products', products)//<--envia al socket
+        res.status(201).send(updatedProduct);
     }
     catch (err) {
-        return res.send({error: err.message})
+        return res.status(500).send({error: err.message})
     }
 });
 
 //!---------METODO DELETE-----
 productRouter.delete('/:pid', async(req, res) => {
     try {
-        const productoEncontrado = products.find(p => Number(req.params.pid) === p.id)
-        if (productoEncontrado) {
-            await productManager.deleteProduct(Number(req.params.pid))
-            socketServer.emit('messages', await productManager.getProducts())//<--envia al socket
-            res.status(201).send({status: `se elimino correctamente`});
-        } else {
-            throw new Error('No se elimino nada')
-        }
+        await productService.deleteProduct(req.params.pid)
+        const products = await productService.getProducts()
+        fs.promises.writeFile (path, JSON.stringify(products))
+        io.emit('products', products)//<--envia al socket
+        res.status(204).send({status: `se elimino correctamente`});
     }
     catch (err) {
-        res.status(400).send({error: err.message})
+        res.status(500).send({error: err})
     }
 });
 
-
-export { productRouter, products };
+export { productRouter, productService};
