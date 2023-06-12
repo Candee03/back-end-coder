@@ -5,7 +5,7 @@ class ProductServices{
         this.model = productModel
     }
 
-    async getProducts (limit = 10, page = 1, sort = false, category = false, stock=undefined ) {
+    async getProducts (limit = 10, page = 1, sort = false, category = false, status=undefined ) {
         try{
             let order = undefined
             if (sort) {
@@ -16,17 +16,17 @@ class ProductServices{
             if (category) {
                 filter = { category: category }
             }
-            if (stock) {
-                filter = { stock: stock }
+            if (status) {
+                filter = { status: status }
             }
             const products = await this.model.paginate(filter, { lean : true, limit, page, sort: order })
 
             products.prevLink = products.prevPage? 
-            `?limit=${products.limit}&page=${products.prevPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${stock ? `&stock=${stock}` : ''}`
+            `?limit=${products.limit}&page=${products.prevPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${status ? `&status=${status}` : ''}`
             : null
             
             products.nextLink = products.nextPage? 
-            `?limit=${products.limit}&page=${products.nextPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${stock ? `&stock=${stock}` : ''}`
+            `?limit=${products.limit}&page=${products.nextPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${status ? `&status=${status}` : ''}`
             : null
 
             return products

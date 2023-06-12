@@ -36,13 +36,13 @@ app.use(getProduct)
 
 //&------GET VIEWS-----------------
 app.get('/', async(req,res) => {
-    const { limit, page, sort, category, stock } = req.query
-    const products = await req.productService.getProducts( limit, page, sort, category, stock )
+    const { limit, page, sort, category, status } = req.query
+    const products = await req.productService.getProducts( limit, page, sort, category, status )
     res.render('home', products)
 })
 app.get('/products', async(req,res) => {
-    const { limit, page, sort, category, stock } = req.query
-    const products = await req.productService.getProducts( limit, page, sort, category, stock )
+    const { limit, page, sort, category, status } = req.query
+    const products = await req.productService.getProducts( limit, page, sort, category, status )
     res.render('products', products)
 })
 app.get('/details/:pid', async(req,res) => {
