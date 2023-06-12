@@ -1,8 +1,10 @@
 .h1-home {
-    margin: 1rem;
+    padding: 1rem;
     color: green;
     font-weight: lighter;
     text-decoration: underline;
+    background-color: rgb(255, 251, 209);
+    text-align: center;
 }
 .h2-home {
     margin: 1rem;
@@ -69,4 +71,32 @@ main {
 span {
     font-size: 18px;
     color: white;
+}
+
+.disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    background-color: rgb(255, 251, 209);
+    justify-content: center;
+    padding-bottom: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.page-link {
+    text-decoration: none;
+    color: rgb(0, 12, 142);
+    font-size: 22px;
+    font-weight: bold;
+}
+.page-num {
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 0 0.5rem;
 }

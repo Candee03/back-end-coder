@@ -5,20 +5,50 @@ class ProductServices{
         this.model = productModel
     }
 
-    async getProducts () {
+    async getProducts (limit = 10, page = 1, sort = false, category = false, stock=undefined ) {
+        try{
+            let order = undefined
+            if (sort) {
+                order = {price: sort}
+            }
+
+            let filter = {}
+            if (category) {
+                filter = { category: category }
+            }
+            if (stock) {
+                filter = { stock: stock }
+            }
+            const products = await this.model.paginate(filter, { lean : true, limit, page, sort: order })
+
+            products.prevLink = products.prevPage? 
+            `?limit=${products.limit}&page=${products.prevPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${stock ? `&stock=${stock}` : ''}`
+            : null
+            
+            products.nextLink = products.nextPage? 
+            `?limit=${products.limit}&page=${products.nextPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${stock ? `&stock=${stock}` : ''}`
+            : null
+
+            return products
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getProductsRealTime () {
         try{
             return await this.model.find().lean()
         } catch (err) {
             console.log(err);
         }
     }
-    async getProductsWithLimit (limit) {
-        try{
-            return await this.model.find().limit(limit).lean()
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // async getProductsWithLimit (limit) {
+    //     try{
+    //         return await this.model.find().limit(limit).lean()
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
     /**
      * @param {string} id 

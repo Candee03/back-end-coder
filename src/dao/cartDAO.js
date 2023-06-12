@@ -1,4 +1,6 @@
+import { Error } from "mongoose";
 import { cartModel } from "./models/cart.model.js"
+import { productModel } from "./models/product.model.js";
 
 class CartService{
     constructor() {
@@ -15,24 +17,19 @@ class CartService{
     }
 
     /**
-     * @param {string} id del carrito 
-     * @param {object} producto
+     * @param {string} cid del carrito 
+     * @param {string} pid del producto
      */
-    async addProductToCart (id, product) {
+    async addProductToCart (cid, pid) {
         try {
-            const cart = await this.model.findById(id)
-            const productsInCart = cart.products
-            let exists = false
-            const products = productsInCart.map(p => {
-                if (p.pid === product._id.toString()) {
-                    console.log('here');
-                    exists = true
-                    p.quantity ++
-                }
-                return p
-            })
-            if (!exists) products.push({pid: product._id.toString(), quantity: 1})
-            await this.model.findByIdAndUpdate({_id : id}, {products: products }, { new: true })
+            const cart = await this.model.findById(cid)
+            const productFound = cart.products.find(p => p.product.toString() === pid.toString())
+            if (productFound !== undefined) {
+                return await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': productFound.quantity + 1 } })
+            } else {
+                cart.products.push({product: pid, quantity:1})
+                return await cart.save()
+            }
         }
         catch (err) {
             console.log(err.name, err.message);
@@ -40,12 +37,35 @@ class CartService{
     }
 
     /**
-     * 
+     * @param {string} cid del carrito 
+     * @param {string} pid del producto
+     */
+    async deleteProductFromCart (cid, pid) {
+        try {
+            await this.model.updateOne({ _id: cid }, {$pull: { products: { product: pid } }})
+        }
+        catch (err) {
+            console.log(err.name, err.message);
+        }
+    }
+    
+    /**
+     * @param {string} cid del carrito 
+     */
+    async deleteAllProducts (cid) {
+        try {
+            await this.model.findOneAndUpdate({ _id: cid }, {$set: { products: [] } })
+        }
+        catch (err) {
+            console.log(err.name, err.message);
+        }
+    }
+
+    /**
      * @returns todos los carritos
      */
     async getCarts () {
         try{
-            // const carts = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
             return await this.model.find().lean()
         } catch (err) {
             console.log(err);
@@ -58,8 +78,7 @@ class CartService{
      */
     async getCartById (id) {
         try{
-            // const carts = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-            let cartFound = await this.model.findById(id).lean()
+            const cartFound = await this.model.find({_id: id})
             if (cartFound) {
                 return cartFound
             } else {
@@ -68,6 +87,45 @@ class CartService{
         } catch (err) {
             console.log(err.name, err.message);
         }
+    }
+
+    /**
+     * 
+     * @param {string} cid id del carrito
+     * @param {Array} products array con los productos
+     */
+    async updateAllProducts(cid, products) {
+        try {
+            await this.model.updateOne({_id: cid}, {products: products})
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    /**
+     * @param {string} cid 
+     * @param {string} pid 
+     * @param {object} quantity 
+     */
+
+    async updateProduct(cid, pid, quantity) {
+        try {
+            const q = quantity.quantity
+            const productsInCart = (await this.model.findById(cid)).products
+            if (productsInCart) {
+                await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': q } })
+            } else {
+                throw new Error('no esta agregado ese producto')
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    async getProductsFromCart(cid) {
+        return (await this.model.findById(cid).populate('products.product').lean()).products
     }
 }
 

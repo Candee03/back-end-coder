@@ -1,0 +1,15 @@
+<ul>
+    {{#each cart}}
+        <li>
+            <p>Title: {{product.title}}</p>
+            <p>Description: {{product.description}}</p>
+            <p>Price: ${{product.price}}</p>
+            <p>Category: {{product.category}}</p>
+            <p>status: {{product.status}}</p>
+            <p>Stock: {{product.stock}}</p>
+            <p>Code: {{product.code}}</p>
+            <p>Id: {{product._id}}</p>
+        </li>
+        <p>Cantidad: {{quantity}} </p>
+    {{/each}}
+</ul>

@@ -11,11 +11,8 @@ const path = 'src/products.json'
 //!---------METODO GET-------
 productRouter.get('/', async(req, res) => {
 	try{
-        if (req.query.limit) {
-            const productsWhitLimits = await productService.getProductsWithLimit(Number(req.query.limit))
-            return res.status(200).send(productsWhitLimits)
-        }
-        const products = await productService.getProducts()
+        const { limit, page, sort, category, stock } = req.query
+        const products = await productService.getProducts(limit, page, sort, category, stock )
         fs.promises.writeFile (path, JSON.stringify(products))
         return res.status(200).send(products)
     }

@@ -1,0 +1,30 @@
+<main style="margin: 0 2rem 0 2rem;" class="w-60">
+    <div class="d-flex justify-content-center row row-cols-1 row-cols-md-4 g-3">
+        {{#each docs}}
+            <div class="col">
+                <div class="card" style="height: 25rem;">
+                    <img style="width: 10rem" src={{this.thumbnail.[0]}} class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"> {{this.title}} </h5>
+                        <p class="card-text"> {{this.description}} </p>
+                        <p class="card-text"> ${{this.price}} </p>
+                        <a type="button" class="btn btn-primary" href='/details/{{this._id}}'> Ver Detalles </a>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</main> 
+<nav style="height: auto; padding: 1.5rem" class="w-100 bg-info mt-4">
+    <ul class="pagination justify-content-center m-3">
+        {{#if hasPrevPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
+        <a class="page-link" href={{prevLink}}>Prev</a>
+        </li>
+
+        <li class="page-item"><a class="page-link">{{ page }} de {{totalPages}} </a></li>
+
+        {{#if hasNextPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
+        <a class="page-link" href={{nextLink}}>Next</a>
+        </li>
+    </ul>
+</nav>

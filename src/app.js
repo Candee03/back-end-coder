@@ -4,6 +4,7 @@ import { productRouter } from './routers/product.router.js'
 import { cartRouter } from './routers/cart.router.js';
 import {app, io } from './config/utils.js';
 import { messageModel } from './dao/models/message.model.js';
+import CartService from './dao/cartDAO.js';
 
 
 //&------VARIABLES CHAT--------
@@ -17,10 +18,11 @@ let productos
 //?---------MIDDLEWARE----------
 const getProduct = async (req, res, next) => {
     const productService = new ProductServices()
-    const products = await productService.getProducts()
+    const cartService = new CartService()
+    const products = await productService.getProductsRealTime()
     productos = products
-    req.products = products
     req.productService = productService
+    req.cartService = cartService
     next();
 };
 
@@ -34,28 +36,39 @@ app.use(getProduct)
 
 //&------GET VIEWS-----------------
 app.get('/', async(req,res) => {
-    const products = await req.productService.getProducts()
-    const empty = products.length === 0
-    res.render('home', {products, empty})
+    const { limit, page, sort, category, stock } = req.query
+    const products = await req.productService.getProducts( limit, page, sort, category, stock )
+    res.render('home', products)
+})
+app.get('/products', async(req,res) => {
+    const { limit, page, sort, category, stock } = req.query
+    const products = await req.productService.getProducts( limit, page, sort, category, stock )
+    res.render('products', products)
+})
+app.get('/details/:pid', async(req,res) => {
+    const product = await req.productService.getProductById(req.params.pid.toString())
+    res.render('details', product)
+})
+app.get('/carts/:cid', async(req,res) => {
+    const cart = await req.cartService.getProductsFromCart(req.params.cid.toString())
+    res.render('cart', {cart})
 })
 app.get('/chat', async(req,res) => {
     res.render('chat')
 })
 app.get('/realtimeproducts', async(req,res) => {
-    const products = req.products
-    const empty = products.length === 0
-    res.render('realtimeproducts', {empty})
+    res.render('realtimeproducts',{})
 })
 //!-----------------SOCKET SERVER----------------------------
 io.on('connection', async (socket)=> {
     console.log('nuevo cliente conectado');
     connectedClients.push(socket.id);
+    socket.emit('products', productos);
 
     const model = await messageModel.find().lean()
     model.length !== messages.length ? model.map(m => messages.push(m)) :
     
 
-    socket.emit('products', productos);
 	socket.on('products', (products) => {
 		io.emit('products', products);
 	});
