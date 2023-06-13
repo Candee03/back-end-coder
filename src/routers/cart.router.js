@@ -59,13 +59,13 @@ cartRouter.post('/:cid/product/:pid', async(req, res) => {
             await cartService.addProductToCart(req.params.cid, req.params.pid)
             const carts = await cartService.getCarts()
             fs.promises.writeFile (path, JSON.stringify(carts))
-            res.status(201).send(cartFound)
+            res.redirect('/products')
         } else {
             throw new Error('El carrito o el producto con esa id no existe')
         }
     }
     catch (err) {
-        return res.status(400).send(err.message)
+        return res.status(400).send(`${err.message}`)
     }
 });
 
