@@ -1,0 +1,22 @@
+<section class="container">
+	<div class="row bg-light login-section">
+		<div class="col-4"></div>
+		<div class="col-8 p-4">
+		<h1>Ingresar</h1>
+		<form action="/api/users/auth" method="post">
+			<div class="row">
+			<div class="col-md-12 mb-3">
+				<input type="email" class="form-control" placeholder="Correo Electrónico" aria-label="Correo" name="email">
+			</div>
+			<div class="col-md-12 mb-3">
+				<input type="password" class="form-control" placeholder="Contraseña" aria-label="Contraseña" name="password">
+			</div>
+			<div class="col-md-12">
+				<button type="submit" class="btn btn-primary col-12">Ingresar</button>
+			</div>
+			</div>
+		</form>
+		<p>¿No tienes una cuenta todavía? <a href="/register">Regístrate</a></p>
+		</div>
+	</div>
+</section>

@@ -1,6 +1,14 @@
+<section>
+    <form action="/api/users/logout" method="post">
+        <img style="width: 3rem;" src="{{user.img}}" alt="">
+        <p>Hola, {{user.first_name}} {{user.last_name}}</p>
+        <button type="submit">Cerrar session</button>
+    </form>
+</section>
+
 <h1 class="h1-home">Lista de Productos:</h1>
 <ul>
-    {{#each docs}}
+    {{#each products.docs}}
         <li>
             <p>Title: {{this.title}}</p>
             <p>Description: {{this.description}}</p>

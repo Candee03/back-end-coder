@@ -1,0 +1,22 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Apellido</th>
+        <th scope="col">Rol</th>
+        <th scope="col">Email</th>
+        <th scope="col">Imagen</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each users}}
+        <tr>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.rol}}</td>
+            <td>{{this.email}}</td>
+            <td><img src="{{this.img}}" class="img-fluid" style="width: 4rem;" alt=""></td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

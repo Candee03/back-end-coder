@@ -1,30 +1,42 @@
-<main style="margin: 0 2rem 0 2rem;" class="w-60">
-    <div class="d-flex justify-content-center row row-cols-1 row-cols-md-4 g-3">
-        {{#each docs}}
-            <div class="col">
-                <div class="card" style="height: 25rem;">
-                    <img style="width: 10rem" src={{this.thumbnail.[0]}} class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title"> {{this.title}} </h5>
-                        <p class="card-text"> {{this.description}} </p>
-                        <p class="card-text"> ${{this.price}} </p>
-                        <a type="button" class="btn btn-primary" href='/details/{{this._id}}'> Ver Detalles </a>
+<section class="my-4 d-flex flex-column align-items-center bg-info  text-center p-4">
+    <form action="/api/users/logout" method="post">
+        {{#if admin}}<p>Admin</p>{{else}}<p>User</p>{{/if}}
+        <img src="{{user.img}}" alt="" class="img-fluid rounded mb-2" style="width: 4rem; height: 4rem;">
+        <p class="mb-3">Hola, {{user.first_name}} {{user.last_name}}</p>
+        <button type="submit" class="btn btn-sm btn-primary">Cerrar sesión</button>
+    </form>
+    {{#if admin}}<button class="btn btn-sm btn-secondary "><a class="link-light link-underline link-underline-opacity-0" href="/users">Ver todos los usuarios</a></button>{{/if}}
+</section>
+
+<section>
+    <main style="margin: 0 2rem 0 2rem;" class="w-60">
+        <div class="d-flex justify-content-center row row-cols-1 row-cols-md-4 g-3">
+            {{#each products.docs}}
+                <div class="col">
+                    <div class="card" style="height: 25rem;">
+                        <img style="width: 10rem" src={{this.thumbnail.[0]}} class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title"> {{this.title}} </h5>
+                            <p class="card-text"> {{this.description}} </p>
+                            <p class="card-text"> ${{this.price}} </p>
+                            <a type="button" class="btn btn-primary" href='/details/{{this._id}}'> Ver Detalles </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{/each}}
-    </div>
-</main> 
-<nav style="height: auto; padding: 1.5rem" class="w-100 bg-info mt-4">
-    <ul class="pagination justify-content-center m-3">
-        {{#if hasPrevPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
-        <a class="page-link" href={{prevLink}}>Prev</a>
-        </li>
+            {{/each}}
+        </div>
+    </main> 
+    <nav style="height: auto; padding: 1.5rem" class="w-100 bg-info mt-4">
+        <ul class="pagination justify-content-center m-3">
+            {{#if products.hasPrevPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
+            <a class="page-link" href={{products.prevLink}}>Prev</a>
+            </li>
 
-        <li class="page-item"><a class="page-link">{{ page }} de {{totalPages}} </a></li>
+            <li class="page-item"><a class="page-link">{{ products.page }} de {{products.totalPages}} </a></li>
 
-        {{#if hasNextPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
-        <a class="page-link" href={{nextLink}}>Next</a>
-        </li>
-    </ul>
-</nav>
+            {{#if products.hasNextPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
+            <a class="page-link" href={{products.nextLink}}>Next</a>
+            </li>
+        </ul>
+    </nav>
+</section>

@@ -1,11 +1,15 @@
-import handlebars from 'express-handlebars'
-import ProductServices from './dao/productDAO.js';
-import { productRouter } from './routers/product.router.js'
-import { cartRouter } from './routers/cart.router.js';
 import {app, io } from './config/utils.js';
+import handlebars from 'express-handlebars'
+import { isGuest, isAuth, onlyAdmin } from './middleware/auth.middleware.js';
+
+import ProductServices from './dao/productDAO.js';
 import { messageModel } from './dao/models/message.model.js';
 import CartService from './dao/cartDAO.js';
+import { userService } from './routers/user.router.js';
 
+import { productRouter } from './routers/product.router.js'
+import { cartRouter } from './routers/cart.router.js';
+import usersRouter from './routers/user.router.js';
 
 //&------VARIABLES CHAT--------
 let messages = []
@@ -30,22 +34,27 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', 'views/')
 app.set('view engine', 'handlebars')
 
+//ROUTERS
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
+app.use('/api/users', usersRouter);
 app.use(getProduct)
 
 //&------GET VIEWS-----------------
-app.get('/', async(req,res) => {
+app.get('/', isAuth, async(req,res) => {
     const { limit, page, sort, category, status } = req.query
     const products = await req.productService.getProducts( limit, page, sort, category, status )
-    res.render('home', products)
+    res.render('home', {products})
 })
-app.get('/products', async(req,res) => {
+app.get('/products', isAuth, async(req,res) => {
     const { limit, page, sort, category, status } = req.query
     const products = await req.productService.getProducts( limit, page, sort, category, status )
-    res.render('products', products)
+    const { user } = req.session;
+    delete user.password;
+    const admin = user.rol === 'admin' ? true : false
+    res.render('products', {products, user, admin})
 })
-app.get('/details/:pid', async(req,res) => {
+app.get('/details/:pid', isAuth, async(req,res) => {
     const product = await req.productService.getProductById(req.params.pid.toString())
     res.render('details', product)
 })
@@ -58,6 +67,16 @@ app.get('/chat', async(req,res) => {
 })
 app.get('/realtimeproducts', async(req,res) => {
     res.render('realtimeproducts',{})
+})
+app.get('/register', isGuest, async (req, res) => {
+    res.render('register', {})
+})
+app.get('/login', isGuest, async (req, res) => {
+    res.render('login', {})
+})
+app.get('/users', onlyAdmin, async (req, res) => {
+    const users = await userService.getAll()
+    res.render('users', {users})
 })
 //!-----------------SOCKET SERVER----------------------------
 io.on('connection', async (socket)=> {

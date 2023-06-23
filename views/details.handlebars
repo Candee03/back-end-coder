@@ -1,4 +1,4 @@
-<main>
+{{!-- <main>
     <li class="d-flex flex-column">
         <div>
             <img style="width: 15rem;" src="{{thumbnail.[0]}}" alt="">
@@ -17,6 +17,31 @@
     <form action="/api/carts/6486ae50710ab0ff4b45f54f/product/{{_id}}" method="POST">
         <button type="submit" class="btn btn-primary">agregar al carrito</button>
     </form>
+</main> --}}
+<main>
+    <div class="card mb-4">
+        <div class="row no-gutters">
+        <div class="col-md-6">
+            <img src="{{thumbnail.[0]}}" class="card-img" alt="" style="width: 100%;">
+        </div>
+        <div class="col-md-6">
+            <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">{{description}}</p>
+            <p class="card-text">Price: ${{price}}</p>
+            <p class="card-text">Category: {{category}}</p>
+            <p class="card-text">Status: {{status}}</p>
+            <p class="card-text">Stock: {{stock}}</p>
+            <p class="card-text">Code: {{code}}</p>
+            <p class="card-text">Id: {{_id}}</p>
+            <form action="/api/carts/6486ae50710ab0ff4b45f54f/product/{{_id}}" method="POST">
+                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
 </main>
+
 
 <script src="/js/index.js"></script>
