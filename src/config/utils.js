@@ -29,7 +29,6 @@ app.use(
 		saveUninitialized: true,
 	})
 );
-
 mongoose.connect(
     'mongodb+srv://candelaalfano1503:Candela1234@candecluster.7rjnqro.mongodb.net/ecommerce?retryWrites=true&w=majority'
 )

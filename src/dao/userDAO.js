@@ -15,6 +15,10 @@ class UserService {
 	async createUser(userData) {
 		return await this.model.create(userData);
 	}
+
+	async getById(id) {
+		return await this.model.findById(id)
+	}
 }
 
 export default UserService;

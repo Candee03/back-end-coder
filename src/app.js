@@ -1,6 +1,8 @@
 import {app, io } from './config/utils.js';
 import handlebars from 'express-handlebars'
 import { isGuest, isAuth, onlyAdmin } from './middleware/auth.middleware.js';
+import passport from "passport";
+import initializePassport from './config/passport.js';
 
 import ProductServices from './dao/productDAO.js';
 import { messageModel } from './dao/models/message.model.js';
@@ -29,6 +31,9 @@ const getProduct = async (req, res, next) => {
     req.cartService = cartService
     next();
 };
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', 'views/')

@@ -1,25 +1,26 @@
 export function isAuth(req, res, next) {
-	if (req.session.user) {
+	try {
+		if (req.session.user) {
 		next()
-	} else {
-		res.redirect('/login');
+		} else {
+			res.redirect('/login');
+		}
+	}
+	catch (err) {
+		res.status(401)
 	}
 }
 
-// export function isAdmin (req, res, next) {
-// 	if (req.session.user.email === 'adminCoder@coder.com') { //ACA SE AGREGAN LOS USUARIOS ADMINISTRADORES
-// 		req.session.user.rol = 'admin'
-// 		next()
-// 	} else {
-// 		next()
-// 	}
-// }
-
 export function onlyAdmin(req, res, next) {
-	if (req.session.user.rol === 'admin') {
-		next()
-	} else {
-		res.redirect('/products')
+	try {
+		if (req.session.user.rol === 'admin') {
+			next()
+		} else {
+			res.redirect('/products')
+		}
+	}
+	catch (err) {
+		res.status(403)
 	}
 }
 
