@@ -17,7 +17,7 @@ const initializePassport = async() => {
                 return done(null, false)
             }
             const newUser = {...req.body, password: hashPassword(password)}
-            if (newUser.email === 'adminCoder@coder.com') newUser.rol = 'admin'
+            if (newUser.email === 'adminCoder@coder.com') newUser.role = 'admin'
             const result = await userService.createUser(newUser)
             return done(null, result)
         }
@@ -51,12 +51,12 @@ const initializePassport = async() => {
 			async (accessToken, refreshToken, profile, done) => {
 				try {
 					let user = await userService.getByEmail(profile._json.email);
-
 					if (!user) {
 						let newUser = {
 							first_name: profile._json.name,
 							last_name: '',
 							email: profile._json.email,
+                            age : '',
 							password: '',
 							img: profile._json.avatar_url,
 						};

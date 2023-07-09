@@ -1,1 +1,65 @@
-[{"_id":"6486ae50710ab0ff4b45f54f","products":[{"product":{"_id":"64879cd9d9d1f3c2ef9a2961","title":"equipo de musica","description":"stereo y mono. bluetooth","price":90000,"thumbnail":["https://gasloni.com.ar/wp-content/uploads/sites/32/2020/05/equipo-de-musica-lg-43.jpg","imagen2"],"code":"PATR45","status":true,"category":"electrodomestico","stock":3,"__v":0},"quantity":1,"_id":"6487aad198d39eef24bbcc10"},{"product":{"_id":"647e103a4cc63e0cd4317a0c","title":"tostadora","description":"electrodomestico ideal para tu cocina","price":20000,"thumbnail":["https://www.ultracomb.com.ar/Image/0/500_500-TO-4005-2021-500x500.png","imagen2"],"code":"A54FT","status":true,"category":"cocina","stock":3,"__v":0},"quantity":7,"_id":"6487ab070013235e6ddbeee7"},{"product":{"_id":"647e107c1a560c7fe05f7906","title":"cocina","description":"4 quemadores con horno y luz","price":80000,"thumbnail":["https://images.samsung.com/is/image/samsung/p6pim/latin/nx60a6315ss-ap/gallery/latin-nx5000anx60a6311ss-nx60a6315ss-ap-thumb-413580228?$344_344_PNG$","imagen2"],"code":"TYI68","status":true,"category":"cocina","stock":2,"__v":0},"quantity":1,"_id":"6495043ba9e657cd0f322126"}],"__v":28}]
+[
+	{
+		"_id": "6486ae50710ab0ff4b45f54f",
+		"products": [
+			{
+				"product": {
+					"_id": "64879cd9d9d1f3c2ef9a2961",
+					"title": "equipo de musica",
+					"description": "stereo y mono. bluetooth",
+					"price": 90000,
+					"thumbnail": [
+						"https://gasloni.com.ar/wp-content/uploads/sites/32/2020/05/equipo-de-musica-lg-43.jpg",
+						"imagen2"
+					],
+					"code": "PATR45",
+					"status": true,
+					"category": "electrodomestico",
+					"stock": 3,
+					"__v": 0
+				},
+				"quantity": 1,
+				"_id": "6487aad198d39eef24bbcc10"
+			},
+			{
+				"product": {
+					"_id": "647e103a4cc63e0cd4317a0c",
+					"title": "tostadora",
+					"description": "electrodomestico ideal para tu cocina",
+					"price": 20000,
+					"thumbnail": [
+						"https://www.ultracomb.com.ar/Image/0/500_500-TO-4005-2021-500x500.png",
+						"imagen2"
+					],
+					"code": "A54FT",
+					"status": true,
+					"category": "cocina",
+					"stock": 3,
+					"__v": 0
+				},
+				"quantity": 7,
+				"_id": "6487ab070013235e6ddbeee7"
+			},
+			{
+				"product": {
+					"_id": "647e107c1a560c7fe05f7906",
+					"title": "cocina",
+					"description": "4 quemadores con horno y luz",
+					"price": 80000,
+					"thumbnail": [
+						"https://images.samsung.com/is/image/samsung/p6pim/latin/nx60a6315ss-ap/gallery/latin-nx5000anx60a6311ss-nx60a6315ss-ap-thumb-413580228?$344_344_PNG$",
+						"imagen2"
+					],
+					"code": "TYI68",
+					"status": true,
+					"category": "cocina",
+					"stock": 2,
+					"__v": 0
+				},
+				"quantity": 1,
+				"_id": "6495043ba9e657cd0f322126"
+			}
+		],
+		"__v": 28
+	}
+]

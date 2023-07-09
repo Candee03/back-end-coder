@@ -9,9 +9,25 @@ const userSchema = new mongoose.Schema({
         unique: true, 
         index : true
     },
+    age : Number,
     password : String,
     img : String,
-    rol: {type: String, default: 'usuario'}
+    role: {
+        type: String, 
+        default: 'usuario'
+    },
+    cartId : {
+        default : [],
+		type: [
+			{
+				id: {
+					index: true,
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'carts',
+				}
+			},
+		],
+    }
 })
 
 export const userModel = mongoose.model('user', userSchema)

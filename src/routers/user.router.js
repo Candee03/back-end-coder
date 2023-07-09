@@ -5,6 +5,11 @@ import passport from "passport";
 const usersRouter = Router()
 export const userService = new UserService()
 
+usersRouter.get('/', async(req, res) => {
+    const users = await userService.getAll()
+    res.send(users)
+})
+
 usersRouter.post('/', passport.authenticate('register', {failureRedirect:'/'}), async(req, res) => {
     res.redirect('/login')
 })

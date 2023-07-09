@@ -12,6 +12,7 @@ import { userService } from './routers/user.router.js';
 import { productRouter } from './routers/product.router.js'
 import { cartRouter } from './routers/cart.router.js';
 import usersRouter from './routers/user.router.js';
+import sessionsRouter from './routers/session.router.js';
 
 //&------VARIABLES CHAT--------
 let messages = []
@@ -43,6 +44,7 @@ app.set('view engine', 'handlebars')
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/sessions', sessionsRouter);
 app.use(getProduct)
 
 //&------GET VIEWS-----------------
@@ -56,7 +58,7 @@ app.get('/products', isAuth, async(req,res) => {
     const products = await req.productService.getProducts( limit, page, sort, category, status )
     const { user } = req.session;
     delete user.password;
-    const admin = user.rol === 'admin' ? true : false
+    const admin = user.role === 'admin' ? true : false
     res.render('products', {products, user, admin})
 })
 app.get('/details/:pid', isAuth, async(req,res) => {

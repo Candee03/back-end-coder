@@ -13,7 +13,7 @@ export function isAuth(req, res, next) {
 
 export function onlyAdmin(req, res, next) {
 	try {
-		if (req.session.user.rol === 'admin') {
+		if (req.session.user.role === 'admin') {
 			next()
 		} else {
 			res.redirect('/products')
