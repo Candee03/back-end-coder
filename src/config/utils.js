@@ -4,38 +4,35 @@ import mongoose from "mongoose";
 import MongoStore from 'connect-mongo';
 import session from "express-session";
 import cookieParser from "cookie-parser";
-
+import config from "./env.js"
 
 const app = express()
 
 app.use(express.static('public'));
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use(cookieParser('B2zdY3B$pHmxW%'));
+app.use(cookieParser(config.secretKey));
 
 // Session
 app.use(
 	session({
 		store: MongoStore.create({
-			mongoUrl:
-				'mongodb+srv://candelaalfano1503:Candela1234@candecluster.7rjnqro.mongodb.net/ecommerce?retryWrites=true&w=majority',
+			mongoUrl:config.mongoUrl,
 			mongoOptions: {
 				useNewUrlParser: true,
 			},
 			ttl: 6000,
 		}),
-		secret: 'B2zdY3B$pHmxW%',
+		secret: config.secretKey,
 		resave: true,
 		saveUninitialized: true,
 	})
 );
-mongoose.connect(
-    'mongodb+srv://candelaalfano1503:Candela1234@candecluster.7rjnqro.mongodb.net/ecommerce?retryWrites=true&w=majority'
-)
+mongoose.connect(config.mongoUrl)
 
 //!---socket.io--------------------------------
-const httpServer = app.listen(8080, () => {
-    console.log('esta escuchando el server 8080')
+const httpServer = app.listen(config.port , () => {
+    console.log(`esta escuchando el server ${config.port}`)
 })
 const io = new Server(httpServer)
 

@@ -17,16 +17,8 @@ const userSchema = new mongoose.Schema({
         default: 'usuario'
     },
     cartId : {
-        default : [],
-		type: [
-			{
-				id: {
-					index: true,
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'carts',
-				}
-			},
-		],
+        default : '6486ae50710ab0ff4b45f54f', //<--SETEO POR DEFECTO LA ID DEL CARRITO QUE YA ESTA CREADO
+		type: String,
     }
 })
 

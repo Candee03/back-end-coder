@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { io } from '../config/utils.js';
 import ProductServices from '../dao/productDAO.js';
 
-import fs from 'fs';
 
 const productRouter = Router();
 const productService = new ProductServices()
@@ -13,7 +12,6 @@ productRouter.get('/', async(req, res) => {
 	try{
         const { limit, page, sort, category, status } = req.query
         const products = await productService.getProducts(limit, page, sort, category, status )
-        fs.promises.writeFile (path, JSON.stringify(products))
         return res.status(200).send(products)
     }
     catch (err) {

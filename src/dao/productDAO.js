@@ -1,7 +1,7 @@
 import { productModel } from './models/product.model.js';
 
 class ProductServices{
-    constructor() {
+        constructor() {
         this.model = productModel
     }
 

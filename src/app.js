@@ -40,12 +40,14 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', 'views/')
 app.set('view engine', 'handlebars')
 
-//ROUTERS
+
+//*----------ROUTERS-------------
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use(getProduct)
+
 
 //&------GET VIEWS-----------------
 app.get('/', isAuth, async(req,res) => {
