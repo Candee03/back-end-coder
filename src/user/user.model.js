@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { cartModel } from "../cart/cart.model.js";
 
 const userSchema = new mongoose.Schema({
     first_name : String,
@@ -14,12 +15,17 @@ const userSchema = new mongoose.Schema({
     img : String,
     role: {
         type: String, 
-        default: 'usuario'
+        default: 'user'
     },
     cartId : {
-        default : '6486ae50710ab0ff4b45f54f', //<--SETEO POR DEFECTO LA ID DEL CARRITO QUE YA ESTA CREADO
-		type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'carts',
     }
 })
+
+userSchema.pre('findOne', function (next) {
+    this.populate('cartId');
+    next();
+});
 
 export const userModel = mongoose.model('user', userSchema)

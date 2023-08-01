@@ -1,40 +1,20 @@
-{{!-- <main>
-    <li class="d-flex flex-column">
-        <div>
-            <img style="width: 15rem;" src="{{thumbnail.[0]}}" alt="">
-        </div>
-        <div>
-            <p>Title: {{title}}</p>
-            <p>Description: {{description}}</p>
-            <p>Price: ${{price}}</p>
-            <p>Category: {{category}}</p>
-            <p>status: {{status}}</p>
-            <p>Stock: {{stock}}</p>
-            <p>Code: {{code}}</p>
-            <p>Id: {{_id}}</p>
-        </div>
-    </li>
-    <form action="/api/carts/6486ae50710ab0ff4b45f54f/product/{{_id}}" method="POST">
-        <button type="submit" class="btn btn-primary">agregar al carrito</button>
-    </form>
-</main> --}}
 <main>
     <div class="card mb-4">
         <div class="row no-gutters">
         <div class="col-md-6">
-            <img src="{{thumbnail.[0]}}" class="card-img" alt="" style="width: 100%;">
+            <img src="{{product.thumbnail.[0]}}" class="card-img" alt="" style="width: 100%;">
         </div>
         <div class="col-md-6">
             <div class="card-body">
-            <h5 class="card-title">{{title}}</h5>
-            <p class="card-text">{{description}}</p>
-            <p class="card-text">Price: ${{price}}</p>
-            <p class="card-text">Category: {{category}}</p>
-            <p class="card-text">Status: {{status}}</p>
-            <p class="card-text">Stock: {{stock}}</p>
-            <p class="card-text">Code: {{code}}</p>
-            <p class="card-text">Id: {{_id}}</p>
-            <form action="/api/carts/6486ae50710ab0ff4b45f54f/product/{{_id}}" method="POST">
+            <h5 class="card-title">{{product.title}}</h5>
+            <p class="card-text">{{product.description}}</p>
+            <p class="card-text">Price: ${{product.price}}</p>
+            <p class="card-text">Category: {{product.category}}</p>
+            <p class="card-text">Status: {{product.status}}</p>
+            <p class="card-text">Stock: {{product.stock}}</p>
+            <p class="card-text">Code: {{product.code}}</p>
+            <p class="card-text">Id: {{product._id}}</p>
+            <form action="/api/carts/{{cartId}}/product/{{product._id}}" method="POST">
                 <button type="submit" class="btn btn-primary">Agregar al carrito</button>
             </form>
             </div>

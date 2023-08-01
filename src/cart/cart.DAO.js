@@ -1,13 +1,12 @@
-import { Error } from "mongoose";
-import { cartModel } from "./models/cart.model.js"
-import { productModel } from "./models/product.model.js";
+import { cartModel } from "./cart.model.js";
+import { productModel } from "../product/product.model.js";
 
-class CartService{
+class CartMongo{
     constructor() {
         this.model = cartModel
     }
 
-    async createCart () {
+    async create () {
         try {
             return await this.model.create({})
         }
@@ -26,10 +25,9 @@ class CartService{
             const productFound = cart.products.find(p => p.product.toString() === pid.toString())
             if (productFound !== undefined) {
                 return await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': productFound.quantity + 1 } })
-            } else {
-                cart.products.push({product: pid, quantity:1})
-                return await cart.save()
             }
+            cart.products.push({product: pid, quantity:1})
+            return await cart.save()
         }
         catch (err) {
             console.log(err.name, err.message);
@@ -40,7 +38,7 @@ class CartService{
      * @param {string} cid del carrito 
      * @param {string} pid del producto
      */
-    async deleteProductFromCart (cid, pid) {
+    async deleteOne (cid, pid) {
         try {
             await this.model.updateOne({ _id: cid }, {$pull: { products: { product: pid } }})
         }
@@ -52,7 +50,7 @@ class CartService{
     /**
      * @param {string} cid del carrito 
      */
-    async deleteAllProducts (cid) {
+    async deleteAll (cid) {
         try {
             await this.model.findOneAndUpdate({ _id: cid }, {$set: { products: [] } })
         }
@@ -64,7 +62,7 @@ class CartService{
     /**
      * @returns todos los carritos
      */
-    async getCarts () {
+    async get () {
         try{
             return await this.model.find().lean()
         } catch (err) {
@@ -76,7 +74,7 @@ class CartService{
      * @param {string} id 
      * @returns Carrito Encontrado
      */
-    async getCartById (id) {
+    async getById (id) {
         try{
             const cartFound = await this.model.find({_id: id})
             if (cartFound) {
@@ -94,7 +92,7 @@ class CartService{
      * @param {string} cid id del carrito
      * @param {Array} products array con los productos
      */
-    async updateAllProducts(cid, products) {
+    async updateAll(cid, products) {
         try {
             await this.model.updateOne({_id: cid}, {products: products})
         }
@@ -109,7 +107,7 @@ class CartService{
      * @param {object} quantity 
      */
 
-    async updateProduct(cid, pid, quantity) {
+    async updateOne(cid, pid, quantity) {
         try {
             const q = quantity.quantity
             const productsInCart = (await this.model.findById(cid)).products
@@ -124,9 +122,9 @@ class CartService{
         }
     }
 
-    async getProductsFromCart(cid) {
+    async getProductsPopulated(cid) {
         return (await this.model.findById(cid).populate('products.product').lean()).products
     }
 }
 
-export default CartService
+export default CartMongo

@@ -1,6 +1,6 @@
-import { productModel } from './models/product.model.js';
+import { productModel } from "./product.model.js"
 
-class ProductServices{
+class ProductMongo{
         constructor() {
         this.model = productModel
     }
@@ -42,13 +42,6 @@ class ProductServices{
             console.log(err);
         }
     }
-    // async getProductsWithLimit (limit) {
-    //     try{
-    //         return await this.model.find().limit(limit).lean()
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
 
     /**
      * @param {string} id 
@@ -74,6 +67,7 @@ class ProductServices{
      */
     async addProduct (objetProduct) {
         const {title, description, price, thumbnail, code, status, category, stock} = objetProduct
+        //DTO
         try {
             const product = {
                 title,
@@ -127,4 +121,4 @@ class ProductServices{
 
 }
 
-export default ProductServices
+export default ProductMongo

@@ -1,6 +1,6 @@
-import { userModel } from "./models/user.model.js";
+import { userModel } from "./user.model.js";
 
-class UserService {
+class UserMongo {
     constructor() {
         this.model = userModel
     }
@@ -21,4 +21,4 @@ class UserService {
 	}
 }
 
-export default UserService;
+export default UserMongo;

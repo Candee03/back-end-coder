@@ -11,6 +11,18 @@ export function isAuth(req, res, next) {
 	}
 }
 
+export function onlyUser(req, res, next) {
+	try {
+		if (req.session.user.role === 'user') {
+			next()
+		} else {
+			res.redirect('/products')
+		}
+	}
+	catch (err) {
+		res.status(403)
+	}
+}
 export function onlyAdmin(req, res, next) {
 	try {
 		if (req.session.user.role === 'admin') {
@@ -18,6 +30,20 @@ export function onlyAdmin(req, res, next) {
 		} else {
 			res.redirect('/products')
 		}
+	}
+	catch (err) {
+		res.status(403)
+	}
+}
+export function isAdmin(req, res, next) {
+	try {
+		console.log('here1');
+		console.log(req.session);
+		// if (req.session.user.role === 'admin') {
+		// 	next()
+		// }
+		console.log('here');
+		res.status(401)
 	}
 	catch (err) {
 		res.status(403)
