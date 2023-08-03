@@ -1,13 +1,33 @@
 import passport from "passport";
 import local from "passport-local"
 import GitHubStrategy from "passport-github2"
-import { userService } from "../routers/user.router.js";
-import { comparePassword, hashPassword } from "./encript.util.js";
+import { userService } from "../user/user.controller.js";
+import { comparePassword } from "./encript.util.js";
+import { cartService } from "../cart/cart.controller.js";
+import { UserRegisterDTO, UserSafeDTO } from "../user/user.DTO.js";
+import config from '../config/env.js'
+import { generateToken } from "./jwt.js";
+import {Strategy, ExtractJwt} from "passport-jwt";
+
 
 
 const LocalStrategy = local.Strategy;
+const JWTStrategy = Strategy
+const jwtExtract = ExtractJwt
 
 const initializePassport = async() => {
+
+    passport.use('jwt', new JWTStrategy({
+		jwtFromRequest: jwtExtract.fromExtractors([cookieExtractor]),
+		secretOrKey: 'secretKey',
+		},async (payload, done) => {
+			try {
+				return done(null, payload);
+			} catch (err) {
+				return done(err);
+			}
+		})
+	)
 
     passport.use('register', new LocalStrategy(
         {passReqToCallback: true, usernameField: 'email'}, async (req, username, password, done) => {
@@ -16,8 +36,8 @@ const initializePassport = async() => {
             if (user) {
                 return done(null, false)
             }
-            const newUser = {...req.body, password: hashPassword(password)}
-            if (newUser.email === 'adminCoder@coder.com') newUser.role = 'admin'
+            const cartId = await cartService.createCart()
+            const newUser = new UserRegisterDTO(req.body, password, cartId._id)
             const result = await userService.createUser(newUser)
             return done(null, result)
         }
@@ -30,12 +50,9 @@ const initializePassport = async() => {
         {usernameField: 'email'}, async (username, password, done) => {
         const user = await userService.getByEmail(username)
         try {
-            if (!user) {
-                return done (null, false)
-            }
+            if (!user) return done (null, false)
             if (!comparePassword(user, password)) return done(null, false)
-
-            return done(null, user)
+            return done(null, new UserSafeDTO(user))
         }
         catch (err) {
             return done(`${err}`)
@@ -44,9 +61,9 @@ const initializePassport = async() => {
 
     passport.use('github', new GitHubStrategy(
 			{
-				clientID: 'Iv1.4d1ef34ac9f8cd59',
-				clientSecret: 'df9868d8077434200676b1e63ad8237d9d795156',
-				callbackURL: 'http://localhost:8080/api/users/githubcallback',
+				clientID: config.client_id ,
+				clientSecret: config.client_secret,
+				callbackURL: config.callback_url,
 			},
 			async (accessToken, refreshToken, profile, done) => {
 				try {
@@ -62,9 +79,9 @@ const initializePassport = async() => {
 						};
 						user = await userService.createUser(newUser);
 						done(null, user);
-					} else {
-						done(null, user);
 					}
+                    const access_token = generateToken(user)
+					done(null, user);
 				} catch (err) {
 					done(err, false);
 				}
@@ -75,9 +92,16 @@ const initializePassport = async() => {
     })
     passport.deserializeUser(async (id, done) => {
         const user = await userService.getById(id)
-        done(null, user)
+        done(null, new UserSafeDTO(user))
     })
 }
 
+const cookieExtractor = (req) => {
+	let token = null;
+	if (req && req.cookies) {
+		token = req.cookies['token'];
+	}
+	return token;
+};
 
 export default initializePassport

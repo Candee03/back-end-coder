@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import { addProduct, createCart, deleteAllProductsFromCart, deleteOneProductFromCart, getCartById, updateAllCart, updateOneProduct } from '../cart/cart.controller.js';
+import { allowedModifyCart } from '../middleware/auth.middleware.js';
+
+
 
 const cartRouter = Router();
 
@@ -22,7 +25,7 @@ cartRouter.get('/:cid', getCartById);
 //?---------METODO POST---------
 cartRouter.post('/', createCart);
 
-cartRouter.post('/:cid/product/:pid', addProduct);
+cartRouter.post('/:cid/product/:pid', allowedModifyCart, addProduct);
 
 //&----------METODO PUT------------
 cartRouter.put('/:cid', updateAllCart)

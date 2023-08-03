@@ -2,24 +2,29 @@ const socket = io()
 let user
 const message = document.getElementById('message')
 const historial = document.getElementById('historial')
+const nombre = document.getElementById('name')
 
-Swal.fire({
-    title:'Bienvenid@!',
-    input:'text',
-    text: 'Identificate para chatear',
-    icon: 'success',
-    inputValidator: (value) => {
-        return !value && 'tenes que identificarte, no te hagas el piola...'
-    },
-    allowOutsideClick: false,
-}).then((res) => {
-    user = res.value
-    socket.emit('sayhello', user);
-})
+
+// console.log(nombre.innerText);
+
+// Swal.fire({
+//     title:'Bienvenid@!',
+//     input:'text',
+//     text: 'Identificate para chatear',
+//     icon: 'success',
+//     inputValidator: (value) => {
+//         return !value && 'tenes que identificarte, no te hagas el piola...'
+//     },
+//     allowOutsideClick: false,
+// }).then((res) => {
+//     user = res.value
+//     socket.emit('sayhello', user);
+// })
 
 message.addEventListener('keyup', e => {
     if(e.key === 'Enter') {
         let msj = message.value
+        user = nombre.innerText
         if (msj.trim().length > 0) {
             socket.emit('new-message', {user, message: msj})
             message.value = " "

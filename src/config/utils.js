@@ -5,6 +5,7 @@ import MongoStore from 'connect-mongo';
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import config from "./env.js"
+import passport from "passport";
 
 const app = express()
 
@@ -29,6 +30,29 @@ app.use(
 	})
 );
 mongoose.connect(config.mongoUrl)
+
+
+export const passportCall = (strategy) => {
+	return async(req, res, next) => {
+		passport.authenticate(strategy, function(err, user, info) {
+			if (err) return next(err)
+			if (!user) {
+				return res.redirect('/login')
+				// return res.status(401).send({error: info.messages? info.messages : info.toString()})
+			}
+			req.user = user
+			next()
+		})(req, res, next)
+	}
+}
+
+export const authorization = (role) => {
+	return async(req, res, next) => {
+		if(!req.user) return res.status(401).send({error: 'Unauthorized'})
+		if(req.user.user.role !== role) return res.status(403).send({error: 'no tienes permiso para entrar'})
+		next()
+	}
+}
 
 //!---socket.io--------------------------------
 const httpServer = app.listen(config.port , () => {

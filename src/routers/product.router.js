@@ -1,21 +1,22 @@
 import { Router } from 'express';
 import { addProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../product/product.controller.js';
-import { isAdmin } from '../middleware/auth.middleware.js';
+import { allowedModifyProducts } from '../middleware/auth.middleware.js';
+
 
 const productRouter = Router();
 
 //!---------METODO GET-------
-productRouter.get('/', getAllProducts);
+productRouter.get('/', allowedModifyProducts, getAllProducts);
 
 productRouter.get('/:pid', getProductById);
 
 //!---------METODO POST-------
-productRouter.post('/', isAdmin, addProduct);
+productRouter.post('/', allowedModifyProducts, addProduct);
 
 //!---------METODO PUT--------
-productRouter.put('/:pid', updateProduct);
+productRouter.put('/:pid', allowedModifyProducts, updateProduct);
 
 //!---------METODO DELETE-----
-productRouter.delete('/:pid', deleteProduct);
+productRouter.delete('/:pid', allowedModifyProducts, deleteProduct);
 
 export default productRouter

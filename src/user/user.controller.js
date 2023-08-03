@@ -22,10 +22,9 @@ export const login = async(req, res) => {
         const token = generateToken(user)
         
         res.cookie('token', token, {
-            maxAge: 60000,
+            maxAge: 3600 * 1000, //LA SESION DURA 1 HORA ABIERTA
             httpOnly: true
-        }).send(req.cookie);
-        // res.redirect('/products')
+        }).redirect('/products')
     }
     catch (err) {
         res.status(400).json({error : err.message})
@@ -33,6 +32,6 @@ export const login = async(req, res) => {
 }
 
 export const logout = (req, res) => {
-	req.session.destroy();
+	res.cookie('token', '', { expires: new Date(0), httpOnly: true });
 	res.redirect('/login');
 }

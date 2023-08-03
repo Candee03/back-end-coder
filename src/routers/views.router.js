@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { isAuth, isGuest, onlyAdmin, onlyUser } from "../middleware/auth.middleware.js";
+import { isGuest } from "../middleware/auth.middleware.js";
 import { userService } from "../user/user.controller.js";
 import { UserSafeDTO } from "../user/user.DTO.js";
+import { authorization, passportCall } from "../config/utils.js";
 
 const viewsRouter = Router();
 
@@ -10,27 +11,31 @@ const viewsRouter = Router();
 //     const products = await req.productService.getProducts( limit, page, sort, category, status )
 //     res.render('home', {products})
 // })
-viewsRouter.get('/products', isAuth, async(req,res) => {
+viewsRouter.get('/', async(req,res) => {
+    res.redirect('/login')
+})
+viewsRouter.get('/products', passportCall('jwt'), async(req,res) => {
     const { limit, page, sort, category, status } = req.query
     const products = await req.productService.getProducts( limit, page, sort, category, status )
 
-    const user = new UserSafeDTO(req.session.user)
+    const user = new UserSafeDTO(req.user.user)
     const admin = user.role === 'admin' ? true : false
     res.render('products', {products, user, admin})
 })
-viewsRouter.get('/details/:pid', isAuth, async(req,res) => {
+viewsRouter.get('/details/:pid', passportCall('jwt'), async(req,res) => {
     const product = await req.productService.getProductById(req.params.pid.toString())
     const cartId = await req.session.user.cartId._id
     res.render('details', {product, cartId})
 })
-viewsRouter.get('/carts/:cid', isAuth, async(req,res) => {
-    const cart = await req.cartService.getProductsFromCart(req.params.cid.toString())
+viewsRouter.get('/carts/:cid', passportCall('jwt'), async(req,res) => {
+    const cart = await req.cartService.getProductsPopulated(req.params.cid.toString())
     res.render('cart', {cart})
 })
-viewsRouter.get('/chat', onlyUser, async(req,res) => {
-    res.render('chat')
+viewsRouter.get('/chat', passportCall('jwt'), authorization('user'),  async(req,res) => {
+    const user = new UserSafeDTO(req.user.user)
+    res.render('chat', user)
 })
-viewsRouter.get('/realtimeproducts',(isAuth, onlyAdmin) , async(req,res) => {
+viewsRouter.get('/realtimeproducts', passportCall('jwt') , async(req,res) => {
     res.render('realtimeproducts',{})
 })
 viewsRouter.get('/register', isGuest, async (req, res) => {
@@ -39,7 +44,7 @@ viewsRouter.get('/register', isGuest, async (req, res) => {
 viewsRouter.get('/login', isGuest, async (req, res) => {
     res.render('login', {})
 })
-viewsRouter.get('/users', (isAuth, onlyAdmin), async (req, res) => {
+viewsRouter.get('/users', passportCall('jwt'), authorization('admin'), async (req, res) => {
     const users = await userService.getAll()
     res.render('users', {users})
 })
