@@ -43,9 +43,9 @@ app.use(getProduct)
 
 
 //*----------ROUTERS-------------
-app.use('/api/products', productRouter);
-app.use('/api/carts', cartRouter);
-app.use('/api/users', usersRouter);
+app.use('/api/products', productRouter.getRouter());
+app.use('/api/carts', cartRouter.getRouter());
+app.use('/api/users', usersRouter.getRouter());
 app.use('/api/sessions', sessionsRouter);
 app.use('/', viewsRouter);
 

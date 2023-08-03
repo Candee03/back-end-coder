@@ -1,22 +1,24 @@
-import { Router } from 'express';
 import { addProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../product/product.controller.js';
-import { allowedModifyProducts } from '../middleware/auth.middleware.js';
+import MakeRouter from './routers.js';
 
+class ProductRouter extends MakeRouter {
+    init() {
+        //!---------METODO GET-------
+        this.get('/', ['ADMIN', 'USER'], getAllProducts);
 
-const productRouter = Router();
+        this.get('/:pid', ['USER', 'ADMIN'], getProductById);
 
-//!---------METODO GET-------
-productRouter.get('/', allowedModifyProducts, getAllProducts);
+        //!---------METODO POST-------
+        this.post('/', ['ADMIN'], addProduct);
 
-productRouter.get('/:pid', getProductById);
+        //!---------METODO PUT--------
+        this.put('/:pid', ['ADMIN'], updateProduct);
 
-//!---------METODO POST-------
-productRouter.post('/', allowedModifyProducts, addProduct);
+        //!---------METODO DELETE-----
+        this.delete('/:pid', ['ADMIN'], deleteProduct);
+    }
+}
 
-//!---------METODO PUT--------
-productRouter.put('/:pid', allowedModifyProducts, updateProduct);
-
-//!---------METODO DELETE-----
-productRouter.delete('/:pid', allowedModifyProducts, deleteProduct);
+const productRouter = new ProductRouter()
 
 export default productRouter

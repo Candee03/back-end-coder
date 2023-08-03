@@ -6,11 +6,6 @@ import { authorization, passportCall } from "../config/utils.js";
 
 const viewsRouter = Router();
 
-// viewsRouter.get('/', isAuth, async(req,res) => {
-//     const { limit, page, sort, category, status } = req.query
-//     const products = await req.productService.getProducts( limit, page, sort, category, status )
-//     res.render('home', {products})
-// })
 viewsRouter.get('/', async(req,res) => {
     res.redirect('/login')
 })
