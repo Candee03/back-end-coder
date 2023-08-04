@@ -1,6 +1,7 @@
 import passport from "passport";
 import { getAllUsers, login, logout, register } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
+import { generateToken } from "../config/jwt.js";
 
 class UsersRouter extends MakeRouter {
     init() {
@@ -17,8 +18,14 @@ class UsersRouter extends MakeRouter {
 
         this.get('/githubcallback', ['PUBLIC'], passport.authenticate('github', {failureRedirect:'/login'}), async (req, res) => {
             req.session.user = req.user
+            console.log(req.user);
             delete req.user.password
-            res.redirect('/products')
+
+            const token = generateToken(req.user)
+            res.cookie('token', token, {
+            maxAge: 3600 * 1000, //LA SESION DURA 1 HORA ABIERTA
+            httpOnly: true
+            }).redirect('/products')
         })
     }
 }

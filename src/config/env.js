@@ -7,6 +7,6 @@ export default {
     secretKey : process.env.SECRET_KEY,
     port : process.env.PORT,
     client_id : process.env.CLIENT_ID,
-    client_secret : process.env.CLIENT_SECRET,
-    callback_url : process.env.CALLBACK_URL
+    callback_url : process.env.CALLBACK_URL,
+    code_mail : process.env.CODE_MAIL
 }

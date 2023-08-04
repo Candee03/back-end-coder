@@ -20,6 +20,7 @@ viewsRouter.get('/products', passportCall('jwt'), async(req,res) => {
 viewsRouter.get('/details/:pid', passportCall('jwt'), async(req,res) => {
     const product = await req.productService.getProductById(req.params.pid.toString())
     const cartId = await req.session.user.cartId._id
+    console.log(req.session);
     res.render('details', {product, cartId})
 })
 viewsRouter.get('/carts/:cid', passportCall('jwt'), async(req,res) => {

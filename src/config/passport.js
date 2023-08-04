@@ -6,9 +6,7 @@ import { comparePassword } from "./encript.util.js";
 import { cartService } from "../cart/cart.controller.js";
 import { UserRegisterDTO, UserSafeDTO } from "../user/user.DTO.js";
 import config from '../config/env.js'
-import { generateToken } from "./jwt.js";
 import {Strategy, ExtractJwt} from "passport-jwt";
-
 
 
 const LocalStrategy = local.Strategy;
@@ -61,26 +59,24 @@ const initializePassport = async() => {
 
     passport.use('github', new GitHubStrategy(
 			{
-				clientID: config.client_id ,
-				clientSecret: config.client_secret,
-				callbackURL: config.callback_url,
+                clientID: `${config.client_id}`,
+				clientSecret: `df9868d8077434200676b1e63ad8237d9d795156`,
+				callbackURL: `${config.callback_url}`,
 			},
 			async (accessToken, refreshToken, profile, done) => {
-				try {
+                try {
 					let user = await userService.getByEmail(profile._json.email);
 					if (!user) {
-						let newUser = {
+                        const cartId = await cartService.createCart()
+						let userObjet = {
 							first_name: profile._json.name,
-							last_name: '',
 							email: profile._json.email,
-                            age : '',
-							password: '',
 							img: profile._json.avatar_url,
 						};
-						user = await userService.createUser(newUser);
-						done(null, user);
+                        const newUser = new UserRegisterDTO(userObjet, '', cartId._id)
+                        user = await userService.createUser(newUser)
+                        return done(null, user)
 					}
-                    const access_token = generateToken(user)
 					done(null, user);
 				} catch (err) {
 					done(err, false);
