@@ -1,4 +1,4 @@
-import { addProduct, createCart, deleteAllProductsFromCart, deleteOneProductFromCart, getCartById, updateAllCart, updateOneProduct } from '../cart/cart.controller.js';
+import { addProduct, createCart, deleteAllProductsFromCart, deleteOneProductFromCart, getCartById, purchase, updateAllCart, updateOneProduct } from '../cart/cart.controller.js';
 import MakeRouter from './routers.js';
 
 class CartRouter extends MakeRouter {
@@ -23,6 +23,8 @@ class CartRouter extends MakeRouter {
         this.post('/', ['USER', 'ADMIN'], createCart);
         
         this.post('/:cid/product/:pid', ['USER', 'ADMIN'], addProduct);
+        
+        this.post('/:cid/purchase', ['USER', 'ADMIN'], purchase);
         
         //&----------METODO PUT------------
         this.put('/:cid', ['USER', 'ADMIN'], updateAllCart)

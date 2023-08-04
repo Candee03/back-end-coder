@@ -1,5 +1,5 @@
 <ul>
-    {{#each cart}}
+    {{#each cartProducts}}
         <li>
             <p>Title: {{product.title}}</p>
             <p>Description: {{product.description}}</p>
@@ -12,4 +12,8 @@
         </li>
         <p>Cantidad: {{quantity}} </p>
     {{/each}}
+
+    <form action="/api/carts/{{cartId}}/purchase" method="POST" >
+        <button type="submit">FINALIZAR COMPRA</button>
+    </form>
 </ul>

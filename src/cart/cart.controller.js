@@ -1,6 +1,7 @@
 import CartRepository from "./cart.repository.js"
 import CartMongo from "./cart.DAO.js"
 import { productService } from "../product/product.controller.js"
+import { tiketService } from "../tiket/tiket.controller.js"
 
 
 export const cartService = new CartRepository(new CartMongo())
@@ -96,5 +97,40 @@ export const deleteOneProductFromCart = async(req, res) => {
     }
     catch (err) {
         return res.status(400).send({error: err.message})
+    }
+}
+
+export const purchase = async(req, res) => {
+    try {
+        const cartProducts = await cartService.getProductsFromCart(req.params.cid)
+        if (!cartProducts) throw new Error('no existe un carrito con el id')
+        let total
+        let productsForBuy = []
+        let noAviable = []
+        cartProducts.map(p => {
+            if (p.quantity <= p.product.stock) {
+                productsForBuy.push(p)
+                total =+ p.product.price * p.quantity
+            } else {
+                noAviable.push(p.product._id)
+            }
+        })
+
+        if (productsForBuy[0] === undefined) return res.redirect('/products')
+
+        productsForBuy.map(async p => {
+            const newStock = p.product.stock - p.quantity
+            await productService.updateProduct((p.product._id).toString(),{
+                ...p.product,
+                stock: newStock
+            })
+            await cartService.deleteProductFromCart(req.params.cid, (p.product._id).toString())
+        })
+
+        await tiketService.createTiket((req.session.user.email).toString(), total)
+        return res.redirect(`/carts/${req.params.cid}`)
+    }
+    catch(err) {
+        return res.status(405).send(err)
     }
 }

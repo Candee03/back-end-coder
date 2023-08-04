@@ -23,8 +23,9 @@ viewsRouter.get('/details/:pid', passportCall('jwt'), async(req,res) => {
     res.render('details', {product, cartId})
 })
 viewsRouter.get('/carts/:cid', passportCall('jwt'), async(req,res) => {
-    const cart = await req.cartService.getProductsPopulated(req.params.cid.toString())
-    res.render('cart', {cart})
+    const cartId = req.params.cid.toString()
+    const cartProducts = await req.cartService.getProductsPopulated(cartId)
+    res.render('cart', {cartProducts, cartId})
 })
 viewsRouter.get('/chat', passportCall('jwt'), authorization('user'),  async(req,res) => {
     const user = new UserSafeDTO(req.user.user)
