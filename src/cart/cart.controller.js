@@ -118,17 +118,17 @@ export const purchase = async(req, res) => {
 
         if (productsForBuy[0] === undefined) return res.redirect('/products')
 
-        productsForBuy.map(async p => {
-            const newStock = p.product.stock - p.quantity
-            await productService.updateProduct((p.product._id).toString(),{
-                ...p.product,
-                stock: newStock
-            })
-            await cartService.deleteProductFromCart(req.params.cid, (p.product._id).toString())
-        })
+        // productsForBuy.map(async p => {
+        //     const newStock = p.product.stock - p.quantity
+        //     await productService.updateProduct((p.product._id).toString(),{
+        //         ...p.product,
+        //         stock: newStock
+        //     })
+        //     await cartService.deleteProductFromCart(req.params.cid, (p.product._id).toString())
+        // })
 
-        await tiketService.createTiket((req.session.user.email).toString(), total)
-        return res.redirect(`/carts/${req.params.cid}`)
+        const tiket = await tiketService.createTiket((req.session.user.email).toString(), total)
+        return res.redirect(`/api/mail/${tiket.code}`)
     }
     catch(err) {
         return res.status(405).send(err)

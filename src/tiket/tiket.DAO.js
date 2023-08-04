@@ -22,6 +22,11 @@ class TiketMongo {
         await this.model.create(tiket)
         return tiket
     }
+
+    async getTiket (purchaserCode) {
+        const tiket = await this.model.findOne({code: purchaserCode})
+        return tiket
+    }
 }
 
 export default TiketMongo

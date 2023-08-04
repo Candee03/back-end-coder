@@ -18,7 +18,6 @@ class UsersRouter extends MakeRouter {
 
         this.get('/githubcallback', ['PUBLIC'], passport.authenticate('github', {failureRedirect:'/login'}), async (req, res) => {
             req.session.user = req.user
-            console.log(req.user);
             delete req.user.password
 
             const token = generateToken(req.user)

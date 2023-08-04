@@ -14,6 +14,7 @@ import usersRouter from './routers/user.router.js';
 import sessionsRouter from './routers/session.router.js';
 import viewsRouter from './routers/views.router.js';
 import cookieParser from 'cookie-parser';
+import mailRouter from './routers/mailer.router.js';
 
 //&------VARIABLES CHAT--------
 let messages = []
@@ -47,6 +48,7 @@ app.use('/api/products', productRouter.getRouter());
 app.use('/api/carts', cartRouter.getRouter());
 app.use('/api/users', usersRouter.getRouter());
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/mail', mailRouter);
 app.use('/', viewsRouter);
 
 //!-----------------SOCKET SERVER----------------------------

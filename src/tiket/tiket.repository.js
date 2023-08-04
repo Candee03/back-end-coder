@@ -9,7 +9,16 @@ class TiketRepository {
      * @param {number} totalAmount precio total de la compra
      */
     async createTiket (email, totalAmount) {
-        await this.dao.createTiket(email, totalAmount)
+        return await this.dao.createTiket(email, totalAmount)
+    }
+
+    /**
+     * 
+     * @param {string} purchaserCode 
+     * @returns tiket encontrado
+     */
+    async getTiket (purchaserCode) {
+        return await this.dao.getTiket(purchaserCode)
     }
 }
 

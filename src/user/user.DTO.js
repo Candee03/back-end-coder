@@ -2,7 +2,7 @@ import { hashPassword } from "../config/encript.util.js";
 
 export class UserRegisterDTO {
     constructor(user, password, cartId) {
-        this._id = user._id || ''
+        this._id = user._id
         this.first_name = user.first_name || ''
         this.last_name = user.last_name || ''
         this.email = user.email || ''
