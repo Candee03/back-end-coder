@@ -1,5 +1,6 @@
-<ul>
-    {{#each cartProducts}}
+
+{{!-- <ul>
+    {{#each cart}}
         <li>
             <p>Title: {{product.title}}</p>
             <p>Description: {{product.description}}</p>
@@ -10,10 +11,40 @@
             <p>Code: {{product.code}}</p>
             <p>Id: {{product._id}}</p>
         </li>
-        <p>Cantidad: {{quantity}} </p>
+        <p>Cantidad: {{this.quantity}} </p>
     {{/each}}
 
     <form action="/api/carts/{{cartId}}/purchase" method="POST" >
-        <button type="submit">FINALIZAR COMPRA</button>
+        <button type="submit" class="btn btn-sm btn-primary">FINALIZAR COMPRA</button>
     </form>
-</ul>
+</ul> --}}
+
+
+<div class="container mt-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Img</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each cart}}
+            <tr>
+                <td><img class="img-fluid" style="width: 6rem;" src="{{product.thumbnail.[0]}}"></td>
+                <td>{{product.title}}</td>
+                <td>{{product.description}}</td>
+                <td>${{product.price}}</td>
+                <td>{{this.quantity}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <form action="/api/carts/{{cartId}}/purchase" method="POST" class="mt-3">
+        <button type="submit" class="btn btn-sm btn-primary">FINALIZAR COMPRA</button>
+    </form>
+</div>
