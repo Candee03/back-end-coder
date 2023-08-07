@@ -36,6 +36,7 @@ const initializePassport = async() => {
             }
             const cartId = await cartService.createCart()
             const newUser = new UserRegisterDTO(req.body, password, cartId._id)
+            newUser.role = newUser.email === 'adminCoder@coder.com'? 'admin': 'user'
             const result = await userService.createUser(newUser)
             return done(null, result)
         }
@@ -50,7 +51,8 @@ const initializePassport = async() => {
         try {
             if (!user) return done (null, false)
             if (!comparePassword(user, password)) return done(null, false)
-            return done(null, new UserSafeDTO(user))
+            const safeUser = new UserSafeDTO(user)
+            return done(null, safeUser)
         }
         catch (err) {
             return done(`${err}`)
@@ -74,6 +76,8 @@ const initializePassport = async() => {
 							img: profile._json.avatar_url,
 						};
                         const newUser = new UserRegisterDTO(userObjet, '', cartId._id)
+                        newUser.role = newUser.email === 'adminCoder@coder.com'? 'admin': 'user'
+                        
                         user = await userService.createUser(newUser)
                         return done(null, user)
 					}
