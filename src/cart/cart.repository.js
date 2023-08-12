@@ -17,12 +17,7 @@ class CartRepository {
      * @param {string} pid del producto
      */
     async addProductToCart (cid, pid) {
-        try {
-            return await this.dao.addProductToCart(cid, pid)
-        }
-        catch (err) {
-            console.log('No se pudo agregar el producto');
-        }
+        return await this.dao.addProductToCart(cid, pid)
     }
 
     /**

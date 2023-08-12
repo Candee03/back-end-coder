@@ -15,6 +15,7 @@ import sessionsRouter from './routers/session.router.js';
 import viewsRouter from './routers/views.router.js';
 import cookieParser from 'cookie-parser';
 import mailRouter from './routers/mailer.router.js';
+import errorHandlerMiddleware from './middleware/errorHandler.middleware.js';
 
 //&------VARIABLES CHAT--------
 let messages = []
@@ -35,7 +36,6 @@ export const getProduct = async (req, res, next) => {
 initializePassport()
 app.use(passport.initialize())
 app.use(cookieParser())
-// app.use(passport.session())
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', 'views/')
@@ -91,3 +91,5 @@ io.on('connection', async (socket)=> {
         }
         });
 })
+
+app.use(errorHandlerMiddleware)

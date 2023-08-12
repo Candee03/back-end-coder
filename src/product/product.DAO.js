@@ -1,3 +1,6 @@
+import EErrors from "../tools/EErrors.js"
+import CustomErrors from "../tools/customError.js"
+import { findProductInfo, } from "../tools/info.js"
 import { productModel } from "./product.model.js"
 
 class ProductMongo{
@@ -11,7 +14,6 @@ class ProductMongo{
             if (sort) {
                 order = {price: sort}
             }
-
             let filter = {}
             if (category) {
                 filter = { category: category }
@@ -48,15 +50,17 @@ class ProductMongo{
      * @returns producto Encontrado
      */
     async getProductById (id) {
-        const productoEncontrado = await this.model.findById(id).lean()
-        try{
-            if (productoEncontrado === undefined) {
-                throw new Error('Producto no encontrado')
-            } else {
-                return productoEncontrado
-            }
-        } catch (err) {
-            console.log(err.message);
+        const product = await this.model.findById(id).lean()
+        if (product ===null || product === undefined) {
+            throw CustomErrors.createError({
+                name: 'Error al encontrar el producto',
+                message: 'El producto no existe',
+                cause: findProductInfo(id),
+                code: EErrors.INVALID_TYPE
+            })
+        }
+        else {
+            return product
         }
     }
 
@@ -66,28 +70,8 @@ class ProductMongo{
      * @example {title, description, price, thumbnail, code, status, category, stock}
      */
     async addProduct (objetProduct) {
-        const {title, description, price, thumbnail, code, status, category, stock} = objetProduct
-        //DTO
-        try {
-            const product = {
-                title,
-                description,
-                price,
-                thumbnail,
-                code,
-                status,
-                category,
-                stock
-            }
-            if (product.title === undefined || product.category === undefined || product.status === undefined || product.description === undefined || product.price === undefined || product.code === undefined || product.stock === undefined){
-                throw new Error(`Debes enviar todos los campos requeridos`)
-            }
-            await this.model.create(product)
-            return true
-        }
-        catch (err) {
-            console.log(`No se pudo agregar porque ${err.message}`);
-        }
+        await this.model.create(objetProduct)
+        return true
     }
 
     /**
@@ -107,16 +91,7 @@ class ProductMongo{
      * @example {title, description, price, thumbnail, code, status, category, stock}
     */
     async updateProduct (id, updatedProduct) {
-        try {
-            if (!id) {
-                throw new Error('Debes enviar una id de usuario valida')
-            } else {
-                return await this.model.updateOne({_id:id}, updatedProduct, {new: true})
-            }
-        }
-        catch (err) {
-            console.log(`No se puede modificar el producto con id ${id} porque no existe`);
-        }
+        return await this.model.updateOne({_id:id}, updatedProduct, {new: true})
     }
 
 }

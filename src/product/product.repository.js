@@ -24,11 +24,7 @@ class ProductRepository{
      * @returns producto Encontrado
      */
     async getProductById (id) {
-        try{
-            return await this.dao.getProductById(id)
-        } catch (err) {
-            console.log(err.message);
-        }
+        return await this.dao.getProductById(id)
     }
 
     /**
@@ -37,12 +33,7 @@ class ProductRepository{
      * @example {title, description, price, thumbnail, code, status, category, stock}
      */
     async addProduct (objetProduct) {
-        try {
-            return await this.dao.addProduct(objetProduct)
-        }
-        catch (err) {
-            console.log(`No se pudo agregar porque ${err.message}`);
-        }
+        return await this.dao.addProduct(objetProduct)
     }
 
     /**
@@ -62,14 +53,8 @@ class ProductRepository{
      * @example {title, description, price, thumbnail, code, status, category, stock}
     */
     async updateProduct (id, updatedProduct) {
-        try {
-            return await this.dao.updateProduct(id, updatedProduct)
-        }
-        catch (err) {
-            console.log(err);
-        }
+        return await this.dao.updateProduct(id, updatedProduct)
     }
-
 }
 
 export default ProductRepository

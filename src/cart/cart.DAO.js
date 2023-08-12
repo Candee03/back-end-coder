@@ -1,6 +1,10 @@
 import { cartModel } from "./cart.model.js";
 import { productModel } from "../product/product.model.js";
 
+import CustomErrors from "../tools/customError.js";
+import { findCartInfo } from "../tools/info.js";
+import EErrors from "../tools/EErrors.js";
+
 class CartMongo{
     constructor() {
         this.model = cartModel
@@ -20,18 +24,22 @@ class CartMongo{
      * @param {string} pid del producto
      */
     async addProductToCart (cid, pid) {
-        try {
-            const cart = await this.model.findById(cid)
-            const productFound = cart.products.find(p => p.product.toString() === pid.toString())
-            if (productFound !== undefined) {
-                return await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': productFound.quantity + 1 } })
-            }
-            cart.products.push({product: pid, quantity:1})
-            return await cart.save()
+        const cart = await this.model.findById(cid)
+        .catch(err => {
+            CustomErrors.createError({
+                name: 'Error al modificar el carrito',
+                message: 'No existe un carrito con ese id',
+                cause: findCartInfo(cid),
+                code: EErrors.INVALID_TYPE
+            })
+        })
+
+        const productFound = cart.products.find(p => p.product.toString() === pid.toString())
+        if (productFound !== undefined) {
+            return await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': productFound.quantity + 1 } })
         }
-        catch (err) {
-            console.log(err.name, err.message);
-        }
+        cart.products.push({product: pid, quantity:1})
+        return await cart.save()
     }
 
     /**

@@ -3,6 +3,9 @@ import CartMongo from "./cart.DAO.js"
 import { productService } from "../product/product.controller.js"
 import { tiketService } from "../tiket/tiket.controller.js"
 
+import CustomErrors from "../tools/customError.js"
+import EErrors from "../tools/EErrors.js"
+import { findProductInfo } from "../tools/info.js"
 
 export const cartService = new CartRepository(new CartMongo())
 
@@ -33,18 +36,25 @@ export const createCart = async(req, res) => {
 
 export const addProduct = async(req, res) => {
     try {
-        const productFound = await productService.getProductById(req.params.pid)
-        const cartFound = await cartService.getCartById(req.params.cid)
-
-        if (!productFound && !cartFound) {
-            throw new Error('El carrito o el producto con esa id no existe')
+        let productExists = true
+        await productService.getProductById(req.params.pid)
+        .catch(err => {
+            productExists = false
+            CustomErrors.createError({
+                name: 'Error al modificar el carrito',
+                message: 'No existe un producto con ese id',
+                cause: findProductInfo(req.params.pid),
+                code: EErrors.INVALID_TYPE
+            })
+        })
+        if (productExists) {
+            await cartService.addProductToCart(req.params.cid, req.params.pid)
+            res.redirect('/products')
         }
-
-        await cartService.addProductToCart(req.params.cid, req.params.pid)
-        res.redirect('/products')
     }
     catch (err) {
-        return res.status(400).send(`${err.message}`)
+        console.log(err.name+':', err.message, err.cause);
+        res.status(400).send(err)
     }
 }
 

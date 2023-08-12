@@ -27,9 +27,10 @@
                                 <p class="card-text"> {{this.description}} </p>
                                 <p class="card-text"> ${{this.price}} </p>
                                 {{#if this.stock}}
+                                {{!-- cambiar a status con el DTO --}}
                                     <a type="button" aria-disabled="true" class="btn btn-primary" href='/details/{{this._id}}'> Ver Detalles </a>
                                 {{else}}
-                                    <a type="button" class="btn btn-secondary"> Agotado </a>
+                                    <a type="button" class="btn btn-secondary"> No Disponible </a>
                                 {{/if}}
                             </div>
                         </div>

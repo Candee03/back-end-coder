@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import config from "./env.js"
 import passport from "passport";
 
-const app = express()
+export const app = express()
 
 app.use(express.static('public'));
 app.use(express.json())
@@ -69,4 +69,4 @@ const httpServer = app.listen(config.port , () => {
 const io = new Server(httpServer)
 
 
-export {io, app}
+export {io}

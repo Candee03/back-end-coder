@@ -29,13 +29,7 @@ export default class MakeRouter{
 
     applyCallbacks(callbacks) {
         return callbacks.map((callbacks) => async(...params)=>{
-            try {
-                await callbacks.apply(this, params)
-            }
-            catch (err) {
-                console.log(err);
-                params[1].status(500).send({error: err})
-            }
+            return await callbacks.apply(this, params)
         })
     }
 
