@@ -16,6 +16,7 @@ import viewsRouter from './routers/views.router.js';
 import cookieParser from 'cookie-parser';
 import mailRouter from './routers/mailer.router.js';
 import errorHandlerMiddleware from './middleware/errorHandler.middleware.js';
+import { loggerMiddleware } from './middleware/logger.middleware.js';
 
 //&------VARIABLES CHAT--------
 let messages = []
@@ -33,6 +34,7 @@ export const getProduct = async (req, res, next) => {
     req.cartService = cartService
     next();
 };
+app.use(loggerMiddleware)
 initializePassport()
 app.use(passport.initialize())
 app.use(cookieParser())
@@ -49,7 +51,21 @@ app.use('/api/carts', cartRouter.getRouter());
 app.use('/api/users', usersRouter.getRouter());
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/mail', mailRouter);
-app.use('/', viewsRouter);
+app.use('/', viewsRouter.getRouter());
+
+app.get('/loggerTest', (req,res) => {
+    try{
+        req.logger.fatal('Fatal')
+        req.logger.warning('Warning')
+        req.logger.info('Info')
+        req.logger.debug('Debug')
+        throw new Error('Error test')
+    }
+    catch (err){
+        req.logger.error(err.message)
+        res.status(500).send('ok')
+    }
+})
 
 //!-----------------SOCKET SERVER----------------------------
 io.on('connection', async (socket)=> {

@@ -32,6 +32,7 @@ const initializePassport = async() => {
         try {
             const user = await userService.getByEmail(username)
             if (user) {
+                req.logger.warning('Ya existe un usuario registrado con ese email')
                 return done(null, false)
             }
             const cartId = await cartService.createCart()
@@ -41,20 +42,28 @@ const initializePassport = async() => {
             return done(null, result)
         }
         catch (err) {
+            req.logger.error(err)
             return done(`${err}`)
         }
     }))
 
     passport.use('login', new LocalStrategy(
-        {usernameField: 'email'}, async (username, password, done) => {
-        const user = await userService.getByEmail(username)
+        {passReqToCallback: true, usernameField: 'email'}, async (req, username, password, done) => {
         try {
-            if (!user) return done (null, false)
-            if (!comparePassword(user, password)) return done(null, false)
+            const user = await userService.getByEmail(username)
+            if (!user) {
+                req.logger.warning('El email ingresado no es correcto')
+                return done (null, false)
+            }
+            if (!comparePassword(user, password)) {
+                req.logger.warning('La contraseña no es correcta')
+                return done(null, false)
+            }
             const safeUser = new UserSafeDTO(user)
             return done(null, safeUser)
         }
         catch (err) {
+            req.logger.error(err)
             return done(`${err}`)
         }
     }))
@@ -83,7 +92,7 @@ const initializePassport = async() => {
 					}
 					done(null, user);
 				} catch (err) {
-					done(err, false);
+					return done(err, false);
 				}
 	}))
 

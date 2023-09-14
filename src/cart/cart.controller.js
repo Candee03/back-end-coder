@@ -20,6 +20,7 @@ export const getCartById = async(req, res) => {
         res.status(200).send(cartFound)
     }
     catch (err) {
+        req.logger.error(err.message);
         res.status(500).send({error: `${err.message} ${req.params.cid}`})
     }
 }
@@ -30,6 +31,7 @@ export const createCart = async(req, res) => {
         res.status(201).send(newCart)
     }
     catch (err) {
+        req.logger.error('El carrito no se creo');
         return res.status(400).send({error: `El carrito no se creo`})
     }
 }
@@ -53,7 +55,7 @@ export const addProduct = async(req, res) => {
         }
     }
     catch (err) {
-        console.log(err.name+':', err.message, err.cause);
+        req.logger.error(err.name+':', err.message, err.cause);
         res.status(400).send(err)
     }
 }
@@ -69,6 +71,7 @@ export const updateAllCart = async(req, res) => {
         return res.status(200).send(cartFound)
     }
     catch (err) {
+        req.logger.error(err)
         return res.send(err)
     }
 }
@@ -85,6 +88,7 @@ export const updateOneProduct = async(req, res) => {
         return res.status(200).send(cartFound)
     }
     catch (err) {
+        req.logger.error(err)
         return res.send(err)
     }
 }
@@ -92,10 +96,10 @@ export const updateOneProduct = async(req, res) => {
 export const deleteAllProductsFromCart = async(req, res) => {
     try {
         await cartService.deleteAllProducts(req.params.cid)
-
         res.status(201).send(await cartService.getCarts())
     }
     catch (err) {
+        req.logger.error(err)
         return res.status(400).send({error: err.message})
     }
 }
@@ -106,6 +110,7 @@ export const deleteOneProductFromCart = async(req, res) => {
         res.status(201).send(await cartService.getCarts())
     }
     catch (err) {
+        req.logger.error(err)
         return res.status(400).send({error: err.message})
     }
 }
@@ -114,6 +119,7 @@ export const purchase = async(req, res) => {
     try {
         const cartProducts = await cartService.getProductsFromCart(req.params.cid)
         if (!cartProducts) throw new Error('no existe un carrito con el id')
+
         let total
         let productsForBuy = []
         let noAviable = []
@@ -141,6 +147,7 @@ export const purchase = async(req, res) => {
         return res.redirect(`/api/mail/${tiket.code}`)
     }
     catch(err) {
+        req.logger.error(err.message)
         return res.status(405).send(err)
     }
 }

@@ -13,13 +13,16 @@ export const authToken = (req, res, next) => {
 
 
     if (!authHeader) {
+        // req.logger.fatal(`No se pudo autenticar => ${req.ip}`)
         return res.status(401).send({error: 'no autenticado'})
     }
 
 
     jwt.verify(authHeader, PRIVATE_KEY, (error, credentials)=> {
-        if(error) return res.status(401).send({error: 'no autenticado', err: error})
-
+        if(error) {
+            // req.logger.fatal(`No se pudo autenticar => ${req.ip} || ${error}`)
+            return res.status(401).send({error: 'no autenticado', err: error})
+        }
         req.user = credentials.user
 
         next()

@@ -15,6 +15,7 @@ export const getAllProducts = async(req, res) => {
         return res.status(200).send(products)
     }
     catch (err) {
+        req.logger.error(err)
         return res.status(400).send({error: `error en la request`})
     }
 }
@@ -22,11 +23,10 @@ export const getAllProducts = async(req, res) => {
 export const getProductById = async(req, res) => {
     try {
         const productoEncontrado = await productService.getProductById(req.params.pid)
-
         res.status(200).send(productoEncontrado)
     }
     catch (err) {
-        console.log(err.name+':', err.message, err.cause);
+        req.logger.error(`${err.name}: ${err.message}${err.cause}`)
         res.status(400).send(err)
     }
 }
@@ -49,7 +49,7 @@ export const addProduct = async(req, res) => {
         res.status(201).send(req.body)
 
     } catch (err) {
-        console.log(err.name+':', err.message, err.cause);
+        req.logger.error(`${err.name}: ${err.message}${err.cause}`)
         res.status(400).send(err)
     }
 }
@@ -61,10 +61,11 @@ export const updateProduct = async(req, res) => {
         await productService.updateProduct(req.params.pid, req.body)
         const products = await productService.getProducts()
         io.emit('products', products)//<--envia al socket
+        req.logger.info('el producto se actualizo correctamente')
         res.status(201).send({status: 'ok', payload:'el producto se actualizo correctamente'});
 
     } catch (err) {
-        console.log(err.name+':', err.message, err.cause);
+        req.logger.error(`${err.name}: ${err.message}${err.cause}`)
         res.status(400).send(err)
     }
 }
@@ -74,6 +75,7 @@ export const deleteProduct = async(req, res) => {
         await productService.deleteProduct(req.params.pid)
         const products = await productService.getProducts()
         io.emit('products', products)//<--envia al socket
+        req.logger.info(`se eliminó correctamente`)
         res.status(204).send({status: `se elimino correctamente`});
     }
     catch (err) {

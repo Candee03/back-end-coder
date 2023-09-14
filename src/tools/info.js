@@ -12,11 +12,11 @@ export const createProductErrorInfo = (product) => {
 }
 export const findProductInfo = (pid) => {
     return `
-    * Id Producto> ${pid}`
+        * Id Producto> ${pid}`
 }
 
 //INFO CART
 export const findCartInfo = (cid) => {
     return `
-    * Id Carrito> ${cid}`
+        * Id Carrito> ${cid}`
 }
