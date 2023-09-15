@@ -1,5 +1,7 @@
 import { UserSafeDTO } from "../user/user.DTO.js"
 import { getMockingProducts } from "../mock/mock.controller.js"
+import jwt from "jsonwebtoken"
+import { PRIVATE_KEY } from "../config/jwt.js"
 
 export const getProducts = async(req, res) => {
     const { limit, page, sort, category, status } = req.query
@@ -38,4 +40,23 @@ export const getCart = async(req, res) => {
 export const chat = async(req, res) => {
     const user = new UserSafeDTO(req.user.user)
     res.render('chat', user)
+}
+
+export const changePassword = (req, res) => {
+    try {
+        const token = req.params.token
+        const cookieToken = req.cookies.tokenRestore
+
+        jwt.verify(cookieToken, PRIVATE_KEY, (err, credential) => {
+            if (err) {
+                return res.render('restorePassword', {})
+            }
+            if (token !== cookieToken) throw new Error('Se solicito mas de un link. Debes usar el ultimo link generado')
+            res.render('changePassword', {email: req.params.email})
+        })
+
+    } catch (err) {
+        req.logger.error(err.name + ': ' + err.message)
+        res.send('error: '+ err.message)
+    }
 }

@@ -19,6 +19,10 @@ class UserMongo {
 	async getById(id) {
 		return await this.model.findById(id)
 	}
+	
+	async updatePassword(id, password) {
+		return await this.model.findOneAndUpdate({_id: id, password: password})
+	}
 }
 
 export default UserMongo;

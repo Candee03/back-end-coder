@@ -1,5 +1,5 @@
 import passport from "passport";
-import { getAllUsers, login, logout, register } from "../user/user.controller.js";
+import { changePassword, getAllUsers, login, logout, register, restore } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
 import { generateToken } from "../config/jwt.js";
 
@@ -12,6 +12,10 @@ class UsersRouter extends MakeRouter {
         this.post('/auth', ['PUBLIC'], passport.authenticate('login', {failureRedirect:'/'}), login)
 
         this.post('/logout', ['USER', 'ADMIN'], logout);
+
+        this.post('/restore', ['PUBLIC'], restore);
+
+        this.post('/changePassword/:email', ['PUBLIC'], changePassword)
 
         //*AUTENTICACION DE TERCEROS
         this.get('/github', ['PUBLIC'], passport.authenticate('github', {scope:['user:email']}), async (req, res) => {})

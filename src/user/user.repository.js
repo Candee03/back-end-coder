@@ -17,6 +17,10 @@ class UserRepository {
 	async getById(id) {
 		return await this.dao.getById(id)
 	}
+
+	async updatePassword(id, password) {
+		return await this.dao.updatePassword(id, password)
+	}
 }
 
 export default UserRepository;

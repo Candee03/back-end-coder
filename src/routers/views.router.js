@@ -1,6 +1,6 @@
 import { userService } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
-import { chat, getCart, getDetails, getMocking, getProducts } from "../views/views.controller.js";
+import { changePassword, chat, getCart, getDetails, getMocking, getProducts } from "../views/views.controller.js";
 
 class ViewsRouter extends MakeRouter {
     init() {
@@ -20,16 +20,25 @@ class ViewsRouter extends MakeRouter {
         this.get('/realtimeproducts', ['ADMIN'], async(req, res) => {
             res.render('realtimeproducts',{})
         })
+        
         this.get('/register', ['PUBLIC'], async (req, res) => {
             res.render('register', {})
         })
+
         this.get('/login', ['PUBLIC'],async (req, res) => {
-            res.render('login', {})
+            res.render('login')
         })
+
         this.get('/users', ['ADMIN'], async (req, res) => {
             const users = await userService.getAll()
             res.render('users', {users})
         })
+
+        this.get('/restorePassword', ['PUBLIC'], async(req, res) => {
+            res.render('restorePassword', {})
+        })
+
+        this.get('/changePassword/:email/:token', ['PUBLIC'], changePassword);
     }
 }
 

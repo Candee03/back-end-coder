@@ -3,14 +3,13 @@ import jwt from "jsonwebtoken";
 
 export const PRIVATE_KEY = config.secretKey
 
-export const generateToken = (user) => {
-    const token = jwt.sign({user}, PRIVATE_KEY, {expiresIn:'24h'})
+export const generateToken = (user, expiresIn) => {
+    const token = jwt.sign({user}, PRIVATE_KEY, {expiresIn: expiresIn ? expiresIn : '24h'})
     return token
 }
 
 export const authToken = (req, res, next) => {
     const authHeader = req.cookies.token;
-
 
     if (!authHeader) {
         // req.logger.fatal(`No se pudo autenticar => ${req.ip}`)
