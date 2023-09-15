@@ -27,3 +27,17 @@ export const authToken = (req, res, next) => {
         next()
     })
 }
+
+export function authToRestore (req, res, next) {
+	const cookie = req.cookies.tokenRestore
+	
+	if (cookie) {
+        jwt.verify(cookie, PRIVATE_KEY, (err, credential) => {
+            //SI EL TOKEN VENCE TE PIDE QUE GENERES OTRO
+            if (err) return res.render('restorePassword', {messageError: 'Debes volver a generar un token porque el anterior ya venció'})
+        })
+        next()
+	} else{
+		return res.render('restorePassword', {messageError: 'Debes volver a generar un token porque el anterior ya venció o asegurate de usar el mismo navegador'})
+	}
+}

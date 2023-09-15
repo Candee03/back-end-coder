@@ -1,8 +1,7 @@
 import passport from "passport";
 import { changePassword, getAllUsers, login, logout, register, restore } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
-import { generateToken } from "../config/jwt.js";
-import { authToRestore } from "../middleware/auth.middleware.js";
+import { authToRestore, generateToken } from "../config/jwt.js";
 
 class UsersRouter extends MakeRouter {
     init() {

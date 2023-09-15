@@ -1,10 +1,12 @@
 import { userService } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
 import { changePassword, chat, getCart, getDetails, getMocking, getProducts } from "../controllers/views.controller.js";
+import { isAuth } from "../middleware/auth.middleware.js";
+import { authToRestore } from "../config/jwt.js";
 
 class ViewsRouter extends MakeRouter {
     init() {
-        this.get('/', ['PUBLIC'], async(req, res) => {
+        this.get('/', ['PUBLIC'], isAuth, async(req, res) => {
             res.redirect('/login')
         })
         this.get('/products', ['ADMIN', 'USER'], getProducts)
@@ -21,8 +23,8 @@ class ViewsRouter extends MakeRouter {
             res.render('realtimeproducts',{})
         })
         
-        this.get('/register', ['PUBLIC'], async (req, res) => {
-            res.render('register', {})
+        this.get('/register', ['PUBLIC'], isAuth, async (req, res) => {
+            res.render('register')
         })
 
         this.get('/login', ['PUBLIC'],async (req, res) => {
@@ -35,10 +37,10 @@ class ViewsRouter extends MakeRouter {
         })
 
         this.get('/restorePassword', ['PUBLIC'], async(req, res) => {
-            res.render('restorePassword', {})
+            res.render('restorePassword')
         })
 
-        this.get('/changePassword/:email/:token', ['PUBLIC'], changePassword);
+        this.get('/changePassword/:email/:token', ['PUBLIC'], authToRestore, changePassword);
     }
 }
 
