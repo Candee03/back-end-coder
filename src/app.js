@@ -6,7 +6,7 @@ import initializePassport from './config/passport.js';
 
 import ProductMongo from './product/product.DAO.js';
 import CartMongo from './cart/cart.DAO.js';
-import { messageModel } from './message.model.js';
+import { messageModel } from './chat/message.model.js';
 
 import productRouter from './routers/product.router.js'
 import cartRouter from './routers/cart.router.js';
@@ -40,7 +40,7 @@ app.use(passport.initialize())
 app.use(cookieParser())
 
 app.engine('handlebars', handlebars.engine())
-app.set('views', 'views/')
+app.set('views', 'src/views/')
 app.set('view engine', 'handlebars')
 app.use(getProduct)
 

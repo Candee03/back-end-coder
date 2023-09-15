@@ -1,6 +1,6 @@
 import { userService } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
-import { changePassword, chat, getCart, getDetails, getMocking, getProducts } from "../views/views.controller.js";
+import { changePassword, chat, getCart, getDetails, getMocking, getProducts } from "../controllers/views.controller.js";
 
 class ViewsRouter extends MakeRouter {
     init() {
