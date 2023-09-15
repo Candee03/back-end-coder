@@ -2,6 +2,7 @@ import passport from "passport";
 import { changePassword, getAllUsers, login, logout, register, restore } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
 import { generateToken } from "../config/jwt.js";
+import { authToRestore } from "../middleware/auth.middleware.js";
 
 class UsersRouter extends MakeRouter {
     init() {
@@ -15,7 +16,7 @@ class UsersRouter extends MakeRouter {
 
         this.post('/restore', ['PUBLIC'], restore);
 
-        this.post('/changePassword/:email', ['PUBLIC'], changePassword)
+        this.post('/changePassword/:email', ['PUBLIC'], authToRestore, changePassword)
 
         //*AUTENTICACION DE TERCEROS
         this.get('/github', ['PUBLIC'], passport.authenticate('github', {scope:['user:email']}), async (req, res) => {})

@@ -39,16 +39,18 @@ export const logout = (req, res) => {
     req.logger.debug('se cerró la sesion')
 }
 
-export const restore = (req, res) => {
+export const restore = async(req, res) => {
     try {
         const user = req.body.email
-        const tokenRestore = generateToken(user, '1h')
-    
-        req.logger.debug('TOKEN: '+ tokenRestore)
+        //SI NO EXISTE UNA CUENTA CON EL EMAIL SALE ERROR
+        if (! await userService.getByEmail(user)) return res.render('restorePassword', {messageError: 'No existe una cuenta registrada con este email'})
 
-        res.cookie('tokenRestore', tokenRestore, {maxAge: 3600 * 1000 })
-        
-        res.redirect(`/api/mail/restorePassword/${req.body.email}/${tokenRestore}`)
+        //CREACION DEL TOKEN Y DE LA COOKIE
+        const tokenRestore = generateToken(user, '1h')
+        req.logger.debug('TOKEN: '+ tokenRestore)
+        res.cookie('tokenRestore', tokenRestore, { maxAge: 3600 * 1000, httpOnly: true })
+
+        return res.redirect(`/api/mail/restorePassword/${req.body.email}/${tokenRestore}`)
     }
     catch (err) {
         req.logger.error(err.message)
@@ -62,12 +64,15 @@ export const changePassword = async(req, res) => {
         const user = await userService.getByEmail(req.params.email)
 
         if (comparePassword(user, newPassword)) {
+            //SI LA CONTRASEÑA ES IGUAL SALTA UN ERROR
             res.render('changePassword', {email: req.params.email, messageError: 'La nueva contraseña no puede ser igual a la anterior'})
         } else {
+            //ACTUALIZA LA CONTRASEÑA Y BORRA LA COOKIE
             await userService.updatePassword(user._id, hashPassword(newPassword))
             req.logger.debug('nuevo usuario: '+ await userService.getByEmail(req.params.email))
-
-            res.status(200).send('La contraseña se cambio con éxito! Recordá anotarla para no olvidarla 😉 <a href = "/login">Ir al login</a>')
+            
+            res.cookie('tokenRestore', '', { expires: new Date(0), httpOnly: true });
+            return res.render('messages', {title: 'La contraseña se cambio con éxito!', message: 'Recordá anotarla para no olvidarla 😉', link: '/login', linkName: 'Ir al login'})
         }
     }
     catch (err) {

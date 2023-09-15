@@ -48,11 +48,12 @@ export const changePassword = (req, res) => {
         const cookieToken = req.cookies.tokenRestore
 
         jwt.verify(cookieToken, PRIVATE_KEY, (err, credential) => {
-            if (err) {
-                return res.render('restorePassword', {})
-            }
-            if (token !== cookieToken) throw new Error('Se solicito mas de un link. Debes usar el ultimo link generado')
-            res.render('changePassword', {email: req.params.email})
+            //SI EL TOKEN VENCE TE PIDE QUE GENERES OTRO
+            if (err) return res.render('restorePassword', {messageError: 'Debes volver a generar un token porque el anterior ya venció'})
+            //SI SE GENERÓ MAS DE UN TOKEN TE PIDE QUE REVISES EL ULTIMO MAIL
+            if (token !== cookieToken) return res.render('messages', {title: 'Se solicitó más de un link', message: 'Debes usar el ultimo link generado'})
+
+            return res.render('changePassword', {email: req.params.email})
         })
 
     } catch (err) {
