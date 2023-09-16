@@ -8,7 +8,8 @@ export const getProducts = async(req, res) => {
     let products = await req.productService.getProducts( limit, page, sort, category, status )
     const user = new UserSafeDTO(req.user.user)
     const admin = user.role === 'admin' ? true : false
-    res.render('products', {products, user, admin})
+    const premium = user.role === 'premium' ? true : false
+    res.render('products', {products, user, admin, premium})
 }
 
 export const getMocking = async(req, res) => {
@@ -52,4 +53,10 @@ export const changePassword = (req, res) => {
         req.logger.error(err.name + ': ' + err.message)
         res.send('error: '+ err.message)
     }
+}
+
+export const deleteProduct = async(req, res) => {
+    const { limit, page, sort, category, status } = req.query
+    const products = await req.productService.getProducts(limit, page, sort, category, status)
+    res.render('deleteProduct', {products})
 }

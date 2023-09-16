@@ -36,7 +36,7 @@ export default class MakeRouter{
     handlePolicies = (policies) => (req, res, next) => {
         if (policies[0] === 'PUBLIC' || policies[0] == undefined ) return next()
         const token = req.cookies.token
-        if (!token) return res.status(401).send({status: 'error', error: 'Unauthorized'})
+        if (!token) return res.redirect('/')
 
         const user = jwt.verify(token, PRIVATE_KEY)
 

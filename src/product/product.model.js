@@ -27,7 +27,7 @@ const productSchema = new mongoose.Schema({
 	},
 	status: {
 		type: Boolean,
-		required: true,
+		default: true
 	},
 	category: {
 		type: String,
@@ -37,6 +37,10 @@ const productSchema = new mongoose.Schema({
 	stock: {
 		type: Number,
 		required: true,
+	},
+	owner: {
+		type: String,
+		default: 'admin',
 	}
 });
 

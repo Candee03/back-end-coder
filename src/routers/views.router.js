@@ -1,6 +1,6 @@
 import { userService } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
-import { changePassword, chat, getCart, getDetails, getMocking, getProducts } from "../controllers/views.controller.js";
+import { changePassword, chat, deleteProduct, getCart, getDetails, getMocking, getProducts } from "../controllers/views.controller.js";
 import { isAuth } from "../middleware/auth.middleware.js";
 import { authToRestore } from "../config/jwt.js";
 
@@ -9,20 +9,30 @@ class ViewsRouter extends MakeRouter {
         this.get('/', ['PUBLIC'], isAuth, async(req, res) => {
             res.redirect('/login')
         })
-        this.get('/products', ['ADMIN', 'USER'], getProducts)
+        //?VIEWS PRODUCTS
+        this.get('/products', ['ADMIN', 'USER', 'PREMIUM'], getProducts)
 
-        this.get('/mockingproducts', ['ADMIN', 'USER'], getMocking)
+        this.get('/mockingproducts', ['ADMIN', 'USER', 'PREMIUM'], getMocking)
 
-        this.get('/details/:pid', ['ADMIN', 'USER'], getDetails)
-
-        this.get('/carts/:cid', ['ADMIN', 'USER'], getCart)
-
-        this.get('/chat', ['USER'], chat)
+        this.get('/details/:pid', ['ADMIN', 'USER', 'PREMIUM'], getDetails)
 
         this.get('/realtimeproducts', ['ADMIN'], async(req, res) => {
             res.render('realtimeproducts',{})
         })
-        
+
+        this.get('/addProduct', ['ADMIN', 'PREMIUM'], (req, res) => {
+            res.render('createProduct')
+        })
+
+        this.get('/deleteProduct', ['ADMIN', 'PREMIUM'], deleteProduct)
+
+        //?VIEWS CARRITO
+        this.get('/carts/:cid', ['ADMIN', 'USER', 'PREMIUM'], getCart)
+
+        //?VIEWS CHAT
+        this.get('/chat', ['USER', 'PREMIUM'], chat)
+
+        //?VIEWS USER
         this.get('/register', ['PUBLIC'], isAuth, async (req, res) => {
             res.render('register')
         })

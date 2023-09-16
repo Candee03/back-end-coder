@@ -1,17 +1,26 @@
 <section class="my-4 d-flex flex-column align-items-center bg-info  text-center p-4">
     {{#if admin}}<p>Admin</p>{{/if}}
+    {{#if premium}}<p>Premium</p>{{/if}}
     <img src="{{user.img}}" class="img-fluid rounded mb-2" style="width: 4rem; height: 4rem;">
     <p class="mb-3">Hola, {{user.first_name}} {{user.last_name}}!</p>
     <form action="/api/users/logout" method="post">
         <button type="submit" class="btn btn-sm btn-primary">Cerrar sesión</button>
     </form>
     <br>
-    <button class="btn btn-sm btn-primary"><a class="link-light link-underline link-underline-opacity-0" href="/carts/{{user.cartId._id}}">Ir al carrito</a></button>
+    <button class="btn btn-sm btn-success"><a class="link-light link-underline link-underline-opacity-0" href="/carts/{{user.cartId._id}}">Ir al carrito</a></button>
     <br>
+    {{#if premium}} 
+        <button class="btn btn-sm btn-secondary"><a class="link-light link-underline link-underline-opacity-0" href="/addProduct">Crear un producto</a></button> 
+        <button style="margin: 1rem;" class="btn btn-sm btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="/deleteProduct">Eliminar Productos</a></button> 
+    {{/if}}
+
     {{#if admin}}
+        <button style="margin: 1rem;" class="btn btn-sm btn-secondary"><a class="link-light link-underline link-underline-opacity-0" href="/addProduct">Crear un producto</a></button>
+        <button style="margin: 1rem;" class="btn btn-sm btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="/deleteProduct">Eliminar Productos</a></button> 
+
         <button class="btn btn-sm btn-secondary"><a class="link-light link-underline link-underline-opacity-0" href="/users">Ver todos los usuarios</a></button>
     {{else}}
-        <button class="btn btn-sm btn-warning"><a class="link-dark link-underline link-underline-opacity-0" href="/chat">Ir al chat</a></button>
+        <button style="margin: 1rem;" class="btn btn-sm btn-warning"><a class="link-dark link-underline link-underline-opacity-0" href="/chat">Ir al chat</a></button>
     {{/if}}
 </section>
 

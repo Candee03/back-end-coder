@@ -4,18 +4,18 @@ import MakeRouter from './routers.js';
 class ProductRouter extends MakeRouter {
     init() {
         //!---------METODO GET-------
-        this.get('/', ['ADMIN', 'USER'], getAllProducts);
+        this.get('/', ['ADMIN', 'USER', 'PREMIUM'], getAllProducts);
 
-        this.get('/:pid', ['USER', 'ADMIN'], getProductById);
+        this.get('/:pid', ['USER', 'ADMIN', 'PREMIUM'], getProductById);
 
         //!---------METODO POST-------
-        this.post('/', ['ADMIN'], addProduct);
+        this.post('/', ['ADMIN','PREMIUM'], addProduct);
 
         //!---------METODO PUT--------
-        this.put('/:pid', ['ADMIN'], updateProduct);
+        this.put('/:pid', ['ADMIN', 'PREMIUM'], updateProduct);
 
         //!---------METODO DELETE-----
-        this.delete('/:pid', ['ADMIN'], deleteProduct);
+        this.delete('/:pid', ['ADMIN', 'PREMIUM'], deleteProduct);
     }
 }
 

@@ -12,12 +12,12 @@ class TiketMongo {
      * @param {number} totalAmount precio total de la compra
      */
     async createTiket (email, totalAmount) {
-        const created_at = new Date
+        const created_at = new Date()
         const tiket = {
             code: generarCodigoAleatorio(8),
             purchaser: email,
             amount: totalAmount,
-            purchase_datetime: created_at.toLocaleString()
+            purchase_datetime: created_at
         }
         await this.model.create(tiket)
         return tiket

@@ -53,6 +53,7 @@ export const authorization = (role) => {
 		next()
 	}
 }
+
 export const generarCodigoAleatorio = (longitud) => {
 	const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	let codigo = '';

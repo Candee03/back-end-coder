@@ -24,7 +24,12 @@ class ProductRepository{
      * @returns producto Encontrado
      */
     async getProductById (id) {
-        return await this.dao.getProductById(id)
+        try {
+            return await this.dao.getProductById(id)
+        }
+        catch (err) {
+            console.log(err);
+        }
     }
 
     /**

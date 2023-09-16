@@ -11,7 +11,7 @@ class UsersRouter extends MakeRouter {
 
         this.post('/auth', ['PUBLIC'], passport.authenticate('login', {failureRedirect:'/'}), login)
 
-        this.post('/logout', ['USER', 'ADMIN'], logout);
+        this.post('/logout', ['USER', 'ADMIN', 'PREMIUM'], logout);
 
         this.post('/restore', ['PUBLIC'], restore);
 

@@ -17,24 +17,24 @@ class CartRouter extends MakeRouter {
         //         return res.status(404).send({error: `error en la request`})
         //     }
         // });
-        this.get('/:cid', ['USER', 'ADMIN'], getCartById);
+        this.get('/:cid', ['USER', 'ADMIN', 'PREMIUM'], getCartById);
         
         //?---------METODO POST---------
-        this.post('/', ['USER', 'ADMIN'], createCart);
+        this.post('/', ['USER', 'ADMIN', 'PREMIUM'], createCart);
         
-        this.post('/:cid/product/:pid', ['USER', 'ADMIN'], addProduct);
+        this.post('/:cid/product/:pid', ['USER', 'ADMIN', 'PREMIUM'], addProduct);
         
-        this.post('/:cid/purchase', ['USER', 'ADMIN'], purchase);
+        this.post('/:cid/purchase', ['USER', 'ADMIN', 'PREMIUM'], purchase);
         
         //&----------METODO PUT------------
-        this.put('/:cid', ['USER', 'ADMIN'], updateAllCart)
+        this.put('/:cid', ['USER', 'ADMIN', 'PREMIUM'], updateAllCart)
         
-        this.put('/:cid/products/:pid', ['USER', 'ADMIN'], updateOneProduct)
+        this.put('/:cid/products/:pid', ['USER', 'ADMIN', 'PREMIUM'], updateOneProduct)
         
         //!----------METODO DELETE---------
-        this.delete('/:cid', ['USER', 'ADMIN'], deleteAllProductsFromCart);
+        this.delete('/:cid', ['USER', 'ADMIN', 'PREMIUM'], deleteAllProductsFromCart);
         
-        this.delete('/:cid/products/:pid', ['USER', 'ADMIN'], deleteOneProductFromCart);
+        this.delete('/:cid/products/:pid', ['USER', 'ADMIN', 'PREMIUM'], deleteOneProductFromCart);
         
     }
 }

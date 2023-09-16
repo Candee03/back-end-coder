@@ -4,9 +4,6 @@ export const createProductErrorInfo = (product) => {
     * Title> ${product.title}
     * Description> ${product.description}
     * Price> ${product.price}
-    * Thumbnail> ${product.thumbnail}
-    * Code> ${product.code}
-    * Status> ${product.status}
     * Category> ${product.category}
     * Stock> ${product.stock}`
 }

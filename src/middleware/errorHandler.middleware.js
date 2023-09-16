@@ -6,7 +6,7 @@ export default (err, req, res, next) => {
             res.status(400).send({ status: "error", error: err.name });
             break;
         default:
-            res.status(500).send({ status: "error", error: "Internal Server Error" });
+            res.status(500).send({ status: "error", error: "Internal Server Error || " + err.message });
             break;
     }
 };

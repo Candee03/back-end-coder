@@ -2,6 +2,7 @@ import EErrors from "../tools/EErrors.js"
 import CustomErrors from "../tools/customError.js"
 import { findProductInfo, } from "../tools/info.js"
 import { productModel } from "./product.model.js"
+import { userModel } from "../user/user.model.js"
 
 class ProductMongo{
         constructor() {
@@ -51,6 +52,7 @@ class ProductMongo{
      */
     async getProductById (id) {
         const product = await this.model.findById(id).lean()
+        
         if (product ===null || product === undefined) {
             throw CustomErrors.createError({
                 name: 'Error al encontrar el producto',
@@ -78,11 +80,7 @@ class ProductMongo{
     * @param {string} id Id del producto a eliminar
     */
     async deleteProduct (id) {
-        try{
-            return await this.model.deleteOne({_id : id})
-        } catch (err) {
-            console.log(err.message);
-        }
+        return await this.model.deleteOne({_id : id})
     }
 
     /**

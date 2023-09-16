@@ -49,7 +49,7 @@ mailRouter.get('/:codePurchase', async(req, res) => {
         <div>
             <h1>Resumen de tu compra:</h1>
             <p>A nombre de: ${req.session.user.first_name}</p>
-            <p>Total: ${tiket.amount}</p>
+            <p>Total: $${tiket.amount}</p>
             <p>Codigo de pedido: ${tiket.code}</p>
             <h2>GRACIAS POR TU COMPRA!!!</h2>
         </div>
