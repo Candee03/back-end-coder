@@ -65,7 +65,7 @@ export const changePassword = async(req, res) => {
 
         if (comparePassword(user, newPassword)) {
             //SI LA CONTRASEÑA ES IGUAL SALTA UN ERROR
-            res.render('changePassword', {email: req.params.email, messageError: 'La nueva contraseña no puede ser igual a la anterior'})
+            return res.render('changePassword', {email: req.params.email, messageError: 'La nueva contraseña no puede ser igual a la anterior'})
         } else {
             //ACTUALIZA LA CONTRASEÑA Y BORRA LA COOKIE
             await userService.updatePassword(user._id, hashPassword(newPassword))
@@ -77,5 +77,25 @@ export const changePassword = async(req, res) => {
     }
     catch (err) {
         res.send('error: '+ err.message)
+    }
+}
+
+export const updateRole = async (req, res) => {
+    try {
+        const uid = req.params.uid
+        const user = await userService.getById(uid)
+        const isPremium = (user.role).toString() === 'premium'
+
+        if (isPremium) {
+            await userService.updateRole(user._id, 'user')
+            req.logger.info('se actualizo el rol!')
+            return res.status(200).send('ok')
+        } else {
+            await userService.updateRole(user._id, 'premium')
+            req.logger.info('se actualizo el rol!')
+            return res.status(200).send('ok')
+        }
+    } catch(err) {
+        return res.status(404).send(err.message)
     }
 }

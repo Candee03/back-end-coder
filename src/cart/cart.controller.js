@@ -39,7 +39,7 @@ export const createCart = async(req, res) => {
 export const addProduct = async(req, res) => {
     try {
         let productExists = true
-        await productService.getProductById(req.params.pid)
+        const product = await productService.getProductById(req.params.pid)
         .catch(err => {
             productExists = false
             CustomErrors.createError({
@@ -49,14 +49,21 @@ export const addProduct = async(req, res) => {
                 code: EErrors.INVALID_TYPE
             })
         })
-        if (productExists) {
+        if (productExists && req.user.user.email !== product.owner) {
             await cartService.addProductToCart(req.params.cid, req.params.pid)
-            res.redirect('/products')
+            return res.redirect('/products')
+        } else {
+            CustomErrors.createError({
+                name: 'Error al modificar el carrito',
+                message: 'No puedes agregar un producto que creaste',
+                cause: req.params.pid,
+                code: EErrors.INVALID_TYPE
+            })
         }
     }
     catch (err) {
-        req.logger.error(err.name+':', err.message, err.cause);
-        res.status(400).send(err)
+        req.logger.error(err.name+': '+ err.message);
+        return res.status(400).send(err.name+': '+ err.message)
     }
 }
 

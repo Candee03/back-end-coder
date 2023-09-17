@@ -21,8 +21,13 @@ class UserMongo {
 	}
 	
 	async updatePassword(id, password) {
-		return await this.model.findOneAndUpdate({_id: id, password: password})
+		return await this.model.findOneAndUpdate({_id: id,}, {password: password})
 	}
+	
+	async updateRole (id, role) {
+		return await this.model.findOneAndUpdate({_id: id}, {role: role})
+	}
+
 }
 
 export default UserMongo;
