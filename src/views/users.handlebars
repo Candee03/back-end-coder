@@ -1,22 +1,22 @@
 <table class="table">
     <thead>
     <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Last Name</th>
+        <th scope="col">Full Name</th>
         <th scope="col">Role</th>
         <th scope="col">Age</th>
         <th scope="col">Email</th>
+        <th scope="col">Id</th>
         <th scope="col">Image</th>
     </tr>
     </thead>
     <tbody>
     {{#each users}}
-        <tr>
-            <td>{{this.first_name}}</td>
-            <td>{{this.last_name}}</td>
+        <tr style="height: 5rem;">
+            <td>{{this.first_name}} {{this.last_name}}</td>
             <td>{{this.role}}</td>
             <td>{{this.age}}</td>
             <td>{{this.email}}</td>
+            <td>{{this._id}}</td>
             <td><img src="{{this.img}}" class="img-fluid" style="width: 4rem;" alt=""></td>
         </tr>
     {{/each}}

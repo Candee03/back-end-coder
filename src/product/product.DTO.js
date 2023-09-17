@@ -11,6 +11,7 @@ export class ShowProductDto {
         this.category= product.category
         this.stock= product.stock
         this._id= product._id
+        this.owner=product.owner
     }
     
     getProduct() {
@@ -24,6 +25,20 @@ export class ShowProductDto {
             category: this.category,
             stock: this.stock,
             _id: this._id,
+            owner: this.owner
+        }
+    }
+    createProduct() {
+        return {
+            title: this.title,
+            description: this.description,
+            price: this.price,
+            thumbnail: this.thumbnail,
+            code: this.code,
+            status: this.status,
+            category: this.category,
+            stock: this.stock,
+            owner: this.owner
         }
     }
     getSimpleProduct() {
@@ -35,6 +50,21 @@ export class ShowProductDto {
             status: this.status,
             category: this.category,
             _id: this._id,
+        }
+    }
+
+    getUpdated() {
+        return {
+            title: this.title,
+            description: this.description,
+            price: this.price,
+            thumbnail: this.thumbnail,
+            code: this.code,
+            status: this.status,
+            category: this.category,
+            stock: this.stock,
+            _id: this._id,
+            owner: this.owner
         }
     }
 }

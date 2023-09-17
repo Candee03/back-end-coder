@@ -45,9 +45,12 @@ export const addProduct = async(req, res) => {
                 code: EErrors.INVALID_TYPE
             })
         }
-        const p = new ShowProductDto(req.body).getProduct()
-        //SOLO RECIBE USUARIOS PREMIUM
-        p.owner = req.session.user.role === 'premium'? req.session.user.email : 'admin'
+        const owner = req.session.user.role === 'premium'? req.session.user.email : 'admin'
+        const bodyProduct = req.body
+        const p = new ShowProductDto({
+            ...bodyProduct,
+            owner: owner
+        }).createProduct()
 
         await productService.addProduct(p)
         const products = await productService.getProducts()
@@ -61,51 +64,45 @@ export const addProduct = async(req, res) => {
 
 export const updateProduct = async(req, res) => {
     try {
-        await productService.getProductById(req.params.pid)
+        //SI LA ID DEL PRODUCTO A MODIFICAR NO ES CORRECTA SALTA ERROR
+        const product = await productService.getProductById(req.params.pid)
+        .catch(err => {
+            CustomErrors.createError({
+                name: 'El producto que estas buscando no existe',
+                message: err.message,
+                cause: `Estas tratando de modificar el producto con la id ${req.params.pid} pero no es correcta`,
+                code: EErrors.INVALID_TYPE
+            })
+        })
 
-        await productService.updateProduct(req.params.pid, req.body)
+        const user = await userService.getByEmail(req.session.user.email)
+        //SI EL PRODUCTO NO LE PERTENECE AL USUARIO PREMIUM SALTA ERROR
+        if (user.role === 'premium' && user.email !== product.owner) {
+            CustomErrors.createError({
+                name: 'Error al modificar',
+                message: 'No tienes permiso para modificar este producto',
+                cause: 'El producto no es tuyo',
+                code: EErrors.INVALID_TYPE
+            })
+        }
+        const productUpdated = req.body
+
+        const p = new ShowProductDto({
+            ...product,
+            ...productUpdated,
+        }).getUpdated()
+
+        await productService.updateProduct(req.params.pid, p)
+
+        //ACTUALIZA EL SOCKET
         const products = await productService.getProducts()
         io.emit('products', products)//<--envia al socket
-        req.logger.info('el producto se actualizo correctamente')
+        req.logger.info('el producto se actualizó correctamente')
         res.status(201).send({status: 'ok', payload:'el producto se actualizo correctamente'});
 
     } catch (err) {
-        req.logger.error(`${err.name}: ${err.message}${err.cause}`)
+        req.logger.error(`${err.name}: ${err.message}`)
         res.status(400).send(err)
-    }
-}
-
-export const deleteProduct2 = async(req, res) => {
-    try {
-        const user = await userService.getByEmail(req.session.user.email)
-        const product = await productService.getProductById(req.params.pid)
-        req.logger.debug('1')
-        if (user.role === 'premium' && user.email == product.owner) {
-            // await productService.deleteProduct(req.params.pid)
-            req.logger.debug('2')
-            req.logger.info(`se eliminó correctamente`)
-            return res.send('ok')
-            // return res.status(302).redirect('/')
-            // const products = await productService.getProducts()
-            // io.emit('products', products)//<--envia al socket
-        }
-        
-        if (user.role === 'admin') {
-            // await productService.deleteProduct(req.params.pid)
-            req.logger.debug('2')
-            req.logger.info(`se eliminó correctamente`)
-            return res.send('ok')
-            // return res.status(302).redirect('/')
-            // const products = await productService.getProducts()
-            // io.emit('products', products)//<--envia al socket
-        }
-        
-        req.logger.debug('3')
-        req.logger.info('No estas autorizado a eliminar este producto')
-        return res.status(400).send(`Esta operacion no se puede hacer`);
-    }
-    catch (err) {
-        res.status(500).send({error: err})
     }
 }
 
