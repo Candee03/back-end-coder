@@ -1,63 +1,86 @@
-<section class="my-4 d-flex flex-column align-items-center bg-info  text-center p-4">
-    {{#if admin}}<p>Admin</p>{{/if}}
-    {{#if premium}}<p>Premium</p>{{/if}}
-    <img src="{{user.img}}" class="img-fluid rounded mb-2" style="width: 4rem; height: 4rem;">
-    <p class="mb-3">Hola, {{user.first_name}} {{user.last_name}}!</p>
-    <form action="/api/users/logout" method="post">
-        <button type="submit" class="btn btn-sm btn-primary">Cerrar sesión</button>
-    </form>
-    <br>
-    <button class="btn btn-sm btn-success"><a class="link-light link-underline link-underline-opacity-0" href="/carts/{{user.cartId._id}}">Ir al carrito</a></button>
-    <br>
-    {{#if premium}} 
-        <button class="btn btn-sm btn-secondary"><a class="link-light link-underline link-underline-opacity-0" href="/addProduct">Crear un producto</a></button> 
-        <button style="margin: 1rem;" class="btn btn-sm btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="/deleteProduct">Eliminar Productos</a></button> 
-    {{/if}}
+<main id="main">
+    <section id="section-info-user">
+        <div id="container-info-user">
+            {{#if admin}}<h2 class="h2-role">Admin😎</h2>{{/if}}
+            {{#if premium}}<h2 class="h2-role">👑Premium👑</h2>{{/if}}
 
-    {{#if admin}}
-        <button style="margin: 1rem;" class="btn btn-sm btn-secondary"><a class="link-light link-underline link-underline-opacity-0" href="/addProduct">Crear un producto</a></button>
-        <button style="margin: 1rem;" class="btn btn-sm btn-danger"><a class="link-light link-underline link-underline-opacity-0" href="/deleteProduct">Eliminar Productos</a></button> 
+            <img class="img-user" src="{{user.img}}">
 
-        <button class="btn btn-sm btn-secondary"><a class="link-light link-underline link-underline-opacity-0" href="/users">Ver todos los usuarios</a></button>
-    {{else}}
-        <button style="margin: 1rem;" class="btn btn-sm btn-warning"><a class="link-dark link-underline link-underline-opacity-0" href="/chat">Ir al chat</a></button>
-    {{/if}}
-</section>
+            <h3 class="h3-say-hey">Hola, {{user.first_name}} {{user.last_name}}!</h3>
+        </div>
 
-<section>
-    <main style="margin: 0 2rem 0 2rem;" class="w-60">
-        <div class="d-flex justify-content-center row row-cols-1 row-cols-md-4 g-3">
+        <div id="container-btn-actions">
+            {{#if premium}} 
+                <button class="btn-exclusive"><a class="a-exclusive" href="/addProduct">Crear un producto</a></button> 
+                <button class="btn-exclusive"><a class="a-exclusive" href="/deleteProduct">Eliminar Productos</a></button> 
+            {{/if}}
+
+
+            {{#if admin}}
+                <button class="btn-exclusive"><a class="a-exclusive" href="/addProduct">Crear un producto</a></button>
+                <button class="btn-exclusive"><a class="a-exclusive" href="/deleteProduct">Eliminar Productos</a></button> 
+                <button class="btn-exclusive"><a class="a-onlyAdmin" href="/users">Ver todos los usuarios</a></button>
+            {{else}}
+                <button class="btn"><a class="a-chat" href="/chat">Ir al chat</a></button>
+            {{/if}}
+
+
+            <button class="btn"><a class="a-goToCart" href="/carts/{{user.cartId._id}}">Ir al carrito</a></button>
+
+            <form class="container-btn-closeSession" action="/api/users/logout" method="post">
+                <button class="btn-closeSession" type="submit">Cerrar sesión</button>
+            </form>
+        </div>
+
+    </section>
+
+    <section id="section-products">
+        <div class="container-products-cards">
             {{#each products.docs}}
-                    <div class="col">
-                        <div class="card" style="height: 25rem;">
-                            <img style="width: 10rem" src={{this.thumbnail.[0]}} class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title"> {{this.title}} </h5>
-                                <p class="card-text"> {{this.description}} </p>
-                                <p class="card-text"> ${{this.price}} </p>
-                                {{#if this.stock}}
-                                {{!-- cambiar a status con el DTO --}}
-                                    <a type="button" aria-disabled="true" class="btn btn-primary" href='/details/{{this._id}}'> Ver Detalles </a>
-                                {{else}}
-                                    <a type="button" class="btn btn-secondary"> No Disponible </a>
-                                {{/if}}
-                            </div>
+                <div class="div-card">
+                    <div class="div-container-content-card">
+                        <div class="div-img-card">
+                            <img class="img-card" src={{this.thumbnail.[0]}}>
+                        </div>
+                        <div class="div-card-body">
+                            <h5 class="card-title"> {{this.title}} </h5>
+                            <p class="card-description"> {{this.description}} </p>
+                            <p class="card-price"> ${{this.price}} </p>
                         </div>
                     </div>
+
+                    <div class="div-btn-details-card">
+                        {{#if this.stock}}
+                        <button class="btn-details">
+                            <a class="a-details" href='/details/{{this._id}}'> Ver Detalles </a>
+                        </button>
+                        {{else}}
+                        <button class="btn-details-disabled">
+                            <a class="a-details"> No Disponible </a>
+                        </button>
+                        {{/if}}
+                    </div>
+                </div>
             {{/each}}
         </div>
-    </main> 
-    <nav style="height: auto; padding: 1.5rem" class="w-100 bg-info mt-4">
-        <ul class="pagination justify-content-center m-3">
-            {{#if products.hasPrevPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
-            <a class="page-link" href={{products.prevLink}}>Prev</a>
+    </section>
+
+</main>
+
+<footer id="footer">
+    <ul class="pagination-nav">
+        {{#if products.hasPrevPage}} 
+            <li class="page-item"> {{else}} <li class="page-item disabled">
+        {{/if}}
+                <a class="page-link" href={{products.prevLink}}>⟪</a>
             </li>
 
-            <li class="page-item"><a class="page-link">{{ products.page }} de {{products.totalPages}} </a></li>
+        <li class="page-item">{{ products.page }} de {{products.totalPages}}</li>
 
-            {{#if products.hasNextPage}} <li class="page-item"> {{else}}<li class="page-item disabled">{{/if}}
-            <a class="page-link" href={{products.nextLink}}>Next</a>
+        {{#if products.hasNextPage}}
+            <li class="page-item"> {{else}}<li class="page-item disabled">
+        {{/if}}
+                <a class="page-link" href={{products.nextLink}}>⟫</a>
             </li>
-        </ul>
-    </nav>
-</section>
+    </ul>
+</footer>

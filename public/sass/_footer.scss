@@ -1,0 +1,23 @@
+#body #footer {
+    background-color: $color-1;
+    padding: $margin-default;
+    margin-top: $margin-default;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .pagination-nav {
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+        background-color: $color-2;
+        margin: 0;
+        padding: 0;
+        width: 13rem;
+        border-radius: 10px;
+        .page-item {
+            border-radius: 10px;
+            background-color: $color-3;
+            padding: 10px 14px;
+        }
+    }
+}

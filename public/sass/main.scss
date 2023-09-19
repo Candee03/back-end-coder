@@ -1,0 +1,15 @@
+@import "var";
+@import "header";
+@import "footer";
+@import "pages/products";
+
+#body {
+    background-color: $color-blue;
+    #main {
+        margin: 0 4rem;
+    }
+}
+* {
+    margin: 0;
+    padding: 0;
+}

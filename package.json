@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "dev": "nodemon src/app.js",
+    "build-css": "node-sass --include-path scss public/sass/main.scss public/css/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
   "repository": {
     "type": "git",
@@ -37,5 +40,9 @@
     "passport-local": "^1.0.0",
     "socket.io": "^4.6.1",
     "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "node-sass": "^9.0.0",
+    "nodemon": "^3.0.1"
   }
 }

@@ -1,0 +1,153 @@
+.title, #body #header #navbar a {
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000b1d;
+  font-size: 40px;
+  font-family: fantasy; }
+
+.subtitle, #body #main #section-info-user #container-info-user .h2-role {
+  text-transform: capitalize;
+  color: #000b1d;
+  font-size: 20px;
+  font-family: fantasy; }
+
+.bigText, #body #main #section-info-user #container-info-user .h3-say-hey {
+  color: #000b1d;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400; }
+
+.text, #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession, #body #main #section-info-user #container-btn-actions .btn-exclusive .a-exclusive, #body #main #section-info-user #container-btn-actions .btn-exclusive .a-onlyAdmin, #body #main #section-info-user #container-btn-actions .btn .a-goToCart, #body #main #section-info-user #container-btn-actions .btn .a-chat, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-title, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-description, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-price, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details .a-details, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled .a-details {
+  text-decoration: none;
+  color: #000b1d;
+  font-size: 13px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 500; }
+
+.button, #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession, #body #main #section-info-user #container-btn-actions .btn-exclusive, #body #main #section-info-user #container-btn-actions .btn, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled {
+  margin: 0 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: none; }
+
+#body #header {
+  background-color: #DAC0A3; }
+  #body #header #navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    #body #header #navbar a {
+      padding: 1rem 0; }
+
+#body #footer {
+  background-color: #DAC0A3;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  #body #footer .pagination-nav {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    background-color: #EADBC8;
+    margin: 0;
+    padding: 0;
+    width: 13rem;
+    border-radius: 10px; }
+    #body #footer .pagination-nav .page-item {
+      border-radius: 10px;
+      background-color: #F8F0E5;
+      padding: 10px 14px; }
+
+#body #main #section-info-user {
+  border-radius: 10px;
+  margin-top: 2rem;
+  background-color: #DAC0A3;
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  #body #main #section-info-user #container-info-user {
+    border-radius: 10px;
+    margin: 1.5rem 0;
+    background-color: #EADBC8;
+    width: 18rem;
+    height: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; }
+    #body #main #section-info-user #container-info-user .img-user {
+      width: 5rem;
+      border-radius: 100%; }
+  #body #main #section-info-user #container-btn-actions {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem; }
+    #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession {
+      background-color: #f76b6b; }
+    #body #main #section-info-user #container-btn-actions .btn-exclusive {
+      background-color: #fece49; }
+    #body #main #section-info-user #container-btn-actions .btn {
+      background-color: #F8F0E5; }
+
+#body #main #section-products {
+  border-radius: 10px;
+  margin-top: 2rem;
+  padding: 1.5rem 0;
+  background-color: #DAC0A3;
+  display: flex;
+  justify-content: center; }
+  #body #main #section-products .container-products-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%; }
+    #body #main #section-products .container-products-cards .div-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-bottom: 1rem;
+      margin: 0.5rem;
+      border-radius: 10px;
+      background-color: #EADBC8;
+      height: 25rem;
+      width: 13rem; }
+      #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-img-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10rem;
+        background-color: white;
+        border-radius: 10px; }
+        #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-img-card .img-card {
+          width: 8rem; }
+      #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body {
+        padding: 1rem; }
+        #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-title {
+          font-size: 20px;
+          font-weight: bold;
+          margin-bottom: 1rem;
+          text-transform: capitalize; }
+        #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-description {
+          height: 2rem;
+          overflow: hidden; }
+        #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-price {
+          font-weight: bold; }
+      #body #main #section-products .container-products-cards .div-card .div-btn-details-card {
+        display: flex;
+        justify-content: center; }
+        #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details {
+          background-color: #ffa932; }
+        #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled {
+          background-color: #DAC0A3; }
+
+#body {
+  background-color: #0F2C59; }
+  #body #main {
+    margin: 0 4rem; }
+
+* {
+  margin: 0;
+  padding: 0; }

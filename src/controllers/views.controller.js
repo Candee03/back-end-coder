@@ -19,7 +19,7 @@ export const getMocking = async(req, res) => {
 
 export const getDetails = async(req, res) => {
     const product = await req.productService.getProductById(req.params.pid.toString())
-    const cartId = await req.session.user.cartId._id
+    const cartId = await req.user.user.cartId._id
     res.render('details', {product, cartId})
 }
 
