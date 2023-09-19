@@ -11,20 +11,27 @@
   font-size: 20px;
   font-family: fantasy; }
 
-.bigText, #body #main #section-info-user #container-info-user .h3-say-hey {
+.bigText, #body #main #section-info-user #container-info-user .h3-say-hey, #body #main #container-product-detail .div-detail-body .div-detail .detail-title {
   color: #000b1d;
   font-size: 20px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: 400; }
 
-.text, #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession, #body #main #section-info-user #container-btn-actions .btn-exclusive .a-exclusive, #body #main #section-info-user #container-btn-actions .btn-exclusive .a-onlyAdmin, #body #main #section-info-user #container-btn-actions .btn .a-goToCart, #body #main #section-info-user #container-btn-actions .btn .a-chat, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-title, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-description, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-price, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details .a-details, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled .a-details {
+.middleText, #body #main #container-product-detail .div-detail-body .div-detail .detail-text, #body #main #container-product-detail .div-detail-body .div-detail .detail-price {
+  text-decoration: none;
+  color: #000b1d;
+  font-size: 17px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 500; }
+
+.text, #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession, #body #main #section-info-user #container-btn-actions .btn-exclusive .a-exclusive, #body #main #section-info-user #container-btn-actions .btn-exclusive .a-onlyAdmin, #body #main #section-info-user #container-btn-actions .btn .a-goToCart, #body #main #section-info-user #container-btn-actions .btn .a-chat, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-title, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-description, #body #main #section-products .container-products-cards .div-card .div-container-content-card .div-card-body .card-price, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details .a-details, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled .a-details, #body #main #container-product-detail .div-detail-body .div-detail .detail-code, #body #main #container-product-detail .div-detail-body .div-detail .detail-id {
   text-decoration: none;
   color: #000b1d;
   font-size: 13px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: 500; }
 
-.button, #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession, #body #main #section-info-user #container-btn-actions .btn-exclusive, #body #main #section-info-user #container-btn-actions .btn, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled {
+.button, #body #main #section-info-user #container-btn-actions .container-btn-closeSession .btn-closeSession, #body #main #section-info-user #container-btn-actions .btn-exclusive, #body #main #section-info-user #container-btn-actions .btn, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details, #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled, #body #main #container-product-detail .div-detail-body #container-btn-addToCart #btn-addToCart {
   margin: 0 1rem;
   padding: 0.5rem;
   border-radius: 10px;
@@ -58,7 +65,11 @@
     #body #footer .pagination-nav .page-item {
       border-radius: 10px;
       background-color: #F8F0E5;
-      padding: 10px 14px; }
+      display: flex;
+      align-items: center;
+      padding: 0 10px; }
+      #body #footer .pagination-nav .page-item .page-link {
+        padding: 10px 14px; }
 
 #body #main #section-info-user {
   border-radius: 10px;
@@ -142,6 +153,46 @@
           background-color: #ffa932; }
         #body #main #section-products .container-products-cards .div-card .div-btn-details-card .btn-details-disabled {
           background-color: #DAC0A3; }
+
+#body #main #container-product-detail {
+  background-color: #DAC0A3;
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: center; }
+  #body #main #container-product-detail .div-detail-img {
+    background-color: white;
+    border-radius: 10px;
+    width: 32rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1.5rem; }
+    #body #main #container-product-detail .div-detail-img .img-detail {
+      height: 20rem; }
+  #body #main #container-product-detail .div-detail-body {
+    background-color: #EADBC8;
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; }
+    #body #main #container-product-detail .div-detail-body .div-detail .detail-title {
+      font-weight: bold;
+      margin: 1rem 0; }
+    #body #main #container-product-detail .div-detail-body .div-detail .detail-text {
+      margin: 0.5rem 0; }
+    #body #main #container-product-detail .div-detail-body .div-detail .detail-price {
+      font-weight: bold;
+      margin: 1.5rem 0 0.5rem 0; }
+    #body #main #container-product-detail .div-detail-body .div-detail .detail-code, #body #main #container-product-detail .div-detail-body .div-detail .detail-id {
+      margin: 1rem 0;
+      color: #838383; }
+    #body #main #container-product-detail .div-detail-body #container-btn-addToCart {
+      display: flex;
+      justify-content: center; }
+      #body #main #container-product-detail .div-detail-body #container-btn-addToCart #btn-addToCart {
+        background-color: #ffa932; }
 
 #body {
   background-color: #0F2C59; }

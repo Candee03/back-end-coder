@@ -1,26 +1,26 @@
 <link rel="stylesheet" href="/css/main.css">
 
-<main>
-    <div class="card mb-4">
-        <div class="row no-gutters">
-        <div class="col-md-6">
-            <img src="{{product.thumbnail.[0]}}" class="card-img" alt="" style="width: 100%;">
+<main id="main">
+    <div id="container-product-detail">
+        <div class="div-detail-img">
+            <img class="img-detail" src={{product.thumbnail.[0]}}>
         </div>
-        <div class="col-md-6">
-            <div class="card-body">
-            <h5 class="card-title">{{product.title}}</h5>
-            <p class="card-text">{{product.description}}</p>
-            <p class="card-text">Price: ${{product.price}}</p>
-            <p class="card-text">Category: {{product.category}}</p>
-            <p class="card-text">Status: {{product.status}}</p>
-            <p class="card-text">Stock: {{product.stock}}</p>
-            <p class="card-text">Code: {{product.code}}</p>
-            <p class="card-text">Id: {{product._id}}</p>
-            <form action="/api/carts/{{cartId}}/product/{{product._id}}" method="POST">
-                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
-            </form>
+        
+        <div class="div-detail-body">
+            <div class="div-detail">
+                <h5 class="detail-title">{{product.title}}</h5>
+                <p class="detail-text">{{product.description}}</p>
+                <p class="detail-price">${{product.price}}</p>
+                {{!-- <p class="detail-text">Category: {{product.category}}</p> --}}
+                {{!-- <p class="detail-">Status: {{product.status}}</p> --}}
+                <p class="detail-text">Stock: {{product.stock}}</p>
+                <p class="detail-code">Code: {{product.code}}</p>
+                <p class="detail-id">Id: {{product._id}}</p>
             </div>
-        </div>
+
+            <form id="container-btn-addToCart" action="/api/carts/{{cartId}}/product/{{product._id}}" method="POST">
+                <button id="btn-addToCart" type="submit">Agregar al carrito</button>
+            </form>
         </div>
     </div>
 </main>
