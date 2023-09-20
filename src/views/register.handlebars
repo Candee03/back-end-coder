@@ -1,34 +1,25 @@
-<section class="container">
-	<div class="row bg-light login-section">
-		<div class="col-4"></div>
-		<div class="col-8 p-4">
-		<h1>Registrar Nuevo Usuario</h1>
-		<form action="/api/users/" method="post">
-			<div class="row">
-			<div class="col-md-6 mb-3">
-				<input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" name="first_name">
+<main id="main">
+	<section id="section-register-form">
+		<div id="div-container-register-form">
+			<h1 id="title-register-form">Registrar Nuevo Usuario</h1>
+			<form id="register-form" action="/api/users/" method="post">
+					<input class="input-register-form" type="text" placeholder="Nombre" name="first_name">
+				
+					<input class="input-register-form" type="text" placeholder="Apellido" name="last_name">
+				
+					<input class="input-register-form" type="email" placeholder="Correo Electrónico" name="email">
+				
+					<input class="input-register-form" type="number" placeholder="Edad" name="age">
+				
+					<input class="input-register-form" type="text" placeholder="Imagen" name="img">
+				
+					<input class="input-register-form" type="password" placeholder="Contraseña" name="password">
+
+					<button class="btn-register" type="submit">Registrarse</button>
+			</form>
+			<div id="div-container-link-login">
+				<p id="p-link-login">Si ya tienes una cuenta <a id="a-link-login" href="/login">inicia sesión</a></p>
 			</div>
-			<div class="col-md-6 mb-3">
-				<input type="text" class="form-control" placeholder="Apellido" aria-label="Apellido" name="last_name">
-			</div>
-			<div class="col-md-12 mb-3">
-				<input type="email" class="form-control" placeholder="Correo Electrónico" aria-label="Correo" name="email">
-			</div>
-			<div class="col-md-6 mb-3">
-				<input type="number" class="form-control" placeholder="Edad" aria-label="Edad" name="age">
-			</div>
-			<div class="col-md-6 mb-3">
-				<input type="text" class="form-control" placeholder="Imagen" aria-label="Imagen" name="img">
-			</div>
-			<div class="col-md-12 mb-3">
-				<input type="password" class="form-control" placeholder="Contraseña" aria-label="Contraseña" name="password">
-			</div>
-			<div class="col-md-12">
-				<button type="submit" class="btn btn-primary col-12">Registrar</button>
-			</div>
-			</div>
-		</form>
-		<p>Si ya tienes una cuenta <a href="/login">inicia sesión</a></p>
 		</div>
-	</div>
-</section>
+	</section>
+</main>

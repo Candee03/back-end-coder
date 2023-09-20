@@ -1,24 +1,29 @@
-<section class="container">
-	<div class="row bg-light login-section">
-		<div class="col-4"></div>
-		<div class="col-8 p-4">
-		<h1>Ingresar</h1>
-		<form action="/api/users/auth" method="post">
-			<div class="row">
-				<div class="col-md-12 mb-3">
-					<input type="email" class="form-control" placeholder="Correo Electrónico" aria-label="Correo" name="email">
+<main id="main">
+	<section id="section-login">
+		
+		<div id="div-container-form-login">
+			<h1 id="title-form-login">Ingresar</h1>
+			<form id="form-login" action="/api/users/auth" method="post">
+
+				<input class="input-form-login" type="email" placeholder="Correo Electrónico" name="email">
+
+				<input class="input-form-login" type="password" placeholder="Contraseña" name="password">
+
+				<div class="div-container-optionsForm">
+					<button id="btn-login" type="submit">Ingresar</button>
+					
+					<button id="btn-registerGitHub">
+						<a id="a-loginWithGitHub" href="/api/users/github">Ingresar con GitHub</a>
+					</button>
 				</div>
-				<div class="col-md-12 mb-3">
-					<input type="password" class="form-control" placeholder="Contraseña" aria-label="Contraseña" name="password">
-				</div>
-				<div class="col-md-12">
-					<button type="submit" class="btn btn-primary col-12">Ingresar</button>
-					<a class="btn btn-dark col-12 my-2" href="/api/users/github">Ingresar con GitHub</a>
-				</div>
+
+			</form>
+
+			<div id="div-container-linksOptions">
+				<p class="p-link-option">¿No tienes una cuenta todavía? <a class="a-link-option" href="/register">Regístrate</a></p>
+				<p class="p-link-option"><a class="a-link-option" href="/restorePassword">No recuerdo la contraseña</a></p>
 			</div>
-		</form>
-		<p>¿No tienes una cuenta todavía? <a href="/register">Regístrate</a></p>
-		<p><a href="/restorePassword">No recuerdo la contraseña</a></p>
 		</div>
-	</div>
-</section>
+
+	</section>
+</main>

@@ -1,11 +1,13 @@
-<section class="container">
-	<div class="row bg-light login-section">
-		<div class="p-4">
-            <h1>{{title}}</h1>
-            <h2>{{message}}</h2>
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <section id="section-message">
+        <div class="div-container-message">
+            <h1 class="title-messageView">{{title}}</h1>
+            <h2 class="message-messageView">{{message}}</h2>
             {{#if link}}
-                <a href="{{link}}">{{linkName}}</a>
+                <a class="link-messageView" href="{{link}}">{{linkName}}</a>
             {{/if}}
-		</div>
-	</div>
-</section>
+        </div>
+    </section>
+</main>

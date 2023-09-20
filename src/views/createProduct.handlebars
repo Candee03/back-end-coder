@@ -1,29 +1,31 @@
-<section class="container">
-	<div class="row bg-light login-section">
-		<div class="col-12 p-4">
-            <h1>Completa los datos de tu nuevo producto:</h1>
-            <form action="/api/products" method="post">
-            {{#if messageError}} <p style="color: brown;">{{messageError}}</p> {{/if}}
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <span>Nombre del Producto</span>
-                        <input type="text" class="form-control" name="title">
-                        <span>Descripción</span>
-                        <input type="text" class="form-control" placeholder="Una descripcion sobre las caracteristicas principales" name="description">
-                        <span>Imagen</span>
-                        <input type="text" class="form-control" name="thumbnail">
-                        <span>Categoria</span>
-                        <input type="text" class="form-control" name="category">
-                        <span>Precio</span>
-                        <input type="number" class="form-control" placeholder="Precio sin signos" name="price">
-                        <span>Stock</span>
-                        <input type="number" class="form-control" name="stock">
-                    </div>
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-primary col-12">Publicar producto</button>
-                    </div>
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <section id="section-create-product">
+        <div id="container-form-create-product">
+            <h1 class="title-create-product">Completa los datos de tu nuevo producto:</h1>
+
+            <form class="form-create-product" action="/api/products" method="post">
+                <div class="div-container-input">
+                    {{#if messageError}} <p class="message-error">❌{{messageError}}</p> {{/if}}
+                    <span class="span-form-create-product">Nombre del Producto</span>
+                    <input class="input-form-create-product" type="text" name="title">
+                    <span class="span-form-create-product">Descripción</span>
+                    <input class="input-form-create-product" type="text" placeholder="Una descripcion sobre las caracteristicas principales" name="description">
+                    <span class="span-form-create-product">Imagen</span>
+                    <input class="input-form-create-product" type="text" name="thumbnail">
+                    <span class="span-form-create-product">Categoria</span>
+                    <input class="input-form-create-product" type="text" name="category">
+                    <span class="span-form-create-product">Precio</span>
+                    <input class="input-form-create-product" type="number" placeholder="Precio sin signos" name="price">
+                    <span class="span-form-create-product">Stock</span>
+                    <input class="input-form-create-product" type="number" name="stock">
+                </div>
+
+                <div id="container-btn-publishProduct">
+                    <button class="btn-form-publishProduct" type="submit">Publicar producto</button>
                 </div>
             </form>
-		</div>
-	</div>
-</section>
+        </div>
+    </section>
+</main>

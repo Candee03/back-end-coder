@@ -1,4 +1,4 @@
-<section>
+{{!-- <section>
     <main style="margin: 0 2rem 0 2rem;" class="w-60">
         <div class="d-flex justify-content-center row row-cols-1 row-cols-md-4 g-3">
             {{#each products.docs}}
@@ -30,6 +30,49 @@
             </li>
         </ul>
     </nav>
-</section>
+</section> --}}
+
+<main id="main">
+    <section id="section-products">
+        <div class="container-products-cards">
+            {{#each products.docs}}
+                <div class="div-card">
+                    <div class="div-container-content-card">
+                        <div class="div-img-card">
+                            <img class="img-card" src={{this.thumbnail.[0]}}>
+                        </div>
+                        <div class="div-card-body">
+                            <h5 class="card-title"> {{this.title}} </h5>
+                            <p class="card-description"> {{this.description}} </p>
+                            <p class="card-price"> ${{this.price}} </p>
+                        </div>
+                    </div>
+                    <div class="div-btn-deleteProduct">
+                        <button class="btn-deleteProduct" onclick='deleteProduct("{{this._id}}")'>Eliminar</button>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </section>
+
+</main>
+
+<footer id="footer">
+    <ul class="pagination-nav">
+        {{#if products.hasPrevPage}} 
+            <li class="page-item"> {{else}} <li class="page-item disabled">
+        {{/if}}
+                <a class="page-link" href={{products.prevLink}}>⟪</a>
+            </li>
+
+        <li class="page-item">{{ products.page }} de {{products.totalPages}}</li>
+
+        {{#if products.hasNextPage}}
+            <li class="page-item"> {{else}}<li class="page-item disabled">
+        {{/if}}
+                <a class="page-link" href={{products.nextLink}}>⟫</a>
+            </li>
+    </ul>
+</footer>
 
 <script src="/js/deleteProduct.js"></script>
