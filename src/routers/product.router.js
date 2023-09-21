@@ -65,7 +65,7 @@ class ProductRouter extends MakeRouter {
          * @swagger
          * tags:
          *      name: Products
-         *      description: The Products managing API
+         *      description: The Products managing API | Login required to run endpoints |
          * /api/products:
          *      get:
          *          summary: Returns the list of all products
@@ -113,7 +113,7 @@ class ProductRouter extends MakeRouter {
 
         /**
          * @swagger
-         * /api/products/{:pid}:
+         * /api/products/{pid}:
          *      get:
          *          summary: Returns the product found
          *          tags: [Products]
@@ -123,7 +123,7 @@ class ProductRouter extends MakeRouter {
          *                description: Id of the product
          *                required: true
          *                schema: 
-         *                    type: objectID
+         *                    type: string
          *          responses:
          *              200:
          *                  description: The product found
@@ -155,7 +155,7 @@ class ProductRouter extends MakeRouter {
          * @swagger
          * /api/products:
          *      post:
-         *          summary: Create new product
+         *          summary: Create new product | Admin or premium users only |
          *          tags: [Products]
          *          requestBody:
          *              description: Create a new product in store
@@ -198,9 +198,9 @@ class ProductRouter extends MakeRouter {
 
         /**
          * @swagger
-         * /api/products/{:pid}:
+         * /api/products/{pid}:
          *      put:
-         *          summary: Update a existing product
+         *          summary: Update a existing product | Admin or premium users only |
          *          tags: [Products]
          *          parameters:
          *              - name: pid
@@ -208,7 +208,7 @@ class ProductRouter extends MakeRouter {
          *                description: Id of the product
          *                required: true
          *                schema: 
-         *                    type: objectID
+         *                    type: string
          *          requestBody:
          *              description: Update a existing product by id
          *              content:
@@ -261,9 +261,9 @@ class ProductRouter extends MakeRouter {
 
         /**
          * @swagger
-         * /api/products/{:pid}:
+         * /api/products/{pid}:
          *      delete:
-         *          summary: Deletes a product
+         *          summary: Deletes a product | Admin or premium users only |
          *          tags: [Products]
          *          parameters:
          *              - name: pid
@@ -271,7 +271,7 @@ class ProductRouter extends MakeRouter {
          *                description: Id of the product
          *                required: true
          *                schema: 
-         *                    type: objectID
+         *                    type: string
          *          responses:
          *              200:
          *                  description: Product has been deleted
