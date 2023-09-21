@@ -25,9 +25,9 @@ const swaggerOptions = {
     definition:{
         openapi:'3.0.1',
         info:{
-            title:'Proyecto E-Commerce',
+            title:'Servidor E-Commerce',
             version:'1.0.0',
-            description:'Proyecto Alfano Candela para CoderHouse',
+            description:'Este es un proyecto para el curso de Back-End de CoderHouse en el que desarrollamos un servidor para una E-commerce. Desarrollado por Candela Alfano'
         }
     },
     apis:['./src/routers/*.js']

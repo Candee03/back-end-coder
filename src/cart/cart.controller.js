@@ -21,7 +21,7 @@ export const getCartById = async(req, res) => {
     }
     catch (err) {
         req.logger.error(err.message);
-        res.status(500).send({error: `${err.message} ${req.params.cid}`})
+        res.status(400).send({error: `${err.message} ${req.params.cid}`})
     }
 }
 
@@ -51,11 +51,11 @@ export const addProduct = async(req, res) => {
         })
         if (productExists && req.user.user.email !== product.owner) {
             await cartService.addProductToCart(req.params.cid, req.params.pid)
-            return res.redirect('/products')
+            return res.status(200).redirect('/products')
         } else {
             CustomErrors.createError({
                 name: 'Error al modificar el carrito',
-                message: 'No puedes agregar un producto que creaste',
+                message: 'No puedes agregar un producto que tu creaste',
                 cause: req.params.pid,
                 code: EErrors.INVALID_TYPE
             })
@@ -79,7 +79,7 @@ export const updateAllCart = async(req, res) => {
     }
     catch (err) {
         req.logger.error(err)
-        return res.send(err)
+        return res.status(400).send(err)
     }
 }
 
@@ -89,21 +89,21 @@ export const updateOneProduct = async(req, res) => {
         const productFound = await productService.getProductById(req.params.pid)
         const quantity = req.body
 
-        if (cartFound !== undefined || productFound !== undefined || quantity) {
+        if (cartFound !== undefined && productFound !== undefined && quantity) {
             await cartService.updateProduct(req.params.cid, req.params.pid, quantity)
         }
         return res.status(200).send(cartFound)
     }
     catch (err) {
         req.logger.error(err)
-        return res.send(err)
+        return res.status(400).send(err)
     }
 }
 
 export const deleteAllProductsFromCart = async(req, res) => {
     try {
         await cartService.deleteAllProducts(req.params.cid)
-        res.status(201).send(await cartService.getCarts())
+        res.status(200).send(await cartService.getCartById(req.params.cid))
     }
     catch (err) {
         req.logger.error(err)
@@ -114,7 +114,7 @@ export const deleteAllProductsFromCart = async(req, res) => {
 export const deleteOneProductFromCart = async(req, res) => {
     try {
         await cartService.deleteProductFromCart(req.params.cid, req.params.pid)
-        res.status(201).send(await cartService.getCarts())
+        res.status(200).send(await cartService.getCartById(req.params.cid))
     }
     catch (err) {
         req.logger.error(err)
@@ -151,7 +151,7 @@ export const purchase = async(req, res) => {
         })
 
         const tiket = await tiketService.createTiket((req.session.user.email).toString(), total)
-        return res.redirect(`/api/mail/${tiket.code}`)
+        return res.status(200).redirect(`/api/mail/${tiket.code}`)
     }
     catch(err) {
         req.logger.error(err.message)
