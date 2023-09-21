@@ -1,5 +1,7 @@
 import {app, io } from './config/utils.js';
 import handlebars from 'express-handlebars'
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import passport from "passport";
 import initializePassport from './config/passport.js';
@@ -17,6 +19,21 @@ import cookieParser from 'cookie-parser';
 import mailRouter from './routers/mailer.router.js';
 import errorHandlerMiddleware from './middleware/errorHandler.middleware.js';
 import { loggerMiddleware } from './middleware/logger.middleware.js';
+
+//!CONFIGURACION DE SWAGGER
+const swaggerOptions = {
+    definition:{
+        openapi:'3.0.1',
+        info:{
+            title:'Proyecto E-Commerce',
+            version:'1.0.0',
+            description:'Proyecto Alfano Candela para CoderHouse',
+        }
+    },
+    apis:['./src/routers/*.js']
+}
+
+const spects = swaggerJsDoc(swaggerOptions);
 
 //&------VARIABLES CHAT--------
 let messages = []
@@ -46,6 +63,8 @@ app.use(getProduct)
 
 
 //*----------ROUTERS-------------
+app.use('/docs',swaggerUi.serve, swaggerUi.setup(spects));
+
 app.use('/api/products', productRouter.getRouter());
 app.use('/api/carts', cartRouter.getRouter());
 app.use('/api/users', usersRouter.getRouter());
