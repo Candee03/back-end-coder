@@ -55,15 +55,21 @@ export const addProduct = async(req, res) => {
         await productService.addProduct(p)
         const products = await productService.getProducts()
         io.emit('products', products)//<--envia al socket
-        return res.redirect('/')
+        return res.status(200).send(p)
+        
     } catch (err) {
         req.logger.warning(`${err.name}: ${err.message}${err.cause}`)
-        res.render('createProduct', {messageError: 'Debes enviar todos los campos requeridos'})
+        res.status(400).render('createProduct', {messageError: 'Debes enviar todos los campos requeridos'})
     }
 }
 
 export const updateProduct = async(req, res) => {
     try {
+        const productUpdated = req.body
+        //SI SE ENVIA EL BODY VACIO NO CAMBIA NADA
+        if(Object.keys(productUpdated).length === 0) {
+            return res.status(204).send({err:'no mandaste ninguna propiedad para modificar'})
+        }
         //SI LA ID DEL PRODUCTO A MODIFICAR NO ES CORRECTA SALTA ERROR
         const product = await productService.getProductById(req.params.pid)
         .catch(err => {
@@ -76,6 +82,7 @@ export const updateProduct = async(req, res) => {
         })
 
         const user = await userService.getByEmail(req.session.user.email)
+
         //SI EL PRODUCTO NO LE PERTENECE AL USUARIO PREMIUM SALTA ERROR
         if (user.role === 'premium' && user.email !== product.owner) {
             CustomErrors.createError({
@@ -85,7 +92,15 @@ export const updateProduct = async(req, res) => {
                 code: EErrors.INVALID_TYPE
             })
         }
-        const productUpdated = req.body
+        //SI INTENTA CAMBIAR PROIEDADES QUE NO SE PUEDEN MODIFICAR
+        if (productUpdated.owner || productUpdated._id || productUpdated.code) {
+            CustomErrors.createError({
+                name: 'No se puedo actualizar',
+                message: 'hay propiedades que intentas cambiar que no se pueden modificar',
+                cause: `No se pueden modificar esas propiedades`,
+                code: EErrors.INVALID_TYPE
+            })
+        }
 
         const p = new ShowProductDto({
             ...product,
@@ -98,11 +113,11 @@ export const updateProduct = async(req, res) => {
         const products = await productService.getProducts()
         io.emit('products', products)//<--envia al socket
         req.logger.info('el producto se actualizó correctamente')
-        res.status(201).send({status: 'ok', payload:'el producto se actualizo correctamente'});
+        return res.status(201).send(p);
 
     } catch (err) {
         req.logger.error(`${err.name}: ${err.message}`)
-        res.status(400).send(err)
+        return res.status(400).send(err)
     }
 }
 

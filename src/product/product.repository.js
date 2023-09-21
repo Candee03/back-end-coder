@@ -33,12 +33,12 @@ class ProductRepository{
     }
 
     /**
-     * @param {object} objetProduct objeto del producto a agregar
+     * @param {object} objectProduct objeto del producto a agregar
      * @returns true si se añade el producto
      * @example {title, description, price, thumbnail, code, status, category, stock}
      */
-    async addProduct (objetProduct) {
-        return await this.dao.addProduct(objetProduct)
+    async addProduct (objectProduct) {
+        return await this.dao.addProduct(objectProduct)
     }
 
     /**

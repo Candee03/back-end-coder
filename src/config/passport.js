@@ -79,12 +79,12 @@ const initializePassport = async() => {
 					let user = await userService.getByEmail(profile._json.email);
 					if (!user) {
                         const cartId = await cartService.createCart()
-						let userObjet = {
+						let userObject = {
 							first_name: profile._json.name,
 							email: profile._json.email,
 							img: profile._json.avatar_url,
 						};
-                        const newUser = new UserRegisterDTO(userObjet, '', cartId._id)
+                        const newUser = new UserRegisterDTO(userObject, '', cartId._id)
                         newUser.role = newUser.email === 'adminCoder@coder.com'? 'admin': 'user'
                         
                         user = await userService.createUser(newUser)

@@ -67,12 +67,12 @@ class ProductMongo{
     }
 
     /**
-     * @param {object} objetProduct objeto del producto a agregar
+     * @param {object} objectProduct objeto del producto a agregar
      * @returns true si se añade el producto
      * @example {title, description, price, thumbnail, code, status, category, stock}
      */
-    async addProduct (objetProduct) {
-        await this.model.create(objetProduct)
+    async addProduct (objectProduct) {
+        await this.model.create(objectProduct)
         return true
     }
 

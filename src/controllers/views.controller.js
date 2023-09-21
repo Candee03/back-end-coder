@@ -1,7 +1,5 @@
 import { UserSafeDTO } from "../user/user.DTO.js"
 import { getMockingProducts } from "../mock/mock.controller.js"
-import jwt from "jsonwebtoken"
-import { PRIVATE_KEY } from "../config/jwt.js"
 
 export const getProducts = async(req, res) => {
     const { limit, page, sort, category, status } = req.query
