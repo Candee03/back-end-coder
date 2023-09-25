@@ -25,6 +25,10 @@ class UserRepository {
 	async updateRole(id, role) {
 		return await this.dao.updateRole(id, role)
 	}
+
+	async deleteUser(uid) {
+		return await this.dao.deleteUser(uid)
+	}
 }
 
 export default UserRepository;

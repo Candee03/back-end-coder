@@ -12,7 +12,8 @@ export const getAllUsers = async(req, res) => {
 }
 
 export const register = async(req, res) => {
-    res.redirect('/login')
+    const user = await userService.getByEmail(req.body.email)
+    res.send(user)
 }
 
 export const login = async(req, res) => {
@@ -25,7 +26,7 @@ export const login = async(req, res) => {
         res.cookie('token', token, {
             maxAge: 3600 * 1000, //LA SESION DURA 1 HORA ABIERTA
             httpOnly: true
-        }).redirect('/products')
+        }).status(200).redirect('/products')
     }
     catch (err) {
         req.logger.error(err.message)
@@ -35,8 +36,8 @@ export const login = async(req, res) => {
 
 export const logout = (req, res) => {
 	res.cookie('token', '', { expires: new Date(0), httpOnly: true });
-	res.redirect('/login');
     req.logger.debug('se cerró la sesion')
+	return res.redirect('/login');
 }
 
 export const restore = async(req, res) => {
@@ -98,4 +99,10 @@ export const updateRole = async (req, res) => {
     } catch(err) {
         return res.status(404).send(err.message)
     }
+}
+
+export const deleteUser = async(req,res) =>{
+    const userId = req.params.uid;
+    await userService.deleteUser(userId)
+    res.status(200).send({status:"success",message:"User deleted"})
 }

@@ -28,6 +28,10 @@ class UserMongo {
 		return await this.model.findOneAndUpdate({_id: id}, {role: role})
 	}
 
+	async deleteUser (uid) {
+		return await this.model.deleteOne({_id: uid})
+	}
+
 }
 
 export default UserMongo;
