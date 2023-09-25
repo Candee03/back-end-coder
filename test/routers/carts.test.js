@@ -15,16 +15,20 @@ describe('Test de integracion - Carts', () => {
     before(async () => {
         await request.post('/api/users/auth').send(user)
         .then((result) => {
-            const cookieResult= result.header["set-cookie"][0]
+            const {header} = result
+            const cookieResult= header["set-cookie"][0]
             cookie = cookieResult
+            expect(header.location).to.be.equal('/products')
         })
     })
+
     const cid = '6510f091cbd7f799c33ca368'
     const pid = '647e1088b635190c5329cdb0'
 
     it('El metodo GET de la ruta "/api/carts/:cid" debe obtener un carrito segun su ID', async() => {
-        const { statusCode } = await request.get(`/api/carts/${cid}`).set('Cookie', cookie)
+        const { statusCode, _body } = await request.get(`/api/carts/${cid}`).set('Cookie', cookie)
 
+        expect(_body[0]._id).to.be.equal('6510f091cbd7f799c33ca368')
         expect(statusCode).to.be.equal(200)
     })
 
