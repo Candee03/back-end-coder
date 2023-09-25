@@ -9,7 +9,7 @@ const transport = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
     auth: {
-        user: 'candela.alfano1503@gmail.com',
+        user: `${config.mail}`,
         pass: `${config.code_mail}`
     }
 })
@@ -19,7 +19,7 @@ mailRouter.get('/restorePassword/:email/:token', async(req, res) => {
     const token = req.params.token
 
     let result = await transport.sendMail({
-        from:'candela.alfano1503@gmail.com',
+        from:`${config.mail}`,
         to: email,
         subject: `Restablecer contraseña`,
         html:`
@@ -42,7 +42,7 @@ mailRouter.get('/restorePassword/:email/:token', async(req, res) => {
 mailRouter.get('/:codePurchase', async(req, res) => {
     const tiket = await tiketService.getTiket(req.params.codePurchase)
     let result = await transport.sendMail({
-        from:'candela.alfano1503@gmail.com',
+        from:`${config.mail}`,
         to: (req.session.user.email).toString(),
         subject: `Resumen de compra`,
         html:`
