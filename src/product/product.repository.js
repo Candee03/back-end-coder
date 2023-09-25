@@ -5,7 +5,7 @@ class ProductRepository{
 
     async getProducts (limit = 10, page = 1, sort = false, category = false, status=undefined ) {
         try{
-            return await this.dao.getProducts(limit = 10, page = 1, sort = false, category = false, status=undefined)
+            return await this.dao.getProducts(limit, page = 1, sort = false, category = false, status=undefined)
         } catch (err) {
             console.log(err);
         }

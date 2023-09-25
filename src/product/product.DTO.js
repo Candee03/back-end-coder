@@ -38,7 +38,8 @@ export class ShowProductDto {
             status: this.status,
             category: this.category,
             stock: this.stock,
-            owner: this.owner
+            owner: this.owner,
+            _id: this._id,
         }
     }
     getSimpleProduct() {

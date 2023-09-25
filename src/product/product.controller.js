@@ -45,7 +45,7 @@ export const addProduct = async(req, res) => {
                 code: EErrors.INVALID_TYPE
             })
         }
-        const owner = req.session.user.role === 'premium'? req.session.user.email : 'admin'
+        const owner = req.user.user.role === 'premium'? req.user.user.email : 'admin'
         const bodyProduct = req.body
         const p = new ShowProductDto({
             ...bodyProduct,
