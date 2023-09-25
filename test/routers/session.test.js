@@ -1,4 +1,4 @@
-import chai, { use } from "chai";
+import chai from "chai";
 import supertest from "supertest";
 
 const expect = chai.expect
@@ -40,6 +40,16 @@ describe('Test de integracion - Session User', () => {
         cookie = cookieResult
         
         expect(cookieResult).to.be.an('string')
+    })
+
+    it('El metodo GET en la ruta "/api/sessions/current" debe devolver la session iniciada actual', async() => {
+        await request.get(`/api/sessions/current`).set('Cookie', cookie)
+        .then((result)=>{
+            const { _body, statusCode } = result;
+
+            expect(_body.user.email).to.be.equal("example@email.com");
+            expect(statusCode).to.be.equal(200);
+        })
     })
 
     it('El metodo DELETE en la ruta "/api/users/:uid" debe eliminar el usuario', async() => {
