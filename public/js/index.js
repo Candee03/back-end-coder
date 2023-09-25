@@ -1,25 +1,26 @@
 const socket = io()
 
 const render = (data) => {
-    const ul = document.getElementById('ul-websocket')
-    ul.innerHTML = ''
+    const tbody = document.getElementById('tbody-websocket')
+    tbody.innerHTML = ''
     //*si la lista de productos esta vacia se imprime un comentario
     if (data.length === 0) {
-        ul.innerHTML = '<h2 class="h2-home">No hay productos agregados</h2>'
+        tbody.innerHTML = '<h2 class="h2-home">No hay productos agregados</h2>'
     } else {
         data.forEach(p => {
-            const html = document.createElement('li')
-            html.innerHTML =
-            `<p>Title: ${p.title}</p>
-            <p>Description: ${p.description}</p>
-            <p>Price: $${p.price}</p>
-            <p>Category: ${p.category}</p>
-            <p>Status: ${p.status}</p>
-            <p>Stock: ${p.stock}</p>
-            <p>Code: ${p.code}</p>
-            <p>Id: ${p._id}</p>`
+            const tr = document.createElement('tr')
+            tr.innerHTML = 
+            `<td class='td-body-realTimeProducts'>${p.title}</td>
+            <td class='td-body-realTimeProducts'>${p.description}</td>
+            <td class='td-body-realTimeProducts'>$${p.price}</td>
+            <td class='td-body-realTimeProducts'>${p.category}</td>
+            <td class='td-body-realTimeProducts'>${p.status}</td>
+            <td class='td-body-realTimeProducts'>${p.stock}</td>
+            <td class='td-body-realTimeProducts'>${p.code}</td>
+            <td class='td-body-realTimeProducts'>${p.owner}</td>
+            <td class='td-body-realTimeProducts'>${p._id}</td>`
 
-            ul.append(html)
+            tbody.append(tr)
         });
     }
 }

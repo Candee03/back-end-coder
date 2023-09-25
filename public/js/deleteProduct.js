@@ -1,8 +1,5 @@
 async function deleteProduct (pid){
-
     const url = `http://localhost:8080/api/products/${pid}`
-
-    console.log(url);
 
     await fetch(url, { 
         method: 'DELETE'
