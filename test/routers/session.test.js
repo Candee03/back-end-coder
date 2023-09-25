@@ -6,6 +6,7 @@ const request = supertest("http://localhost:8080")
 
 describe('Test de integracion - Session User', () => {
     let userId
+    let cartId
     let cookie = {}
 
     after(async() => {
@@ -47,6 +48,8 @@ describe('Test de integracion - Session User', () => {
         .then((result)=>{
             const { _body, statusCode } = result;
 
+            console.log(_body.user);
+            cartId = _body.user.cartId._id
             expect(_body.user.email).to.be.equal("example@email.com");
             expect(statusCode).to.be.equal(200);
         })
@@ -54,9 +57,10 @@ describe('Test de integracion - Session User', () => {
 
     it('El metodo DELETE en la ruta "/api/users/:uid" debe eliminar el usuario', async() => {
         await request.delete(`/api/users/${userId}`).set('Cookie', cookie)
-        .then((result)=>{
+        .then(async(result)=>{
             const { _body } = result;
             expect(_body).to.be.ok;
+            await request.delete(`/api/carts/delete/${cartId}`).set('Cookie', cookie)
         })
     })
 })

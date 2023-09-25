@@ -1,4 +1,4 @@
-import { addProduct, createCart, deleteAllProductsFromCart, deleteOneProductFromCart, getCartById, purchase, updateAllCart, updateOneProduct } from '../cart/cart.controller.js';
+import { addProduct, createCart, deleteAllProductsFromCart, deleteCart, deleteOneProductFromCart, getCartById, purchase, updateAllCart, updateOneProduct } from '../cart/cart.controller.js';
 import MakeRouter from './routers.js';
 
 class CartRouter extends MakeRouter {
@@ -291,6 +291,7 @@ class CartRouter extends MakeRouter {
          */
         this.delete('/:cid/products/:pid', ['USER', 'ADMIN', 'PREMIUM'], deleteOneProductFromCart);
         
+        this.delete('/delete/:cid', ['USER','ADMIN'], deleteCart)
     }
 }
 

@@ -33,5 +33,6 @@ export class UserForUserDTO {
         this.email = user.email
         this.age = user.age
         this.img = user.img
+        this.cartId = user.cartId
     }
 }

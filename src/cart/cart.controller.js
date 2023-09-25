@@ -158,3 +158,15 @@ export const purchase = async(req, res) => {
         return res.status(405).send(err)
     }
 }
+
+export const deleteCart = async(req, res) => {
+    try {
+        req.logger.debug('se borro el carrito')
+        await cartService.deleteCart(req.params.cid)
+        res.status(200).send('se booro el carrito')
+    }
+    catch (err) {
+        req.logger.error(err)
+        return res.status(400).send({error: err.message})
+    }
+}

@@ -67,6 +67,10 @@ class CartMongo{
         }
     }
 
+    async deleteCart(cid) {
+        return await this.model.deleteOne({_id:cid})
+    }
+
     /**
      * @returns todos los carritos
      */

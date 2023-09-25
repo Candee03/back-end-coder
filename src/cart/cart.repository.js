@@ -45,6 +45,10 @@ class CartRepository {
         }
     }
 
+    async deleteCart (cid) {
+        await await this.dao.deleteCart(cid)
+    }
+
     /**
      * @returns todos los carritos
      */
