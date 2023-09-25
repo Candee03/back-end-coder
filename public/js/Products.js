@@ -1,0 +1,41 @@
+async function deleteProduct (pid){
+    const url = `http://localhost:8080/api/products/${pid}`
+
+    await fetch(url, { 
+        method: 'DELETE'
+    })
+    .then(res => {
+        if (res.ok) return location.reload()
+    })
+    .catch(error => {
+        console.error(`Error: ${error.message}`);
+    });
+}
+async function updateProduct (pid){
+    const title = document.getElementsByClassName('newTitle')
+    const description = document.getElementsByClassName('description')
+    const price = document.getElementsByClassName('price')
+    const category = document.getElementsByClassName('category')
+    const stock = document.getElementsByClassName('stock')
+
+    const updatedProduct = {
+        title: title[0].value? title[0].value : title[0].placeholder,
+        description: description[0].value? description[0].value : description[0].placeholder,
+        price: price[0].value? price[0].value : price[0].placeholder,
+        category: category[0].value? category[0].value : category[0].placeholder,
+        stock: stock[0].value? stock[0].value : stock[0].placeholder,
+    }
+    await fetch(`http://localhost:8080/api/products/${pid}`, { 
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedProduct)
+    })
+    .then(res => {
+        if (res.ok) return location.replace('/')
+    })
+    .catch(error => {
+        console.error(`Error: ${error.message}`);
+    });
+}

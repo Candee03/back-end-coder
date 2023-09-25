@@ -12,13 +12,13 @@
         <div id="container-btn-actions">
             {{#if premium}} 
                 <button class="btn-exclusive"><a class="a-exclusive" href="/addProduct">Crear un producto</a></button> 
-                <button class="btn-exclusive"><a class="a-exclusive" href="/deleteProduct">Eliminar Productos</a></button> 
+                <button class="btn-exclusive"><a class="a-exclusive" href="/editProduct">Editar Productos</a></button> 
             {{/if}}
 
 
             {{#if admin}}
                 <button class="btn-exclusive"><a class="a-exclusive" href="/addProduct">Crear un producto</a></button>
-                <button class="btn-exclusive"><a class="a-exclusive" href="/deleteProduct">Eliminar Productos</a></button> 
+                <button class="btn-exclusive"><a class="a-exclusive" href="/editProduct">Editar Productos</a></button> 
                 <button class="btn-exclusive"><a class="a-onlyAdmin" href="/users">Ver todos los usuarios</a></button>
             {{else}}
                 <button class="btn"><a class="a-chat" href="/chat">Ir al chat</a></button>

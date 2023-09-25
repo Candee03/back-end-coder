@@ -27,7 +27,7 @@
                     <td class="td-body-users"><img class="img-profile-table-user" src="{{this.img}}" alt=""></td>
                     <td class="td-body-users-options">
                         <button class="btn-delete-user-table" onclick='deleteUser("{{this._id}}", "{{this.cartId}}")'>Eliminar Usuario</button>
-                        <button class="btn-premium-user-table" disabled="true" onclick='changeToPremium("{{this._id}}")'>Cambiar a Premium</button>
+                        <button class="btn-premium-user-table" onclick='changeRole("{{this._id}}")'>Cambiar rol</button>
                     </td>
                 </tr>
             {{/each}}
@@ -36,4 +36,4 @@
     </section>
 </main>
 
-<script src="/js/deleteUser.js"></script>
+<script src="/js/User.js"></script>

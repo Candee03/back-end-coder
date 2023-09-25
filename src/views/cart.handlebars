@@ -27,11 +27,13 @@
             </tbody>
         </table>
 
-        <form id="form-btn-submit" action="/api/carts/{{cartId}}/purchase" method="POST">
-            <button id="btn-submit" type="submit">Finalizar compra</button>
-        </form>
-        <form id="form-btn-delete">
-            <button disabled="true" id="btn-delete" type="submit">Vaciar carrito</button>
-        </form>
+        <div id="form-btn-submit">
+            <button onclick="purchase('{{cartId}}')" id="btn-submit">Finalizar compra</button>
+        </div>
+        <div id="container-btn-delete">
+            <button onclick="vaciarCarrito('{{cartId}}')" id="btn-delete">Vaciar carrito</button>
+        </div>
     </div>
 </main>
+
+<script src="/js/Cart.js"></script>

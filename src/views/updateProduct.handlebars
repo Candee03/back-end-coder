@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <div id="container-update-product">
+        <div class="div-update-img">
+            <img class="img-update" src={{product.thumbnail.[0]}}>
+        </div>
+        
+        <div class="div-update-body">
+            <div class="div-update">
+                <span class="span-update">title</span>
+                <input class="input-update newTitle" type="text" placeholder="{{product.title}}">
+                <span class="span-update">description</span>
+                <input class="input-update description" type="text" placeholder="{{product.description}}">
+                <span class="span-update">price</span>
+                <input class="input-update price" type="number" placeholder="{{product.price}}">
+                <span class="span-update">category</span>
+                <input class="input-update category" type="text" placeholder="{{product.category}}">
+                <span class="span-update">stock</span>
+                <input class="input-update stock" type="number" placeholder="{{product.stock}}">
+                <p class="update-code">Code: {{product.code}}</p>
+                <p class="update-id">Id: {{product._id}}</p>
+            </div>
+
+            <div id="container-btn-update">
+                <button id="btn-update" onclick="updateProduct('{{product._id}}')">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="/js/Products.js"></script>

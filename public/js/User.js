@@ -11,3 +11,10 @@ async function deleteUser (uid, cid){
         console.error(`Error: ${error.message}`);
     });
 }
+
+async function changeRole(uid) {
+    await fetch (`http://localhost:8080/api/users/premium/${uid}`, {method: 'GET'})
+    .then((res) => {
+        if (res.ok) return location.reload()
+    })
+}

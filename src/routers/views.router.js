@@ -1,6 +1,6 @@
 import { userService } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
-import { changePassword, chat, deleteProduct, getCart, getDetails, getMocking, getProducts } from "../controllers/views.controller.js";
+import { changePassword, chat, editProduct, getCart, getDetails, getMocking, getProducts, updateProduct } from "../controllers/views.controller.js";
 import { isAuth } from "../middleware/auth.middleware.js";
 import { authToRestore } from "../config/jwt.js";
 
@@ -24,7 +24,9 @@ class ViewsRouter extends MakeRouter {
             res.render('createProduct')
         })
 
-        this.get('/deleteProduct', ['ADMIN', 'PREMIUM'], deleteProduct)
+        this.get('/editProduct', ['ADMIN', 'PREMIUM'], editProduct)
+
+        this.get('/updateProduct/:pid', ['ADMIN', 'PREMIUM'], updateProduct)
 
         //?VIEWS CARRITO
         this.get('/carts/:cid', ['ADMIN', 'USER', 'PREMIUM'], getCart)

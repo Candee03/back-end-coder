@@ -20,6 +20,11 @@ export const getDetails = async(req, res) => {
     const cartId = await req.user.user.cartId._id
     res.render('details', {product, cartId})
 }
+export const updateProduct = async(req, res) => {
+    const product = await req.productService.getProductById(req.params.pid.toString())
+    res.render('updateProduct', {product})
+
+}
 
 export const getCart = async(req, res) => {
     const cartId = req.params.cid.toString()
@@ -53,8 +58,8 @@ export const changePassword = (req, res) => {
     }
 }
 
-export const deleteProduct = async(req, res) => {
+export const editProduct = async(req, res) => {
     const { limit, page, sort, category, status } = req.query
     const products = await req.productService.getProducts(limit, page, sort, category, status)
-    res.render('deleteProduct', {products})
+    res.render('editProduct', {products})
 }
