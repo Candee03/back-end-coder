@@ -7,6 +7,7 @@
         <th scope="col">Email</th>
         <th scope="col">Id</th>
         <th scope="col">Image</th>
+        <th scope="col">options</th>
     </tr>
     </thead>
     <tbody>
@@ -18,7 +19,13 @@
             <td>{{this.email}}</td>
             <td>{{this._id}}</td>
             <td><img src="{{this.img}}" class="img-fluid" style="width: 4rem;" alt=""></td>
+            <td>
+                <button onclick='deleteUser("{{this._id}}", "{{this.cartId}}")'>Eliminar Usuario</button>
+                <button disabled="true" onclick='changeToPremium("{{this._id}}")'>Cambiar a Premium</button>
+            </td>
         </tr>
     {{/each}}
     </tbody>
 </table>
+
+<script src="/js/deleteUser.js"></script>
