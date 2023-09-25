@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/routers/#.test.js",
     "start": "nodemon src/app.js",
     "dev": "nodemon src/app.js",
     "build-css": "node-sass --include-path scss public/sass/main.scss public/css/main.css",
@@ -44,7 +44,10 @@
     "winston": "^3.10.0"
   },
   "devDependencies": {
+    "chai": "^4.3.8",
+    "mocha": "^10.2.0",
     "node-sass": "^9.0.0",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "supertest": "^6.3.3"
   }
 }
