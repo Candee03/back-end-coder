@@ -44,15 +44,13 @@ export const addProduct = async(req, res) => {
             productExists = false
             CustomErrors.createError({
                 name: 'Error al modificar el carrito',
-                message: 'No existe un producto con ese id',
+                message: `No existe un producto con ese id. ${err.message}`,
                 cause: findProductInfo(req.params.pid),
                 code: EErrors.INVALID_TYPE
             })
         })
-        if (productExists && req.user.user.email !== product.owner) {
-            await cartService.addProductToCart(req.params.cid, req.params.pid)
-            return res.status(200).redirect('/products')
-        } else {
+        
+        if (req.user.user.email === product.owner) {
             CustomErrors.createError({
                 name: 'Error al modificar el carrito',
                 message: 'No puedes agregar un producto que tu creaste',
@@ -60,6 +58,8 @@ export const addProduct = async(req, res) => {
                 code: EErrors.INVALID_TYPE
             })
         }
+        await cartService.addProductToCart(req.params.cid, req.params.pid)
+        res.status(200).redirect('/products')
     }
     catch (err) {
         req.logger.error(err.name+': '+ err.message);
