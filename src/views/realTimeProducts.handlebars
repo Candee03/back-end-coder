@@ -1,7 +1,28 @@
-<h1 class="h1-home">Lista de Productos:</h1>
-<ul id="ul-websocket">
-    {{!-- ACA SE AGREGA LA LISTA POR WEBSOCKET --}}
-</ul>
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <section id="realtimeProducts-container">
+        <h1 id="h1-realTimeProducts">Lista de Productos:</h1>
+        <table id="table-realtimeproducts">
+            <thead id="thead-realtimeproducts">
+                <tr id="tr-head-realtimeproducts">
+                    <th class="th-table-realtimeproducts">Title</th>
+                    <th class="th-table-realtimeproducts">Description</th>
+                    <th class="th-table-realtimeproducts">Price</th>
+                    <th class="th-table-realtimeproducts">Category</th>
+                    <th class="th-table-realtimeproducts">Status</th>
+                    <th class="th-table-realtimeproducts">Stock</th>
+                    <th class="th-table-realtimeproducts">Code</th>
+                    <th class="th-table-realtimeproducts">Owner</th>
+                    <th class="th-table-realtimeproducts">Id</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-websocket">
+                {{!-- ACA SE AGREGAN LOS PRODUCTOS CON EL SOCKET --}}
+            </tbody>
+        </table>
+    </section>
+</main>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>

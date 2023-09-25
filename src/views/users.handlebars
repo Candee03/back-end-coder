@@ -1,31 +1,39 @@
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Full Name</th>
-        <th scope="col">Role</th>
-        <th scope="col">Age</th>
-        <th scope="col">Email</th>
-        <th scope="col">Id</th>
-        <th scope="col">Image</th>
-        <th scope="col">options</th>
-    </tr>
-    </thead>
-    <tbody>
-    {{#each users}}
-        <tr style="height: 5rem;">
-            <td>{{this.first_name}} {{this.last_name}}</td>
-            <td>{{this.role}}</td>
-            <td>{{this.age}}</td>
-            <td>{{this.email}}</td>
-            <td>{{this._id}}</td>
-            <td><img src="{{this.img}}" class="img-fluid" style="width: 4rem;" alt=""></td>
-            <td>
-                <button onclick='deleteUser("{{this._id}}", "{{this.cartId}}")'>Eliminar Usuario</button>
-                <button disabled="true" onclick='changeToPremium("{{this._id}}")'>Cambiar a Premium</button>
-            </td>
-        </tr>
-    {{/each}}
-    </tbody>
-</table>
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <section id="section-container-table-users">
+        <h1 id="h1-users">Lista de usuarios:</h1>
+        <table id="table-users">
+            <thead id="table-head-user">
+                <tr id="tr-head-users">
+                    <th class="th-table-users">Full Name</th>
+                    <th class="th-table-users">Role</th>
+                    <th class="th-table-users">Age</th>
+                    <th class="th-table-users">Email</th>
+                    <th class="th-table-users">Id</th>
+                    <th class="th-table-users">Image</th>
+                    <th class="th-table-users">Options</th>
+                </tr>
+            </thead>
+
+            <tbody id="table-body-user">
+            {{#each users}}
+                <tr class="tr-body-users">
+                    <td class="td-body-users">{{this.first_name}} {{this.last_name}}</td>
+                    <td class="td-body-users">{{this.role}}</td>
+                    <td class="td-body-users">{{this.age}}</td>
+                    <td class="td-body-users">{{this.email}}</td>
+                    <td class="td-body-users">{{this._id}}</td>
+                    <td class="td-body-users"><img class="img-profile-table-user" src="{{this.img}}" alt=""></td>
+                    <td class="td-body-users-options">
+                        <button class="btn-delete-user-table" onclick='deleteUser("{{this._id}}", "{{this.cartId}}")'>Eliminar Usuario</button>
+                        <button class="btn-premium-user-table" disabled="true" onclick='changeToPremium("{{this._id}}")'>Cambiar a Premium</button>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </section>
+</main>
 
 <script src="/js/deleteUser.js"></script>
