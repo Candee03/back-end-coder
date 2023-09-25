@@ -1,36 +1,27 @@
 const socket = io()
 let user
 const message = document.getElementById('message')
+const send = document.getElementById('send')
 const historial = document.getElementById('historial')
 const nombre = document.getElementById('name')
 
-
-// console.log(nombre.innerText);
-
-// Swal.fire({
-//     title:'Bienvenid@!',
-//     input:'text',
-//     text: 'Identificate para chatear',
-//     icon: 'success',
-//     inputValidator: (value) => {
-//         return !value && 'tenes que identificarte, no te hagas el piola...'
-//     },
-//     allowOutsideClick: false,
-// }).then((res) => {
-//     user = res.value
-//     socket.emit('sayhello', user);
-// })
-
 message.addEventListener('keyup', e => {
     if(e.key === 'Enter') {
-        let msj = message.value
-        user = nombre.innerText
-        if (msj.trim().length > 0) {
-            socket.emit('new-message', {user, message: msj})
-            message.value = " "
-        }
+        sendMsj()
     }
 })
+
+send.addEventListener('click', () => {
+    sendMsj()
+})
+const sendMsj = () => {
+    let msj = message.value
+    user = nombre.innerText
+    if (msj.trim().length > 0) {
+        socket.emit('new-message', {user, message: msj})
+        message.value = " "
+    }
+}
 
 const render = (data) => {
     const html = data.map((e, i) => {
@@ -41,7 +32,7 @@ const render = (data) => {
             acc += posicion
         })
         const color = generarColor(acc)
-        return `<div>
+        return `<div class='cont-msj-username'>
             <span style='color: ${color};' class='username'>${e.user}: </span>
             <span>${e.message} </span>
         </div>`
