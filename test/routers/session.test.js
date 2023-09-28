@@ -48,7 +48,6 @@ describe('Test de integracion - Session User', () => {
         .then((result)=>{
             const { _body, statusCode } = result;
 
-            console.log(_body.user);
             cartId = _body.user.cartId._id
             expect(_body.user.email).to.be.equal("example@email.com");
             expect(statusCode).to.be.equal(200);
