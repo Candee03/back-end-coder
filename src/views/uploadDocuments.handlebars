@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <section id="section-upload-docs">
+        <h1 id="h1-upload-docs">Selecciona los documentos:</h1>
+        <form id="form-upload-docs" action="/api/users/{{uid}}/documents" method="post" enctype="multipart/form-data">
+            <span class="message-error">{{message}}</span>
+            <div class="div-file-select">
+                <input class="input-file" type="file" name="documents">
+            </div>
+            <div class="div-file-select">
+                <input class="input-file" type="file" name="documents">
+            </div>
+            <div class="div-file-select">
+                <input class="input-file" type="file" name="documents">
+            </div>
+            <button id="btn-upload-docs" type="submit">Subir documentos</button>
+        </form>
+    </section>
+</main>

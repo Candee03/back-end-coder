@@ -53,6 +53,10 @@ class ViewsRouter extends MakeRouter {
         })
 
         this.get('/changePassword/:email/:token', ['PUBLIC'], authToRestore, changePassword);
+
+        this.get('/uploadDocuments/:uid', ['ADMIN', 'USER', 'PREMIUM'], (req, res) => {
+            res.render('uploadDocuments', {uid: req.params.uid})
+        });
     }
 }
 

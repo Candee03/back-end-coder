@@ -132,14 +132,14 @@ export const uploadDocuments = async(req, res) => {
                 reference: file.path
             }
             if (user.documents.some(document => document.reference === doc.reference)) {
-                throw new Error('no reenvies documentos que ya enviaste')
+                throw new Error('❌no reenvies documentos que ya enviaste')
             }
             docs.push(doc)
         })
         await userService.uploadDocs(req.params.uid.toString(), docs)
-        return res.status(200).send('ok')
+        return res.status(200).redirect('/products')
     }
     catch (err) {
-        res.status(404).send(err.message)
+        res.status(404).render('uploadDocuments', {uid: req.params.uid, message:err.message})
     }
 }
