@@ -29,6 +29,18 @@ class UserRepository {
 	async deleteUser(uid) {
 		return await this.dao.deleteUser(uid)
 	}
+	async updateConnection (uid, date) {
+		return await this.dao.updateConnection(uid, date)
+	}
+
+	/**
+	 * 
+	 * @param {string} uid _id del user
+	 * @param {Array} docs array con todos los documentos del usuario
+	 */
+	async uploadDocs (uid, docs) {
+		return await this.dao.uploadDocs(uid, docs)
+	}
 }
 
 export default UserRepository;

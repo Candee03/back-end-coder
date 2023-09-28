@@ -2,7 +2,7 @@
 	<section id="section-register-form">
 		<div id="div-container-register-form">
 			<h1 id="title-register-form">Registrar Nuevo Usuario</h1>
-			<form id="register-form" action="/api/users/" method="post">
+			<form id="register-form" action="/api/users/" method="post" enctype="multipart/form-data">
 					<input class="input-register-form" type="text" placeholder="Nombre" name="first_name">
 				
 					<input class="input-register-form" type="text" placeholder="Apellido" name="last_name">
@@ -11,6 +11,8 @@
 				
 					<input class="input-register-form" type="number" placeholder="Edad" name="age">
 				
+					{{!-- <input class="input-register-form" type="file" name="profile"> --}}
+					
 					<input class="input-register-form" type="text" placeholder="Imagen" name="img">
 				
 					<input class="input-register-form" type="password" placeholder="Contraseña" name="password">

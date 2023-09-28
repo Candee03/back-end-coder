@@ -20,7 +20,21 @@ const userSchema = new mongoose.Schema({
     cartId : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'carts',
+    },
+    documents : {
+        default: [],
+        type: [
+            {
+                name : String,
+                reference : String
+            }
+        ],
+    },
+    last_connection : {
+        type: String,
+        default: new Date().toLocaleString()
     }
+
 })
 
 userSchema.pre('findOne', function (next) {

@@ -20,6 +20,8 @@ export const login = async(req, res) => {
     const {email} = req.body
     try{
         const user = await userService.getByEmail(email)
+        await userService.updateConnection(user._id, new Date().toLocaleString())
+
         req.session.user = new UserSafeDTO(user)
         const token = generateToken(user)
         req.logger.debug('se inicio la sesion')
@@ -34,7 +36,8 @@ export const login = async(req, res) => {
     }
 }
 
-export const logout = (req, res) => {
+export const logout = async(req, res) => {
+    await userService.updateConnection(req.user.user._id, new Date().toLocaleString())
 	res.cookie('token', '', { expires: new Date(0), httpOnly: true });
     req.logger.debug('se cerró la sesion')
 	return res.redirect('/login');
@@ -92,9 +95,21 @@ export const updateRole = async (req, res) => {
             req.logger.info('se actualizo el rol!')
             return res.status(200).send('ok')
         } else {
-            await userService.updateRole(user._id, 'premium')
-            req.logger.info('se actualizo el rol!')
-            return res.status(200).send('ok')
+            let requiredDocuments = []
+            user.documents.forEach(doc => {
+                const nameOfDoc = (doc.name.split('-').pop()).split('.').shift().toString()
+
+                if (nameOfDoc === 'Identificacion' || nameOfDoc === 'Comprobante de domicilio' || nameOfDoc === 'Comprobante de estado de cuenta') {
+                    requiredDocuments.push(nameOfDoc)
+                }
+            })
+            if (requiredDocuments.length === 3) {
+                await userService.updateRole(user._id, 'premium')
+                req.logger.info('se actualizo el rol!')
+                return res.status(200).send('ok')
+            } else {
+                req.logger.info('Debes tener los 3 archivos requeridos para ser premium')
+            }
         }
     } catch(err) {
         return res.status(404).send(err.message)
@@ -105,4 +120,26 @@ export const deleteUser = async(req,res) =>{
     const userId = req.params.uid;
     await userService.deleteUser(userId)
     res.status(200).send({status:"success",message:"User deleted"})
+}
+
+export const uploadDocuments = async(req, res) => {
+    try {
+        const user = await userService.getById(req.params.uid.toString())
+        let docs = []
+        req.files.forEach(file => {
+            const doc= {
+                name: file.filename,
+                reference: file.path
+            }
+            if (user.documents.some(document => document.reference === doc.reference)) {
+                throw new Error('no reenvies documentos que ya enviaste')
+            }
+            docs.push(doc)
+        })
+        await userService.uploadDocs(req.params.uid.toString(), docs)
+        return res.status(200).send('ok')
+    }
+    catch (err) {
+        res.status(404).send(err.message)
+    }
 }

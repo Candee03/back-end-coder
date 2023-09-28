@@ -11,6 +11,8 @@ export class UserRegisterDTO {
         this.img = user.img
         this.role = 'user'
         this.cartId = cartId
+        this.documents = user.documents
+        this.last_connection = user.last_connection
     }
 }
 
@@ -24,6 +26,8 @@ export class UserSafeDTO {
         this.img = user.img
         this.role = user.role
         this.cartId = user.cartId
+        this.documents = user.documents
+        this.last_connection = user.last_connection
     }
 }
 export class UserForUserDTO {
@@ -34,5 +38,7 @@ export class UserForUserDTO {
         this.age = user.age
         this.img = user.img
         this.cartId = user.cartId
+        this.documents = user.documents
+        this.last_connection = user.last_connection
     }
 }

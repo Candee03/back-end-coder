@@ -1,13 +1,14 @@
 import passport from "passport";
-import { changePassword, deleteUser, getAllUsers, login, logout, register, restore, updateRole } from "../user/user.controller.js";
+import { changePassword, deleteUser, getAllUsers, login, logout, register, restore, updateRole, uploadDocuments } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
 import { authToRestore, generateToken } from "../config/jwt.js";
+import { uploadFiles } from "../middleware/multer.middleware.js";
 
 class UsersRouter extends MakeRouter {
     init() {
         this.get('/', ['ADMIN'], getAllUsers)
 
-        this.post('/',['PUBLIC'], passport.authenticate('register', {failureRedirect:'/'}), register)
+        this.post('/',['PUBLIC'], uploadFiles().single('profile'), passport.authenticate('register', {failureRedirect:'/'}), register)
 
         this.post('/auth', ['PUBLIC'], passport.authenticate('login', {failureRedirect:'/'}), login)
 
@@ -16,6 +17,8 @@ class UsersRouter extends MakeRouter {
         this.post('/restore', ['PUBLIC'], restore);
 
         this.post('/changePassword/:email', ['PUBLIC'], authToRestore, changePassword)
+
+        this.post('/:uid/documents', ['ADMIN', 'USER', 'PREMIUM'], uploadFiles().array('documents', 3), uploadDocuments)
 
         this.get('/premium/:uid', ['ADMIN'], updateRole)
 
