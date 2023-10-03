@@ -11,12 +11,7 @@ class CartMongo{
     }
 
     async create () {
-        try {
-            return await this.model.create({})
-        }
-        catch (err) {
-            console.log(`No se pudo crear el carrito`);
-        }
+        return await this.model.create({})
     }
 
     /**
@@ -47,24 +42,14 @@ class CartMongo{
      * @param {string} pid del producto
      */
     async deleteOne (cid, pid) {
-        try {
-            await this.model.updateOne({ _id: cid }, {$pull: { products: { product: pid } }})
-        }
-        catch (err) {
-            console.log(err.name, err.message);
-        }
+        await this.model.updateOne({ _id: cid }, {$pull: { products: { product: pid } }})
     }
     
     /**
      * @param {string} cid del carrito 
      */
     async deleteAll (cid) {
-        try {
-            await this.model.findOneAndUpdate({ _id: cid }, {$set: { products: [] } })
-        }
-        catch (err) {
-            console.log(err.name, err.message);
-        }
+        await this.model.findOneAndUpdate({ _id: cid }, {$set: { products: [] } })
     }
 
     async deleteCart(cid) {
@@ -75,11 +60,7 @@ class CartMongo{
      * @returns todos los carritos
      */
     async get () {
-        try{
-            return await this.model.find().lean()
-        } catch (err) {
-            console.log(err);
-        }
+        return await this.model.find().lean()
     }
 
     /**
@@ -87,15 +68,11 @@ class CartMongo{
      * @returns Carrito Encontrado
      */
     async getById (id) {
-        try{
-            const cartFound = await this.model.find({_id: id})
-            if (cartFound) {
-                return cartFound
-            } else {
-                throw new Error(`No existe un carrito con la id ${id}`)
-            }
-        } catch (err) {
-            console.log(err.name, err.message);
+        const cartFound = await this.model.find({_id: id})
+        if (cartFound) {
+            return cartFound
+        } else {
+            throw new Error(`No existe un carrito con la id ${id}`)
         }
     }
 
@@ -105,12 +82,7 @@ class CartMongo{
      * @param {Array} products array con los productos
      */
     async updateAll(cid, products) {
-        try {
-            await this.model.updateOne({_id: cid}, {products: products})
-        }
-        catch (err) {
-            console.log(err);
-        }
+        await this.model.updateOne({_id: cid}, {products: products})
     }
 
     /**
@@ -120,17 +92,12 @@ class CartMongo{
      */
 
     async updateOne(cid, pid, quantity) {
-        try {
-            const q = quantity.quantity
-            const productsInCart = (await this.model.findById(cid)).products
-            if (productsInCart) {
-                await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': q } })
-            } else {
-                throw new Error('no esta agregado ese producto')
-            }
-        }
-        catch (err) {
-            console.log(err);
+        const q = quantity.quantity
+        const productsInCart = (await this.model.findById(cid)).products
+        if (productsInCart) {
+            await this.model.findOneAndUpdate({_id: cid, 'products.product': pid}, { $set: { 'products.$.quantity': q } })
+        } else {
+            throw new Error('no esta agregado ese producto')
         }
     }
 

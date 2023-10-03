@@ -4,19 +4,12 @@ class ProductRepository{
     }
 
     async getProducts (limit = 10, page = 1, sort = false, category = false, status=undefined ) {
-        try{
-            return await this.dao.getProducts(limit, page = 1, sort = false, category = false, status=undefined)
-        } catch (err) {
-            console.log(err);
-        }
+        return await this.dao.getProducts(limit, page = 1, sort = false, category = false, status=undefined)
+
     }
 
     async getProductsRealTime () {
-        try{
-            return await this.dao.getProductsRealTime()
-        } catch (err) {
-            console.log(err);
-        }
+        return await this.dao.getProductsRealTime()
     }
 
     /**
@@ -24,12 +17,7 @@ class ProductRepository{
      * @returns producto Encontrado
      */
     async getProductById (id) {
-        try {
-            return await this.dao.getProductById(id)
-        }
-        catch (err) {
-            console.log(err);
-        }
+        return await this.dao.getProductById(id)
     }
 
     /**
@@ -45,11 +33,7 @@ class ProductRepository{
     * @param {string} id Id del producto a eliminar
     */
     async deleteProduct (id) {
-        try{
-            return await this.dao.deleteProduct(id)
-        } catch (err) {
-            console.log(err.message);
-        }
+        return await this.dao.deleteProduct(id)
     }
 
     /**

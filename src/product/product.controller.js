@@ -18,7 +18,7 @@ export const getAllProducts = async(req, res) => {
     }
     catch (err) {
         req.logger.error(err)
-        return res.status(400).send({error: `error en la request`})
+        return res.status(400).send({error: `error en la request`, message: err.message})
     }
 }
 
@@ -135,6 +135,7 @@ export const deleteProduct = async (req, res) => {
         return res.status(200).send('Se eliminó el producto!')
     }
     catch (err) {
-        console.log(err);
+        req.logger.error(`${err.name}: ${err.message}`)
+        return res.status(400).send(err)
     }
 }

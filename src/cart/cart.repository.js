@@ -4,12 +4,7 @@ class CartRepository {
     }
 
     async createCart () {
-        try {
-            return await this.dao.create()
-        }
-        catch (err) {
-            console.log(`No se pudo crear el carrito`);
-        }
+        return await this.dao.create()
     }
 
     /**
@@ -25,24 +20,14 @@ class CartRepository {
      * @param {string} pid del producto
      */
     async deleteProductFromCart (cid, pid) {
-        try {
-            await this.dao.deleteOne(cid, pid)
-        }
-        catch (err) {
-            console.log(err.name, err.message);
-        }
+        await this.dao.deleteOne(cid, pid)
     }
     
     /**
      * @param {string} cid del carrito 
      */
     async deleteAllProducts (cid) {
-        try {
-            await this.dao.deleteAll(cid)
-        }
-        catch (err) {
-            console.log(err.name, err.message);
-        }
+        await this.dao.deleteAll(cid)
     }
 
     async deleteCart (cid) {
@@ -53,11 +38,7 @@ class CartRepository {
      * @returns todos los carritos
      */
     async getCarts () {
-        try{
-            return await this.dao.get()
-        } catch (err) {
-            console.log(err);
-        }
+        return await this.dao.get()
     }
 
     /**
@@ -65,11 +46,7 @@ class CartRepository {
      * @returns Carrito Encontrado
      */
     async getCartById (id) {
-        try{
-            return await this.dao.getById(id)
-        } catch (err) {
-            console.log(err);
-        }
+        return await this.dao.getById(id)
     }
 
     /**
@@ -78,12 +55,7 @@ class CartRepository {
      * @param {Array} products array con los productos
      */
     async updateAllProducts(cid, products) {
-        try {
-            await this.dao.updateAll(cid, products)
-        }
-        catch (err) {
-            console.log(err);
-        }
+        await this.dao.updateAll(cid, products)
     }
 
     /**
@@ -93,12 +65,7 @@ class CartRepository {
      */
 
     async updateProduct(cid, pid, quantity) {
-        try {
-            return await this.dao.updateOne(cid, pid, quantity)
-        }
-        catch (err) {
-            console.log(err);
-        }
+        return await this.dao.updateOne(cid, pid, quantity)
     }
 
     async getProductsFromCart(cid) {

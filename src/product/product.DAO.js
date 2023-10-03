@@ -10,40 +10,32 @@ class ProductMongo{
     }
 
     async getProducts (limit = 10, page = 1, sort = false, category = false, status=undefined ) {
-        try{
-            let order = undefined
-            if (sort) {
-                order = {price: sort}
-            }
-            let filter = {}
-            if (category) {
-                filter = { category: category }
-            }
-            if (status) {
-                filter = { status: status }
-            }
-            const products = await this.model.paginate(filter, { lean : true, limit, page, sort: order })
-
-            products.prevLink = products.prevPage? 
-            `?limit=${products.limit}&page=${products.prevPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${status ? `&status=${status}` : ''}`
-            : null
-            
-            products.nextLink = products.nextPage? 
-            `?limit=${products.limit}&page=${products.nextPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${status ? `&status=${status}` : ''}`
-            : null
-
-            return products
-        } catch (err) {
-            console.log(err);
+        let order = undefined
+        if (sort) {
+            order = {price: sort}
         }
+        let filter = {}
+        if (category) {
+            filter = { category: category }
+        }
+        if (status) {
+            filter = { status: status }
+        }
+        const products = await this.model.paginate(filter, { lean : true, limit, page, sort: order })
+
+        products.prevLink = products.prevPage? 
+        `?limit=${products.limit}&page=${products.prevPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${status ? `&status=${status}` : ''}`
+        : null
+        
+        products.nextLink = products.nextPage? 
+        `?limit=${products.limit}&page=${products.nextPage}${sort ? `&sort=${sort}` : ''}${category ? `&category=${category}` : ''}${status ? `&status=${status}` : ''}`
+        : null
+
+        return products
     }
 
     async getProductsRealTime () {
-        try{
-            return await this.model.find().lean()
-        } catch (err) {
-            console.log(err);
-        }
+        return await this.model.find().lean()
     }
 
     /**
@@ -91,7 +83,6 @@ class ProductMongo{
     async updateProduct (id, updatedProduct) {
         return await this.model.updateOne({_id:id}, updatedProduct, {new: true})
     }
-
 }
 
 export default ProductMongo
