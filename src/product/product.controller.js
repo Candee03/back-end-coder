@@ -13,7 +13,7 @@ export const productService = new ProductRepository(new ProductMongo())
 export const getAllProducts = async(req, res) => {
 	try{
         const { limit, page, sort, category, status } = req.query
-        const products = await productService.getProducts(limit, page, sort, category, status )
+        const products = await productService.getProducts(limit, page, sort, category, status)
         return res.status(200).send(products)
     }
     catch (err) {

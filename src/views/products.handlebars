@@ -36,6 +36,20 @@
     </section>
 
     <section id="section-products">
+        <div id="filter-products">
+            <select id="selectorForCategory">
+                <option value="all">Todos</option>
+                <option value="cocina">Cocina</option>
+                <option value="tecnologia">Tecnologia</option>
+                <option value="electrodomestico">Electrodomestico</option>
+            </select>
+            <select id="selectorForPrice">
+                <option value="none">Default</option>
+                <option value="menor-a-mayor">Menor a mayor</option>
+                <option value="mayor-a-menor">Mayor a menor</option>
+            </select>
+            <button id="btn-applyFilter-products" onclick="listenerOption()">Aplicar filtros</button>
+        </div>
         <div class="container-products-cards">
             {{#each products.docs}}
                 <div class="div-card">
@@ -85,3 +99,5 @@
             </li>
     </ul>
 </footer>
+
+<script src="/js/Products.js"></script>

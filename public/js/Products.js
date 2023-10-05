@@ -39,3 +39,10 @@ async function updateProduct (pid){
         console.error(`Error: ${error.message}`);
     });
 }
+const selectorForCategory = document.getElementById('selectorForCategory')
+const selectorForPrice = document.getElementById('selectorForPrice')
+const listenerOption = () => {
+    location.replace(`/products?limit=10${selectorForCategory.value !== 'all' ? '&category='+selectorForCategory.value : ''}${selectorForPrice.value === 'menor-a-mayor' ? '&sort=asc' : selectorForPrice.value === 'mayor-a-menor' ? '&sort=desc' : ''}`)
+    selectorForCategory.value = selectorForCategory.value
+    selectorForPrice.value = selectorForPrice.value
+}
