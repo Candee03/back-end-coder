@@ -172,7 +172,7 @@ export const removeInactiveUsers = async (req, res) => {
     const date = returnsDateObject(new Date().toLocaleString())
     users.forEach(async user => {
         const userConnection = returnsDateObject(user.last_connection)
-        if (userConnection.month !== date.month || date.day - 2 > userConnection.day - 2) {
+        if (parseInt(date.day) >= parseInt(userConnection.day) + 2 || parseInt(date.day) <= parseInt(userConnection.day) && userConnection.month !== date.month || userConnection.month !== date.month ) {
             await userService.deleteUser(user._id)
             await cartService.deleteCart(user.cartId._id)
             await fetch(`http://localhost:8080/api/mail/${user.email}`, {method: 'GET'})
