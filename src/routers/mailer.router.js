@@ -77,7 +77,7 @@ mailRouter.get('/product/deleted/:email', async(req, res) => {
         `,
         attachments:[]
     })
-    res.status(200).send('success')
+    return res.status(200).send('success')
 })
 
 mailRouter.get('/:codePurchase/:email/:name', async(req, res) => {

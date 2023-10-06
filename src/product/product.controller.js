@@ -129,12 +129,10 @@ export const deleteProduct = async (req, res) => {
         if (user.role === 'premium' && user.email !== product.owner) {
             return req.logger.info(`no puedes borrar este producto`)
         }
-        
+
         await productService.deleteProduct(req.params.pid)
         req.logger.info(`se eliminó correctamente`)
-        if (product.owner !== 'admin') {
-            await fetch(`/api/mail/product/deleted/${product.owner}`, {method: 'GET'})
-        }
+
         return res.status(200).send('Se eliminó el producto!')
     }
     catch (err) {

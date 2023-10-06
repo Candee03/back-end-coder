@@ -1,10 +1,12 @@
-async function deleteProduct (pid){
-    const url = `/api/products/${pid}`
-
-    await fetch(url, { 
-        method: 'DELETE'
-    })
-    .then(res => {
+async function deleteProduct (pid, owner){
+    if (owner != 'admin') {
+        await fetch(`/api/mail/product/deleted/${owner}`, {method:'GET'})
+        .then((res) => {
+            if (res.ok) return location.reload()
+        })
+    }
+    await fetch(`/api/products/${pid}`, {method: 'DELETE'})
+    .then((res) => {
         if (res.ok) return location.reload()
     })
     .catch(error => {
