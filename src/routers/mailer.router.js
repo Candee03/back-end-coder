@@ -80,16 +80,16 @@ mailRouter.get('/product/deleted/:email', async(req, res) => {
     res.status(200).send('success')
 })
 
-mailRouter.get('/:codePurchase', async(req, res) => {
+mailRouter.get('/:codePurchase/:email/:name', async(req, res) => {
     const tiket = await tiketService.getTiket(req.params.codePurchase)
     let result = await transport.sendMail({
         from:`${config.mail}`,
-        to: (req.session.user.email).toString(),
+        to: (req.params.email).toString(),
         subject: `Resumen de compra`,
         html:`
         <div>
             <h1>Resumen de tu compra:</h1>
-            <p>A nombre de: ${req.session.user.first_name}</p>
+            <p>A nombre de: ${req.params.name}</p>
             <p>Total: $${tiket.amount}</p>
             <p>Codigo de pedido: ${tiket.code}</p>
             <h2>GRACIAS POR TU COMPRA!!!</h2>
@@ -97,7 +97,7 @@ mailRouter.get('/:codePurchase', async(req, res) => {
         `,
         attachments:[]
     })
-    res.redirect('/products')
+    res.status(200).send('success')
 })
 
 export default mailRouter

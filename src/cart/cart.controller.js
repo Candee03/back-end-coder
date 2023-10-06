@@ -151,11 +151,14 @@ export const purchase = async(req, res) => {
         })
 
         const tiket = await tiketService.createTiket((req.session.user.email).toString(), total)
-        return res.status(200).redirect(`/api/mail/${tiket.code}`)
+        fetch(`http://localhost:8080/api/mail/${tiket.code}/${req.session.user.email}/${req.session.user.first_name}`, {method: 'GET'})
+        .then((r) => {
+            if (r.ok) return res.redirect('/products')
+        })
     }
     catch(err) {
         req.logger.error(err.message)
-        return res.status(405).send(err)
+        return res.status(405).send(err.message)
     }
 }
 
