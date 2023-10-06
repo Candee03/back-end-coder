@@ -1,5 +1,5 @@
 async function vaciarCarrito (cid) {
-    await fetch (`http://localhost:8080/api/carts/${cid}`, {method: 'DELETE'})
+    await fetch (`/api/carts/${cid}`, {method: 'DELETE'})
     .then((res) => {
         if (res.ok) return location.reload()
     })

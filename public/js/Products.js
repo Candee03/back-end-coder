@@ -1,5 +1,5 @@
 async function deleteProduct (pid){
-    const url = `http://localhost:8080/api/products/${pid}`
+    const url = `/api/products/${pid}`
 
     await fetch(url, { 
         method: 'DELETE'
@@ -25,7 +25,7 @@ async function updateProduct (pid){
         category: category[0].value? category[0].value : category[0].placeholder,
         stock: stock[0].value? stock[0].value : stock[0].placeholder,
     }
-    await fetch(`http://localhost:8080/api/products/${pid}`, { 
+    await fetch(`/api/products/${pid}`, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -63,7 +63,7 @@ async function createProduct () {
         price:price.value,
         stock:stock.value
     }
-    await fetch(`http://localhost:8080/api/products/`, { 
+    await fetch(`/api/products/`, { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

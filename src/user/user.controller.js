@@ -175,7 +175,7 @@ export const removeInactiveUsers = async (req, res) => {
         if (parseInt(date.day) >= parseInt(userConnection.day) + 2 || parseInt(date.day) <= parseInt(userConnection.day) && userConnection.month !== date.month || userConnection.month !== date.month ) {
             await userService.deleteUser(user._id)
             await cartService.deleteCart(user.cartId._id)
-            await fetch(`http://localhost:8080/api/mail/${user.email}`, {method: 'GET'})
+            await fetch(`/api/mail/${user.email}`, {method: 'GET'})
         }
     })
     return res.status(200).send('ok')
