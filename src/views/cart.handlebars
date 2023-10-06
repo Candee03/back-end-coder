@@ -27,12 +27,21 @@
             </tbody>
         </table>
 
-        <div id="form-btn-submit">
-            <button onclick="purchase('{{cartId}}')" id="btn-submit">Finalizar compra</button>
-        </div>
-        <div id="container-btn-delete">
-            <button onclick="vaciarCarrito('{{cartId}}')" id="btn-delete">Vaciar carrito</button>
-        </div>
+            {{#if cartEmpty}} 
+                <div id="form-btn-submit">
+                    <button disabled="true" onclick="goToPurchase('{{cartId}}')" id="btn-submit">Finalizar compra</button>
+                </div>
+                <div id="container-btn-delete">
+                    <button disabled="true" onclick="vaciarCarrito('{{cartId}}')" id="btn-delete">Vaciar carrito</button>
+                </div>
+            {{else}} 
+                <div id="form-btn-submit">
+                    <button onclick="goToPurchase('{{cartId}}')" id="btn-submit">Finalizar compra</button>
+                </div>
+                <div id="container-btn-delete">
+                    <button onclick="vaciarCarrito('{{cartId}}')" id="btn-delete">Vaciar carrito</button>
+                </div>
+            {{/if}}
     </div>
 </main>
 

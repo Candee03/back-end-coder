@@ -38,7 +38,26 @@ export const getCart = async(req, res) => {
         }
         cart.push(product)
     });
-    res.render('cart', {cart, cartId})
+    let cartEmpty =false
+
+    if (cart[0] === undefined) {
+        cartEmpty = true
+    }
+    res.render('cart', {cart, cartId, cartEmpty})
+}
+
+export const purchaseCart = async(req, res) => {
+    const cartId = req.params.cid.toString()
+    const cartProducts = await req.cartService.getProductsPopulated(cartId)
+
+    let totalPrice = 0
+    let totalCant = 0
+    const purchaser = req.session.user.first_name
+    cartProducts.forEach(product => {
+        totalPrice += product.product.price
+        totalCant += product.quantity
+    });
+    res.render('purchase', {totalPrice, totalCant, purchaser, cartId})
 }
 
 export const chat = async(req, res) => {

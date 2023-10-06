@@ -4,9 +4,6 @@ async function vaciarCarrito (cid) {
         if (res.ok) return location.reload()
     })
 }
-async function purchase (cid) {
-    await fetch (`http://localhost:8080/api/carts/${cid}/purchase`, {method: 'POST'})
-    .catch((error) => {
-        console.log(error);
-    })
+function goToPurchase (cid) {
+    return location.replace(`http://localhost:8080/purchase/${cid}`)
 }

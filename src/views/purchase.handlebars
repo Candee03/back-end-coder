@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="/css/main.css">
+
+<main id="main">
+    <div id="container-purchase">
+        <h1 id="h1-purchase">Finalizar compra:</h1>
+        <div id="container-purchase-data">
+            <p id="purchaser">A nombre de: {{purchaser}}</p>
+            <p id="total-price">Total = ${{totalPrice}}</p>
+            <p id="total-items">Cantidad de productos = {{totalCant}}</p>
+        </div>
+        <div id="cont-btn-purchase">
+            <button onclick="purchase('{{cartId}}')" id="btn-buy">Comprar</button>
+        </div>
+    </div>
+</main>
+
+<script src="/js/Purchase.js"></script>
