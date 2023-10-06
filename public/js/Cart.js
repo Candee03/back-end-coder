@@ -5,5 +5,5 @@ async function vaciarCarrito (cid) {
     })
 }
 function goToPurchase (cid) {
-    return location.replace(`http://localhost:8080/purchase/${cid}`)
+    return location.replace(`/purchase/${cid}`)
 }
