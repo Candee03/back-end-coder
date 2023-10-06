@@ -59,6 +59,27 @@ mailRouter.get('/:email', async(req, res) => {
     res.status(200).send('success')
 })
 
+mailRouter.get('/product/deleted/:email', async(req, res) => {
+    let result = await transport.sendMail({
+        from:`${config.mail}`,
+        to: (req.params.email).toString(),
+        subject: `Producto Eliminado`,
+        html:`
+        <div>
+            <h2>Estimado Usuario:</h2>
+            <p>Le comentamos que un producto que era de su propiedad en la tienda ha sido eliminado.</p>
+            <p>Si no fue usted quien lo eliminó, entonces fue el administrador y lo invitamos coordialmente a que se comunique con nosotros.</p>
+            <p>Saludos coordiales.</p>
+            <br>
+            <br>
+            <span>Atte: Candela</span>
+        </div>
+        `,
+        attachments:[]
+    })
+    res.status(200).send('success')
+})
+
 mailRouter.get('/:codePurchase', async(req, res) => {
     const tiket = await tiketService.getTiket(req.params.codePurchase)
     let result = await transport.sendMail({

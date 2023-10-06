@@ -46,3 +46,34 @@ const listenerOption = () => {
     selectorForCategory.value = selectorForCategory.value
     selectorForPrice.value = selectorForPrice.value
 }
+
+async function createProduct () {
+    const title = document.getElementById('title')
+    const description = document.getElementById('description')
+    const thumbnail = document.getElementById('thumbnail')
+    const category = document.getElementById('category')
+    const price = document.getElementById('price')
+    const stock = document.getElementById('stock')
+
+    const newProduct = {
+        title:title.value,
+        description:description.value,
+        thumbnail:thumbnail.value,
+        category:category.value,
+        price:price.value,
+        stock:stock.value
+    }
+    await fetch(`http://localhost:8080/api/products/`, { 
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newProduct)
+    })
+    .then((res) => {
+        if(res.ok) return location.replace('http://localhost:8080/products')
+    })
+    .catch((error) => {
+        console.error(`Error: ${error.message}`);
+    })
+}
