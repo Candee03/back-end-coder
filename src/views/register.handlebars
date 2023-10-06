@@ -2,26 +2,26 @@
 	<section id="section-register-form">
 		<div id="div-container-register-form">
 			<h1 id="title-register-form">Registrar Nuevo Usuario</h1>
-			<form id="register-form" action="/api/users/" method="post" enctype="multipart/form-data">
-					<input class="input-register-form" type="text" placeholder="Nombre" name="first_name">
+			<div id="register-form">
+					<input class="input-register-form" id="first_name" type="text" placeholder="Nombre" name="first_name">
 				
-					<input class="input-register-form" type="text" placeholder="Apellido" name="last_name">
+					<input class="input-register-form" id="last_name" type="text" placeholder="Apellido" name="last_name">
 				
-					<input class="input-register-form" type="email" placeholder="Correo Electrónico" name="email">
+					<input class="input-register-form" id="email" type="email" placeholder="Correo Electrónico" name="email">
 				
-					<input class="input-register-form" type="number" placeholder="Edad" name="age">
-				
-					{{!-- <input class="input-register-form" type="file" name="profile"> --}}
+					<input class="input-register-form" id="age" type="number" placeholder="Edad" name="age">
 					
-					<input class="input-register-form" type="text" placeholder="Imagen" name="img">
+					<input class="input-register-form" id="img" type="text" placeholder="Imagen" name="img">
 				
-					<input class="input-register-form" type="password" placeholder="Contraseña" name="password">
+					<input class="input-register-form" id="password" type="password" placeholder="Contraseña" name="password">
 
-					<button class="btn-register" type="submit">Registrarse</button>
-			</form>
+					<button onclick="register()" class="btn-register">Registrarse</button>
+			</div>
 			<div id="div-container-link-login">
 				<p id="p-link-login">Si ya tienes una cuenta <a id="a-link-login" href="/login">inicia sesión</a></p>
 			</div>
 		</div>
 	</section>
 </main>
+
+<script src="/js/User.js"></script>
