@@ -53,7 +53,7 @@ async function register () {
         body:JSON.stringify(formData),
     })
     .then((res) => {
-        if(res.ok) return location.replace('http://localhost:8080/')
+        if(res.ok) return location.replace('/')
     })
     .catch((error) => {
         console.error(`Error: ${error.message}`);

@@ -71,7 +71,7 @@ async function createProduct () {
         body: JSON.stringify(newProduct)
     })
     .then((res) => {
-        if(res.ok) return location.replace('http://localhost:8080/products')
+        if(res.ok) return location.replace('/products')
     })
     .catch((error) => {
         console.error(`Error: ${error.message}`);
