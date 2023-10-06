@@ -28,12 +28,13 @@ describe('Test de integracion - Session User', () => {
         expect(_body._id).to.be.an('string')
         expect(_body.password).to.not.be.equal(user.password)
         userId = _body._id
+        cartId = _body.cartId._id
     })
 
     it('El metodo POST en la ruta "/api/users/auth" debe iniciar la session del usuario', async() => {
         const user = {
-            "email": "example@email.com",
-            "password": "123456"
+            "email": "adminCoder@coder.com",
+            "password": "adminCod3r123"
         }
 
         const {header} = await request.post('/api/users/auth').send(user)
@@ -48,8 +49,7 @@ describe('Test de integracion - Session User', () => {
         .then((result)=>{
             const { _body, statusCode } = result;
 
-            cartId = _body.user.cartId._id
-            expect(_body.user.email).to.be.equal("example@email.com");
+            expect(_body.user.email).to.be.equal("adminCoder@coder.com");
             expect(statusCode).to.be.equal(200);
         })
     })

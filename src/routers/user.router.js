@@ -1,5 +1,5 @@
 import passport from "passport";
-import { changePassword, deleteUser, getAllUsers, login, logout, register, restore, updateRole, uploadDocuments } from "../user/user.controller.js";
+import { changePassword, deleteUser, getAllUsers, login, logout, register, removeInactiveUsers, restore, updateRole, uploadDocuments } from "../user/user.controller.js";
 import MakeRouter from "./routers.js";
 import { authToRestore, generateToken } from "../config/jwt.js";
 import { uploadFiles } from "../middleware/multer.middleware.js";
@@ -22,7 +22,9 @@ class UsersRouter extends MakeRouter {
 
         this.get('/premium/:uid', ['ADMIN'], updateRole)
 
-        this.delete('/:uid', ['USER', 'ADMIN', 'PREMIUM'], deleteUser)
+        this.delete('/', ['ADMIN'], removeInactiveUsers)
+
+        this.delete('/:uid', ['ADMIN'], deleteUser)
 
         //*AUTENTICACION DE TERCEROS
         this.get('/github', ['PUBLIC'], passport.authenticate('github', {scope:['user:email']}), async (req, res) => {})

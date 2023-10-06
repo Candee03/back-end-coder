@@ -3,11 +3,13 @@ import UserMongo from "./user.DAO.js"
 import { UserSafeDTO } from "./user.DTO.js"
 import {generateToken} from "../config/jwt.js"
 import { comparePassword, hashPassword } from "../config/encript.util.js"
+import { cartService } from "../cart/cart.controller.js"
 
 export const userService = new UserRepository(new UserMongo())
 
 export const getAllUsers = async(req, res) => {
-    const users = await userService.getAll()
+    let users = await userService.getAll()
+    users = new UserSafeDTO(users)
     res.send(users)
 }
 
@@ -117,9 +119,14 @@ export const updateRole = async (req, res) => {
 }
 
 export const deleteUser = async(req,res) =>{
-    const userId = req.params.uid;
-    await userService.deleteUser(userId)
-    res.status(200).send({status:"success",message:"User deleted"})
+    try {
+        const userId = req.params.uid;
+        await userService.deleteUser(userId)
+        res.status(200).send({status:"success",message:"User deleted"})
+    }
+    catch (err) {
+        res.status(400).send({status:"error",message:err.message})
+    }
 }
 
 export const uploadDocuments = async(req, res) => {
@@ -142,4 +149,34 @@ export const uploadDocuments = async(req, res) => {
     catch (err) {
         res.status(404).render('uploadDocuments', {uid: req.params.uid, message:err.message})
     }
+}
+
+/**
+ * 
+ * @param {string} date date to locale string
+ */
+const returnsDateObject = (date) => {
+    const d = date.split(', ').shift()
+    const day = d.split('/')[0]
+    const month = d.split('/')[1]
+
+    const dateObject = {
+        day: day,
+        month: month,
+    }
+    return dateObject
+}
+
+export const removeInactiveUsers = async (req, res) => {
+    const users = await userService.getAll()
+    const date = returnsDateObject(new Date().toLocaleString())
+    users.forEach(async user => {
+        const userConnection = returnsDateObject(user.last_connection)
+        if (userConnection.month !== date.month || date.day - 2 > userConnection.day - 2) {
+            await userService.deleteUser(user._id)
+            await cartService.deleteCart(user.cartId._id)
+            await fetch(`http://localhost:8080/api/mail/${user.email}`, {method: 'GET'})
+        }
+    })
+    return res.status(200).send('ok')
 }

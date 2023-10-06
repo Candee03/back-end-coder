@@ -18,3 +18,10 @@ async function changeRole(uid) {
         if (res.ok) return location.reload()
     })
 }
+
+async function removeInactiveUsers() {
+    await fetch (`http://localhost:8080/api/users/`, {method: 'DELETE'})
+    .then( (res) => {
+        if (res.ok) return location.reload()
+    })
+}

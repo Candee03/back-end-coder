@@ -39,6 +39,26 @@ mailRouter.get('/restorePassword/:email/:token', async(req, res) => {
     res.redirect('/login')
 })
 
+mailRouter.get('/:email', async(req, res) => {
+    let result = await transport.sendMail({
+        from:`${config.mail}`,
+        to: (req.params.email).toString(),
+        subject: `Usuario eliminado por inactividad`,
+        html:`
+        <div>
+            <h2>Estimado Usuario:</h2>
+            <p>Le comentamos que hemos eliminado su cuenta en nuestra tienda por inactividad.</p>
+            <p>Su usuario ha sido eliminado porque pasaron más de 2 dias sin que se conecte.</p>
+            <br>
+            <br>
+            <span>Atte: Candela</span>
+        </div>
+        `,
+        attachments:[]
+    })
+    res.status(200).send('success')
+})
+
 mailRouter.get('/:codePurchase', async(req, res) => {
     const tiket = await tiketService.getTiket(req.params.codePurchase)
     let result = await transport.sendMail({
