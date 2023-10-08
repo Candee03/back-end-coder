@@ -2,8 +2,8 @@
 
 <main id="main">
     <section id="section-upload-docs">
-        <h1 id="h1-upload-docs">Selecciona los documentos:</h1>
         <form id="form-upload-docs" action="/api/users/{{uid}}/documents" method="post" enctype="multipart/form-data">
+            <h2 class="h2-upload-docs">Selecciona los documentos:</h2>
             <span class="message-error">{{message}}</span>
             <div class="div-file-select">
                 <input class="input-file form-control" type="file" name="documents">
@@ -14,7 +14,13 @@
             <div class="div-file-select">
                 <input class="input-file form-control" type="file" name="documents">
             </div>
+            <h2 class="h2-upload-docs">Cambiar imagen de perfil:</h2>
+            <div class="div-file-select">
+                <input class="input-file form-control" type="file" name="profile">
+                <span id="comment-profile">Recomendacion: Resolucion de una imagen cuadrada. Ejemplo: 980 x 980</span>
+            </div>
             <button id="btn-upload-docs" type="submit">Subir documentos</button>
+            <span id="comment">Los cambios se van a ver reflejados cuando vuelvas a iniciar sesión</span>
         </form>
     </section>
 </main>

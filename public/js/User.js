@@ -40,11 +40,8 @@ async function register () {
         last_name:last_name.value,
         email:email.value,
         age:age.value,
-        img:img.value,
         password:password.value,
     }
-    console.log(formData);
-
     await fetch('/api/users', {
         method: 'POST',
         headers: {

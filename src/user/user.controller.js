@@ -133,17 +133,24 @@ export const uploadDocuments = async(req, res) => {
     try {
         const user = await userService.getById(req.params.uid.toString())
         let docs = []
-        req.files.forEach(file => {
-            const doc= {
-                name: file.filename,
-                reference: file.path
-            }
-            if (user.documents.some(document => document.reference === doc.reference)) {
-                throw new Error('❌no reenvies documentos que ya enviaste')
-            }
-            docs.push(doc)
-        })
-        await userService.uploadDocs(req.params.uid.toString(), docs)
+        if (req.files.profile) {
+            const path = (req.files.profile[0].destination).split('/').splice(1,2)
+            const imgPath = `${path[0]}/${path[1]}/${req.files.profile[0].filename}`
+            await userService.updateImgProfile(user._id, imgPath)
+        }
+        if (req.files.documents) {
+            req.files.documents.forEach(file => {
+                const doc= {
+                    name: file.filename,
+                    reference: file.path
+                }
+                if (user.documents.some(document => document.reference === doc.reference)) {
+                    throw new Error('❌no reenvies documentos que ya enviaste')
+                }
+                docs.push(doc)
+            })
+            await userService.uploadDocs(req.params.uid.toString(), docs)
+        }
         return res.status(200).redirect('/products')
     }
     catch (err) {

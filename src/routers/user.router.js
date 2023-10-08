@@ -8,7 +8,7 @@ class UsersRouter extends MakeRouter {
     init() {
         this.get('/', ['ADMIN'], getAllUsers)
 
-        this.post('/',['PUBLIC'], uploadFiles().single('profile'), passport.authenticate('register', {failureRedirect:'/'}), register)
+        this.post('/',['PUBLIC'], passport.authenticate('register', {failureRedirect:'/'}), register)
 
         this.post('/auth', ['PUBLIC'], passport.authenticate('login', {failureRedirect:'/'}), login)
 
@@ -18,7 +18,7 @@ class UsersRouter extends MakeRouter {
 
         this.post('/changePassword/:email', ['PUBLIC'], authToRestore, changePassword)
 
-        this.post('/:uid/documents', ['ADMIN', 'USER', 'PREMIUM'], uploadFiles().array('documents', 3), uploadDocuments)
+        this.post('/:uid/documents', ['ADMIN', 'USER', 'PREMIUM'], uploadFiles().fields([ { name: 'documents', maxCount: 3 }, {name: 'profile', maxCount: 1} ]), uploadDocuments)
 
         this.get('/premium/:uid', ['ADMIN'], updateRole)
 

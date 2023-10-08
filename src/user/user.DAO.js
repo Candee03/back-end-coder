@@ -34,18 +34,21 @@ class UserMongo {
 	async updateConnection (uid, date) {
 		return await this.model.findOneAndUpdate({_id: uid}, {last_connection: date})
 	}
-
+	
 	async uploadDocs (uid, docs) {
 		const user = await this.model.findOne({_id: uid})
 		const documents = user.documents
-
+		
 		await this.model.findByIdAndUpdate({_id: uid}, {documents: docs})
 		const newDocuments = await this.model.findOne({_id: uid})
-
+		
 		user.documents = [...documents, ...newDocuments.documents]
 		return await user.save()
 	}
-
+	
+	async updateImgProfile (uid, imgPath) {
+		return await this.model.findOneAndUpdate({_id: uid}, {img: imgPath})
+	}
 }
 
 export default UserMongo;

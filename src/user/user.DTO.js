@@ -8,7 +8,7 @@ export class UserRegisterDTO {
         this.email = user.email
         this.age = user.age || 0
         this.password = hashPassword(password) || ''
-        this.img = user.img
+        this.img = user.img || '/img/profiles/default.png'
         this.role = 'user'
         this.cartId = cartId
         this.documents = user.documents

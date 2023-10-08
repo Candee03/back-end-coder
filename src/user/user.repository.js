@@ -41,6 +41,9 @@ class UserRepository {
 	async uploadDocs (uid, docs) {
 		return await this.dao.uploadDocs(uid, docs)
 	}
+	async updateImgProfile (uid, imgPath) {
+		return await this.dao.updateImgProfile (uid, imgPath)
+	}
 }
 
 export default UserRepository;
