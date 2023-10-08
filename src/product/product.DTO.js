@@ -5,7 +5,7 @@ export class ShowProductDto {
         this.title= product.title
         this.description= product.description
         this.price= product.price
-        this.thumbnail= product.thumbnail
+        this.thumbnail= product.thumbnail || ['/img/products/default.jpg']
         this.code= product.code? product.code : generarCodigoAleatorio(5)
         this.status = product.stock>0? true : false
         this.category= product.category

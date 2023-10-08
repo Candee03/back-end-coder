@@ -1,3 +1,4 @@
+import { uploadFiles } from '../middleware/multer.middleware.js';
 import { addProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '../product/product.controller.js';
 import MakeRouter from './routers.js';
 
@@ -192,7 +193,7 @@ class ProductRouter extends MakeRouter {
          *              500:
          *                  description: Some server Error
          */
-        this.post('/', ['ADMIN','PREMIUM'], addProduct);
+        this.post('/', ['ADMIN','PREMIUM'], uploadFiles().array('products', 3), addProduct);
 
         //!---------METODO PUT--------
 

@@ -5,7 +5,7 @@
         <div id="container-form-create-product">
             <h1 class="title-create-product">Completa los datos de tu nuevo producto:</h1>
 
-            <div class="form-create-product">
+            <form class="form-create-product" action="/api/products/" method="post" enctype="multipart/form-data">
                 <div class="div-container-input">
                     {{#if messageError}} <p class="message-error">❌{{messageError}}</p> {{/if}}
                     <span class="span-form-create-product">Nombre del Producto</span>
@@ -13,7 +13,8 @@
                     <span class="span-form-create-product">Descripción</span>
                     <input id="description" class="input-form-create-product" type="text" placeholder="Una descripcion sobre las caracteristicas principales" name="description">
                     <span class="span-form-create-product">Imagen</span>
-                    <input id="thumbnail" class="input-form-create-product" type="text" name="thumbnail">
+                    <input class="form-control" type="file" id="formFileMultiple" name="products" multiple>
+                    {{!-- <input id="thumbnail" class="input-form-create-product" type="text" name="thumbnail"> --}}
                     <span class="span-form-create-product">Categoria</span>
                     <input id="category" class="input-form-create-product" type="text" name="category">
                     <span class="span-form-create-product">Precio</span>
@@ -25,7 +26,7 @@
                 <div id="container-btn-publishProduct">
                     <button onclick="createProduct()" class="btn-form-publishProduct" type="submit">Publicar producto</button>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
 </main>
