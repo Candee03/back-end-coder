@@ -636,28 +636,9 @@
     flex-direction: column;
     align-items: center; }
     #body #main #section-upload-docs #form-upload-docs .div-file-select {
-      display: inline-block;
-      position: relative;
-      margin: 0.5rem; }
+      margin: 1rem 0; }
       #body #main #section-upload-docs #form-upload-docs .div-file-select .input-file {
-        opacity: 0;
-        width: 200px;
-        height: 32px;
-        display: inline-block; }
-      #body #main #section-upload-docs #form-upload-docs .div-file-select .input-file::before {
-        content: 'Archivo 1'; }
-    #body #main #section-upload-docs #form-upload-docs .div-file-select::before {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 10px;
-      background-color: #EADBC8;
-      content: 'Seleccionar';
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0; }
+        background-color: #EADBC8; }
     #body #main #section-upload-docs #form-upload-docs #btn-upload-docs {
       margin-top: 2rem;
       background-color: #ffa932; }
