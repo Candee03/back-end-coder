@@ -101,7 +101,7 @@ export const updateRole = async (req, res) => {
             user.documents.forEach(doc => {
                 const nameOfDoc = (doc.name.split('-').pop()).split('.').shift().toString()
 
-                if (nameOfDoc === 'Identificacion' || nameOfDoc === 'Comprobante de domicilio' || nameOfDoc === 'Comprobante de estado de cuenta') {
+                if (nameOfDoc.toUpperCase() === ('Identificacion').toUpperCase() || nameOfDoc.toUpperCase() === ('Comprobante de domicilio').toUpperCase() || nameOfDoc.toUpperCase() === ('Comprobante de estado de cuenta').toUpperCase()) {
                     requiredDocuments.push(nameOfDoc)
                 }
             })

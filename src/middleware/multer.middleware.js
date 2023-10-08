@@ -9,7 +9,8 @@ export const uploadFiles = () => {
     const generateFileName = (req, file, cb) => {
         const extension = file.originalname.split('.').pop();
         const name = file.originalname.split('.').shift();
-        const fileName = `${file.fieldname}-${req.user? req.user.user.first_name : req.body.first_name}-${name}.${extension}`;
+        const userName = req.user? (req.user.user.first_name).split(' ')[0] : ''
+        const fileName = `${file.fieldname}-${userName}-${name.toLowerCase()}.${extension}`;
         cb(null, fileName);
     };
 
