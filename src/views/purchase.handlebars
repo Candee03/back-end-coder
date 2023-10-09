@@ -7,6 +7,20 @@
             <p id="purchaser">A nombre de: {{purchaser}}</p>
             <p id="total-price">Total = ${{totalPrice}}</p>
             <p id="total-items">Cantidad de productos = {{totalCant}}</p>
+            <label class="label-input-purchase" for="nombre">Nombre como figura en la tarjeta</label>
+            <input class="input-purchase" name="nombre" type="text">
+
+            <label class="label-input-purchase" for="cardNum">Numero de tarjeta</label>
+            <input class="input-purchase" name="cardNum" type="number">
+
+            <label class="label-input-purchase" for="code">Codigo de seguridad</label>
+            <input class="input-purchase" name="code" type="number">
+
+            <label class="label-input-purchase" for="adress">Domicilio</label>
+            <input class="input-purchase" name="adress" type="text">
+
+            <label class="label-input-purchase" for="postal">Codigo postal</label>
+            <input class="input-purchase" name="postal" type="number">
         </div>
         <div id="cont-btn-purchase">
             <button onclick="purchase('{{cartId}}')" id="btn-buy">Comprar</button>
