@@ -46,10 +46,12 @@ export const addProduct = async(req, res) => {
             })
         }
         const imagesForProduct = []
-        req.files.forEach(i => {
-            const imgPath = i.destination.split('/').splice(1, 2)
-            imagesForProduct.push(`/${imgPath[0]}/${imgPath[1]}/${i.filename}`)
-        });
+        if (req.files) {
+            req.files.forEach(i => {
+                const imgPath = i.destination.split('/').splice(1, 2)
+                imagesForProduct.push(`/${imgPath[0]}/${imgPath[1]}/${i.filename}`)
+            })
+        }
         const owner = req.user.user.role === 'premium'? req.user.user.email : 'admin'
 
         const p = new ShowProductDto({
