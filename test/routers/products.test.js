@@ -35,8 +35,7 @@ describe('Test de integracion - Products', () => {
             description: 'description test',
             price: 20000,
             category: 'test',
-            stock: 10,
-            thumbnail: ['img1']
+            stock: 10
         }
         const { statusCode, body } = await request.post('/api/products').set('Cookie', cookie).send(newProduct)
 

@@ -23,7 +23,7 @@ describe('Test de integracion - Carts', () => {
     })
 
     const cid = '6510f091cbd7f799c33ca368'
-    const pid = '647e1088b635190c5329cdb0'
+    const pid = '647e103a4cc63e0cd4317a0c'
 
     it('El metodo GET de la ruta "/api/carts/:cid" debe obtener un carrito segun su ID', async() => {
         const { statusCode, _body } = await request.get(`/api/carts/${cid}`).set('Cookie', cookie)
