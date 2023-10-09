@@ -12,7 +12,7 @@ class ViewsRouter extends MakeRouter {
         //?VIEWS PRODUCTS
         this.get('/products', ['ADMIN', 'USER', 'PREMIUM'], getProducts)
 
-        this.get('/mockingproducts', ['ADMIN', 'USER', 'PREMIUM'], getMocking)
+        this.get('/mockingproducts', ['ADMIN'], getMocking)
 
         this.get('/details/:pid', ['ADMIN', 'USER', 'PREMIUM'], getDetails)
 
@@ -29,9 +29,9 @@ class ViewsRouter extends MakeRouter {
         this.get('/updateProduct/:pid', ['ADMIN', 'PREMIUM'], updateProduct)
 
         //?VIEWS CARRITO
-        this.get('/carts/:cid', ['ADMIN', 'USER', 'PREMIUM'], getCart)
+        this.get('/carts/:cid', ['USER', 'PREMIUM'], getCart)
 
-        this.get('/purchase/:cid', ['ADMIN', 'USER', 'PREMIUM'], purchaseCart)
+        this.get('/purchase/:cid', ['USER', 'PREMIUM'], purchaseCart)
 
         //?VIEWS CHAT
         this.get('/chat', ['USER', 'PREMIUM'], chat)
@@ -56,7 +56,7 @@ class ViewsRouter extends MakeRouter {
 
         this.get('/changePassword/:email/:token', ['PUBLIC'], authToRestore, changePassword);
 
-        this.get('/uploadDocuments/:uid', ['ADMIN', 'USER', 'PREMIUM'], (req, res) => {
+        this.get('/uploadDocuments/:uid', ['USER', 'PREMIUM'], (req, res) => {
             res.render('uploadDocuments', {uid: req.params.uid})
         });
     }

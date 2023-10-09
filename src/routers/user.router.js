@@ -18,7 +18,7 @@ class UsersRouter extends MakeRouter {
 
         this.post('/changePassword/:email', ['PUBLIC'], authToRestore, changePassword)
 
-        this.post('/:uid/documents', ['ADMIN', 'USER', 'PREMIUM'], uploadFiles().fields([ { name: 'documents', maxCount: 3 }, {name: 'profile', maxCount: 1} ]), uploadDocuments)
+        this.post('/:uid/documents', ['USER', 'PREMIUM'], uploadFiles().fields([ { name: 'documents', maxCount: 3 }, {name: 'profile', maxCount: 1} ]), uploadDocuments)
 
         this.get('/premium/:uid', ['ADMIN'], updateRole)
 

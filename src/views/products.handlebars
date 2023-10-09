@@ -23,10 +23,10 @@
             {{else}}
                 <button class="btn"><a class="a-chat" href="/chat">Ir al chat</a></button>
                 <button class="btn"><a class="a-goToCart" href="/uploadDocuments/{{user._id}}">Subir Documentos</a></button>
+                <button class="btn"><a class="a-goToCart" href="/carts/{{user.cartId._id}}">Ir al carrito</a></button>
             {{/if}}
 
 
-            <button class="btn"><a class="a-goToCart" href="/carts/{{user.cartId._id}}">Ir al carrito</a></button>
 
             <form class="container-btn-closeSession" action="/api/users/logout" method="post">
                 <button class="btn-closeSession" type="submit">Cerrar sesión</button>

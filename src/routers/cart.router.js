@@ -77,7 +77,7 @@ class CartRouter extends MakeRouter {
          *              500:
          *                  description: Some server Error
          */
-        this.get('/:cid', ['USER', 'ADMIN', 'PREMIUM'], getCartById);
+        this.get('/:cid', ['USER', 'PREMIUM'], getCartById);
         
         //?---------METODO POST---------
 
@@ -151,7 +151,7 @@ class CartRouter extends MakeRouter {
          *              500:
          *                  description: Some server Error
          */
-        this.post('/:cid/purchase', ['USER', 'ADMIN', 'PREMIUM'], purchase);
+        this.post('/:cid/purchase', ['USER', 'PREMIUM'], purchase);
 
         //&----------METODO PUT------------
 
