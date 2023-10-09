@@ -12,6 +12,7 @@ describe('Test de integracion - Products', () => {
         "password": "adminCod3r123"
         }
     let cookie = {}
+    let pid = {}
 
     before(async () => {
         await request.post('/api/users/auth').send(user)
@@ -39,14 +40,12 @@ describe('Test de integracion - Products', () => {
         }
         const { statusCode, body } = await request.post('/api/products').set('Cookie', cookie).send(newProduct)
 
+        pid = body._id
         expect(body).to.have.property('code')
         expect(statusCode).to.equal(200)
     })
     
     it('El metodo DELETE en la ruta "/api/products/:pid" debe borrar un producto segun su ID', async() => {
-        const { _body } = await request.get('/api/products').set('Cookie', cookie).query({ 'limit': '100' })
-        const pid = (_body.docs[_body.docs.length - 1])._id
-
         const { statusCode } = await request.delete(`/api/products/${pid}`).set('Cookie', cookie)
 
         expect(statusCode).to.equal(200)

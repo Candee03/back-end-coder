@@ -19,6 +19,10 @@ class ProductRepository{
     async getProductById (id) {
         return await this.dao.getProductById(id)
     }
+    
+    async getProductByCode (code) {
+        return await this.dao.getProductByCode(code)
+    }
 
     /**
      * @param {object} objectProduct objeto del producto a agregar

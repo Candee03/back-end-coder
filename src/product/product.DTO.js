@@ -39,7 +39,6 @@ export class ShowProductDto {
             category: this.category,
             stock: this.stock,
             owner: this.owner,
-            _id: this._id,
         }
     }
     getSimpleProduct() {

@@ -67,7 +67,8 @@ export const addProduct = async(req, res) => {
         await productService.addProduct(p)
         const products = await productService.getProducts()
         io.emit('products', products)//<--envia al socket
-        return res.status(200).send(p)
+        const newProduct = await productService.getProductByCode(p.code)
+        return res.status(200).send(newProduct)
         
     } catch (err) {
         req.logger.warning(`${err.name}: ${err.message}${err.cause}`)

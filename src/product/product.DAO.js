@@ -58,6 +58,10 @@ class ProductMongo{
         }
     }
 
+    async getProductByCode (code) {
+        return await this.model.findOne({code: code})
+    }
+
     /**
      * @param {object} objectProduct objeto del producto a agregar
      * @returns true si se añade el producto
